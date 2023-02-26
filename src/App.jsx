@@ -4,6 +4,9 @@ import CssBaseline from '@mui/material/CssBaseline';
 import MyAppBar from "./layout/AppBar/MyAppBar";
 import MyDrawer from "./layout/Drawer/MyResponsiveDrawer";
 import ContentContainer from "./layout/ContentContainer";
+import RepositoriesComp from "./components/repositories/RepositoriesComp";
+import {BrowserRouter, Route} from "react-router-dom";
+import OverviewComp from "./components/overview-comp/OverviewComp";
 
 function App() {
 
@@ -14,14 +17,13 @@ function App() {
   };
 
   return (
-
-      <Box sx={{display: 'flex'}}>
-        <CssBaseline/>
-        <MyAppBar handleDrawerToggle={handleDrawerToggle}/>
-        <MyDrawer handleDrawerToggle={handleDrawerToggle}
-                  mobileOpen={mobileOpen}/>
-        <ContentContainer/>
-      </Box>
+        <Box sx={{display: 'flex'}}>
+          <CssBaseline/>
+          <MyAppBar handleDrawerToggle={handleDrawerToggle}/>
+          <MyDrawer handleDrawerToggle={handleDrawerToggle}
+                    mobileOpen={mobileOpen}/>
+          <ContentContainer/>
+        </Box>
   );
 }
 
