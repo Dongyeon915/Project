@@ -8,9 +8,9 @@ import MailIcon from "@mui/icons-material/Mail";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import * as React from "react";
-import UserProfile from "../../components/user-comp/UserProfile";
 import {Avatar, Stack, Typography} from "@mui/material";
 import GitUser from "../../components/user-comp/GitUser";
+import {LibraryBooks, MenuBook} from "@mui/icons-material";
 
 function MyDrawerIList() {
   return (
@@ -39,11 +39,11 @@ function MyDrawerIList() {
         </List>
         <Divider/>
         <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
+          {['Overview', 'Repositories'].map((text, index) => (
               <ListItem key={text} disablePadding>
                 <ListItemButton>
                   <ListItemIcon>
-                    {index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}
+                    {index % 2 === 0 ? <MenuBook/> : <LibraryBooks/>}
                   </ListItemIcon>
                   <ListItemText primary={text}/>
                 </ListItemButton>

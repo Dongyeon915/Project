@@ -1,7 +1,7 @@
 import {AppBar, Avatar, IconButton, Toolbar, Typography} from "@mui/material";
-import {githubUserInfo} from "../../sample/githubInfo";
-import MenuIcon from "@mui/icons-material/Menu";
 import * as React from "react";
+import GitUser from "../../components/user-comp/GitUser";
+import {GitHub} from "@mui/icons-material";
 
 function MyAppBar({handleDrawerToggle}) {
   return (
@@ -11,6 +11,7 @@ function MyAppBar({handleDrawerToggle}) {
           sx={{
             zIndex: 1500,
             marginLeft: {sm: "240px"},
+            backgroundColor:"#555555"
           }}
       >
         <Toolbar>
@@ -19,11 +20,13 @@ function MyAppBar({handleDrawerToggle}) {
               onClick={handleDrawerToggle}
               sx={{mr: 2, display: {sm: 'none'}}}
           >
-            <MenuIcon/>
           </IconButton>
-          <Typography variant={"h6"} sx={{flexGrow:1}}>🔥 My Diary Github</Typography>
           <IconButton>
-            <Avatar alt={"Github Profile Image"} src={githubUserInfo.avatar_url} />
+            <GitHub/>
+          </IconButton>
+          <Typography variant={"h6"} sx={{flexGrow: 1}}>My Github</Typography>
+          <IconButton>
+            <Avatar alt={"Github Profile Image"} src={GitUser.avatar_url}/>
           </IconButton>
         </Toolbar>
       </AppBar>
