@@ -13,7 +13,7 @@ import {GitHub} from "@mui/icons-material";
 
 function repositoriesComp() {
   return (
-      <Grid2 maxWidth={500}>
+      <Grid2 lg={6}>
         {repositoryWebhooks.map((repository, index) => {
           return (
               <Paper elevation={3}>
