@@ -10,7 +10,7 @@ function ContentContainer() {
            sx={{flexGrow: 1, p: 3, width: {sm: 'calc(100% - 240px)'}}}>
         <Toolbar/>
         <OverviewComp/>
-        {/*  <RepositoriesComp/>*/}
+          {/*<RepositoriesComp/>*/}
       </Grid2>
   )
 }

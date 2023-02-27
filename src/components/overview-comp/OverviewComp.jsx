@@ -12,7 +12,7 @@ import {Aod, GitHub, Mail} from "@mui/icons-material";
 
 function overviewComp() {
   return (
-      <Container  fixed={"true"} sx={{backgroundColor:"pink"}}>
+      <Container fixed={"true"}>
         <Grid2 container={"true"} spacing={3}>
           <Grid2>
             <Paper variant={3}>
@@ -27,8 +27,8 @@ function overviewComp() {
             </Paper>
           </Grid2>
           <Grid2>
-            <Typography variant={"h4"}>
-              Dongyeon Kim
+            <Typography variant={"h4"} fontWeight={"inherit"}>
+              김동연
             </Typography>
             <Typography variant={"body2"} marginTop={2}>
               대부 촬영 당시 알 파치노에게 말을 아꼈지만,
@@ -43,13 +43,14 @@ function overviewComp() {
             </Typography>
             <Stack direction={"row"} spacing={2} marginTop={2}>
               <Mail/>
-                <Typography>
-                  ehd9567@naver.com
-                </Typography>
+              <Typography>
+                ehd9567@naver.com
+              </Typography>
             </Stack>
             <Stack direction={"row"} spacing={2} marginTop={2}>
               <GitHub/>
-              <Link href={"https://github.com/Dongyeon915"} sx={{textDecoration:"none"}}>
+              <Link href={"https://github.com/Dongyeon915"}
+                    sx={{textDecoration: "none"}}>
                 <Typography>
                   Github
                 </Typography>
@@ -57,16 +58,20 @@ function overviewComp() {
             </Stack>
             <Stack direction={"row"} spacing={2} marginTop={2}>
               <Aod/>
-                <Typography>
-                  010-9567-0921
-                </Typography>
+              <Typography>
+                010-9567-0921
+              </Typography>
             </Stack>
           </Grid2>
         </Grid2>
-      {/* 하단 기술스택부분 */}
-
-        
-        
+        {/* 하단 부분 */}
+        <Container fixed={"true"} marginTop={2}>
+          <Typography>
+          </Typography>
+          <Stack marginTop={2}>
+            <img src="https://ghchart.rshah.org/dongyeon915"/>
+          </Stack>
+        </Container>
       </Container>
   )
 }
