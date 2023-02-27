@@ -1,10 +1,18 @@
 import Grid2 from "@mui/material/Unstable_Grid2";
-import {Card, CardMedia, Link, Paper, Stack, Typography} from "@mui/material";
+import {
+  Card,
+  CardMedia,
+  Container,
+  Link,
+  Paper,
+  Stack,
+  Typography
+} from "@mui/material";
 import {Aod, GitHub, Mail} from "@mui/icons-material";
 
 function overviewComp() {
   return (
-      <>
+      <Container  fixed={"true"} sx={{backgroundColor:"pink"}}>
         <Grid2 container={"true"} spacing={3}>
           <Grid2>
             <Paper variant={3}>
@@ -56,10 +64,10 @@ function overviewComp() {
           </Grid2>
         </Grid2>
       {/* 하단 기술스택부분 */}
+
         
         
-        
-      </>
+      </Container>
   )
 }
 

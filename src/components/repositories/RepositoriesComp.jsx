@@ -1,7 +1,7 @@
 import {
   Button,
   Card,
-  CardContent,
+  CardContent, Container,
   Link,
   Paper,
   Stack,
@@ -13,7 +13,7 @@ import {GitHub} from "@mui/icons-material";
 
 function repositoriesComp() {
   return (
-    <Grid2>
+    <Container fixed={"true"}>
         {repositoryWebhooks.map((repository, index) => {
           return (
               <Paper elevation={3}>
@@ -24,7 +24,7 @@ function repositoriesComp() {
                           href={repository.html_url2}
                           sx={{textDecoration: "none", color: "#333333"}}
                       >
-                        <Typography variant={"body1"}>
+                        <Typography variant={"body1"} fontWeight={"bolder"}>
                           <GitHub sx={{marginRight: 2}}/>
                           {repository.name}
                         </Typography>
@@ -51,7 +51,7 @@ function repositoriesComp() {
               </Paper>
           )
         })}
-      </Grid2>
+      </Container>
   )
 }
 
