@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   Card,
   CardContent,
@@ -27,7 +26,7 @@ function repositoriesComp() {
                       >
                         <Typography variant={"body1"}>
                           <GitHub sx={{marginRight: 2}}/>
-                          {repository.rePoInfo}
+                          {repository.name}
                         </Typography>
                       </Link>
                       <Typography variant={"body2"}>
@@ -35,12 +34,11 @@ function repositoriesComp() {
                         {repository.updated_at}
                       </Typography>
                     </Stack>
-
-
-
                     <Stack direction={"row"} justifyContent={"space-between"}>
                       <Grid2 padding={1}>
+                        <Typography variant={"body2"} color={"#333333"}>
                           {repository.language}
+                        </Typography>
                       </Grid2>
                       <Grid2>
                         <Button variant="outlined"
@@ -52,7 +50,6 @@ function repositoriesComp() {
               </Paper>
           )
         })}
-
       </Grid2>
   )
 }
