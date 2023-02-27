@@ -13,37 +13,37 @@ import {GitHub} from "@mui/icons-material";
 
 function repositoriesComp() {
   return (
-      <Grid2 lg={6}>
+      <Grid2>
         {repositoryWebhooks.map((repository, index) => {
           return (
-              <Paper elevation={3}>
-                <Card sx={{marginTop: 2}}>
-                  <CardContent>
-                    <Typography>
-                      {repositoryWebhooks.name}
-                    </Typography>
-                    <Stack direction={"row"} justifyContent={"space-between"}>
-                      <Link
-                          href={repository.html_url2}
-                          sx={{textDecoration: "none", color: "#333333"}}
-                      >
-                        <Typography variant={"body1"}>
-                          <GitHub sx={{marginRight: 2}}/>
-                          {repository.rePoInfo}
-                        </Typography>
-                      </Link>
-                      <Typography variant={"body2"}>
-                        업데이트 :
-                        {repository.updated_at}
+                <Paper elevation={3}>
+                  <Card sx={{marginTop: 2}}>
+                    <CardContent>
+                      <Typography>
+                        {repositoryWebhooks.name}
                       </Typography>
-                    </Stack>
-                    <Stack direction={"row-reverse"} spacing={1}>
-                      <Button variant="outlined"
-                              size={"small"}>show Commits</Button>
-                    </Stack>
-                  </CardContent>
-                </Card>
-              </Paper>
+                      <Stack direction={"row"} justifyContent={"space-between"}>
+                        <Link
+                            href={repository.html_url2}
+                            sx={{textDecoration: "none", color: "#333333"}}
+                        >
+                          <Typography variant={"body1"}>
+                            <GitHub sx={{marginRight: 2}}/>
+                            {repository.rePoInfo}
+                          </Typography>
+                        </Link>
+                        <Typography variant={"body2"}>
+                          업데이트 :
+                          {repository.updated_at}
+                        </Typography>
+                      </Stack>
+                      <Stack direction={"row-reverse"} spacing={1}>
+                        <Button variant="outlined"
+                                size={"small"}>show Commits</Button>
+                      </Stack>
+                    </CardContent>
+                  </Card>
+                </Paper>
           )
         })}
 
