@@ -37,10 +37,15 @@ function repositoriesComp() {
                           {repository.updated_at}
                         </Typography>
                       </Stack>
-                      <Stack direction={"row-reverse"} spacing={1}>
-                        <Button variant="outlined"
-                                size={"small"}>show Commits</Button>
-                      </Stack>
+                      <Grid2 container={"true"}>
+                        <Stack>
+                          sdfsdf
+                        </Stack>
+                        <Grid2 spacing={1} marginLeft={105}>
+                          <Button variant="outlined"
+                                  size={"small"}>show Commits</Button>
+                        </Grid2>
+                      </Grid2>
                     </CardContent>
                   </Card>
                 </Paper>
