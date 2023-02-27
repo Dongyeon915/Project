@@ -24,7 +24,7 @@ function MyAppBar({handleDrawerToggle}) {
           <IconButton>
             <GitHub/>
           </IconButton>
-          <Typography variant={"h6"} sx={{flexGrow: 1}}>My Github</Typography>
+          <Typography variant={"h6"} sx={{flexGrow: 1}}>My GitHub</Typography>
           <IconButton>
             <Avatar alt={"Github Profile Image"} src={GitUser.avatar_url}/>
           </IconButton>

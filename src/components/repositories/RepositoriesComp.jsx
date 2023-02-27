@@ -13,7 +13,7 @@ import {GitHub} from "@mui/icons-material";
 
 function repositoriesComp() {
   return (
-      <Grid2>
+      <Grid2 maxWidth={500}>
         {repositoryWebhooks.map((repository, index) => {
           return (
               <Paper elevation={3}>
@@ -27,7 +27,7 @@ function repositoriesComp() {
                           href={repository.html_url2}
                           sx={{textDecoration: "none", color: "#333333"}}
                       >
-                        <Typography variant={"h6"}>
+                        <Typography variant={"body1"}>
                           <GitHub sx={{marginRight: 2}}/>
                           {repository.rePoInfo}
                         </Typography>
