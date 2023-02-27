@@ -13,7 +13,7 @@ import {GitHub} from "@mui/icons-material";
 
 function repositoriesComp() {
   return (
-      <Grid2>
+    <Grid2>
         {repositoryWebhooks.map((repository, index) => {
           return (
               <Paper elevation={3}>
@@ -35,11 +35,12 @@ function repositoriesComp() {
                       </Typography>
                     </Stack>
                     <Stack direction={"row"} justifyContent={"space-between"}>
-                      <Grid2 padding={1}>
+                      <Stack direction={"row"} marginTop={2} marginLeft={5}>
                         <Typography variant={"body2"} color={"#333333"}>
-                          {repository.language}
+                          Language : {repository.language}
                         </Typography>
-                      </Grid2>
+
+                      </Stack>
                       <Grid2>
                         <Button variant="outlined"
                                 size={"small"}>show Commits</Button>
