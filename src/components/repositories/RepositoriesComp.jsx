@@ -17,7 +17,8 @@ function repositoriesComp() {
                     </Typography>
                     <Stack direction={"row"} justifyContent={"space-between"}>
                       <Link
-                          href={"https://github.com/Dongyeon915?tab=overview&from=2023-01-01&to=2023-01-31"}
+
+                          href={repository.html_url2}
                           sx={{textDecoration: "none", color: "#333333"}}
                       >
                           <Typography variant={"h6"}>

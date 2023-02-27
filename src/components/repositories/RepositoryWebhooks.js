@@ -24,7 +24,7 @@ const repositoryWebhooks = [{
     "type": "User",
     "site_admin": false
   },
-  "html_url": "https://github.com/Dongyeon915/ReactUseHook",
+  "html_url2": "https://github.com/Dongyeon915/ReactUseHook",
   "description": null,
   "fork": false,
   "url": "https://api.github.com/repos/Dongyeon915/ReactUseHook",
@@ -128,7 +128,7 @@ const repositoryWebhooks = [{
       "type": "User",
       "site_admin": false
     },
-    "html_url": "https://github.com/Dongyeon915/Project",
+    "html_url2": "https://github.com/Dongyeon915/Project",
     "description": null,
     "fork": false,
     "url": "https://api.github.com/repos/Dongyeon915/Project",
@@ -232,7 +232,7 @@ const repositoryWebhooks = [{
       "type": "User",
       "site_admin": false
     },
-    "html_url": "https://github.com/Dongyeon915/React",
+    "html_url2": "https://github.com/Dongyeon915/React",
     "description": null,
     "fork": false,
     "url": "https://api.github.com/repos/Dongyeon915/React",
@@ -337,7 +337,7 @@ const repositoryWebhooks = [{
       "site_admin": false
     },
     "rePoInfo": "Hollys-Project",
-    "html_url": "https://github.com/Dongyeon915/Hollys-Project",
+    "html_url2": "https://github.com/Dongyeon915/Hollys-Project",
     "description": null,
     "fork": false,
     "url": "https://api.github.com/repos/Dongyeon915/Hollys-Project",
@@ -441,7 +441,7 @@ const repositoryWebhooks = [{
       "site_admin": false
     },
     "rePoInfo": "Hollys-Front",
-    "html_url": "https://github.com/Dongyeon915/Hollys-Front",
+    "html_url2": "https://github.com/Dongyeon915/Hollys-Front",
     "description": null,
     "fork": false,
     "url": "https://api.github.com/repos/Dongyeon915/Hollys-Front",
@@ -545,7 +545,7 @@ const repositoryWebhooks = [{
       "site_admin": false
     },
     "rePoInfo": "Spring-Boot",
-    "html_url": "https://github.com/Dongyeon915/Spring-Boot",
+    "html_url2": "https://github.com/Dongyeon915/Spring-Boot",
     "description": null,
     "fork": false,
     "url": "https://api.github.com/repos/Dongyeon915/Spring-Boot",
@@ -649,7 +649,7 @@ const repositoryWebhooks = [{
       "site_admin": false
     },
     "rePoInfo": "프론트엔드 학습 프로젝트",
-    "html_url": "https://github.com/Dongyeon915/FrontPro",
+    "html_url2": "https://github.com/Dongyeon915/FrontPro",
     "description": null,
     "fork": false,
     "url": "https://api.github.com/repos/Dongyeon915/FrontPro",
@@ -753,7 +753,7 @@ const repositoryWebhooks = [{
       "site_admin": false
     },
     "rePoInfo": "JavaBasic",
-    "html_url": "https://github.com/Dongyeon915/JavaBasic",
+    "html_url2": "https://github.com/Dongyeon915/JavaBasic",
     "description": null,
     "fork": false,
     "url": "https://api.github.com/repos/Dongyeon915/JavaBasic",
@@ -857,7 +857,7 @@ const repositoryWebhooks = [{
       "site_admin": false
     },
     "rePoInfo": "Java문서 정리 MD파일",
-    "html_url": "https://github.com/Dongyeon915/JAVA.md",
+    "html_url2": "https://github.com/Dongyeon915/JAVA.md",
     "description": null,
     "fork": false,
     "url": "https://api.github.com/repos/Dongyeon915/JAVA.md",
