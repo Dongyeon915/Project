@@ -4,10 +4,10 @@ import CssBaseline from '@mui/material/CssBaseline';
 import MyAppBar from "./layout/AppBar/MyAppBar";
 import MyDrawer from "./layout/Drawer/MyResponsiveDrawer";
 import ContentContainer from "./layout/ContentContainer";
-import RepositoriesComp from "./components/repositories/RepositoriesComp";
 import {BrowserRouter, Route} from "react-router-dom";
-import OverviewComp from "./components/overview-comp/OverviewComp";
-
+import {Switch} from "@mui/material";
+import testComp from "./rout-test/testComp";
+import testComp2 from "./rout-test/testComp2";
 function App() {
 
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -17,7 +17,6 @@ function App() {
   };
 
   return (
-      
         <Box sx={{display: 'flex'}}>
           <CssBaseline/>
           <MyAppBar handleDrawerToggle={handleDrawerToggle}/>
