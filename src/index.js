@@ -5,27 +5,8 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import reportWebVitals from './reportWebVitals';
-import App from "./App";
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
-import RepositoriesComp from "./components/repositories/RepositoriesComp";
-import OverviewComp from "./components/overview-comp/OverviewComp";
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <App/>,
-    children: [
-      {
-        path: "/",
-        element: <OverviewComp/>
-      },
-      {
-        path: "/repository",
-        element: <RepositoriesComp/>
-      }
-    ]
-  }
-]);
+import {RouterProvider} from "react-router-dom";
+import {router} from "./router/Router"
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
