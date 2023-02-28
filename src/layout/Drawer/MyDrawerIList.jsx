@@ -3,14 +3,13 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import * as React from "react";
-import {Avatar, Stack, Typography} from "@mui/material";
+import {Avatar, Link, Stack, Typography} from "@mui/material";
 import GitUser from "../../components/user-comp/GitUser";
 import {LibraryBooks, MenuBook} from "@mui/icons-material";
+import {Link as RouterLink} from "react-router-dom";
 
 function MyDrawerIList() {
   return (
@@ -39,16 +38,21 @@ function MyDrawerIList() {
         </List>
         <Divider/>
         <List>
-          {['Overview', 'Repositories'].map((text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    {index % 2 === 0 ? <MenuBook/> : <LibraryBooks/>}
-                  </ListItemIcon>
-                  <ListItemText primary={text}/>
-                </ListItemButton>
-              </ListItem>
-          ))}
+          {
+            ['Overview', 'Repositories'].map((text, index) => (
+                <Link component={RouterLink} to={"/repository"}
+                      underline={"none"} color={"black"}>
+                  <ListItem key={index} disablePadding>
+                    <ListItemButton>
+                      <ListItemIcon>
+                        {index % 2 === 0 ? <MenuBook/> : <LibraryBooks/>}
+                      </ListItemIcon>
+                      <ListItemText primary={text}/>
+                    </ListItemButton>
+                  </ListItem>
+                </Link>
+            ))
+          }
         </List>
       </div>
   )

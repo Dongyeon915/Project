@@ -6,23 +6,32 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import reportWebVitals from './reportWebVitals';
 import App from "./App";
-import {BrowserRouter, Route} from "react-router-dom";
-import {Switch} from "@mui/material";
-import testComp from "./rout-test/testComp";
-import testComp2 from "./rout-test/testComp2";
-import ContentContainer from "./layout/ContentContainer";
+import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import RepositoriesComp from "./components/repositories/RepositoriesComp";
+import OverviewComp from "./components/overview-comp/OverviewComp";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App/>,
+    children: [
+      {
+        path: "/",
+        element: <OverviewComp/>
+      },
+      {
+        path: "/repository",
+        element: <RepositoriesComp/>
+      }
+    ]
+  }
+]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <BrowserRouter>
     <React.StrictMode>
-      <App/>
-      {/*<Switch>*/}
-        {/*<Route path="/"><ContentContainer/></Route>*/}
-        {/*<Route path={"/test2"}><testComp2/></Route>*/}
-      {/*</Switch>*/}
+      <RouterProvider router={router}/>
     </React.StrictMode>
-    </BrowserRouter>
 );
 
 // If you want to start measuring performance in your app, pass a function
