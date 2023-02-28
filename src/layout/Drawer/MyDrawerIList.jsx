@@ -10,6 +10,7 @@ import {Avatar, Link, Stack, Typography} from "@mui/material";
 import GitUser from "../../components/user-comp/GitUser";
 import {LibraryBooks, MenuBook} from "@mui/icons-material";
 import {Link as RouterLink} from "react-router-dom";
+import {menuInfo} from "./menuInfo";
 
 function MyDrawerIList() {
   return (
@@ -39,15 +40,20 @@ function MyDrawerIList() {
         <Divider/>
         <List>
           {
-            ['Overview', 'Repositories'].map((text, index) => (
-                <Link component={RouterLink} to={"/repository"}
+            menuInfo.map((menuItem) => (
+                <Link component={RouterLink} to={menuItem.link}
                       underline={"none"} color={"black"}>
-                  <ListItem key={index} disablePadding>
+                  <ListItem key={menuItem.id} disablePadding>
                     <ListItemButton>
                       <ListItemIcon>
-                        {index % 2 === 0 ? <MenuBook/> : <LibraryBooks/>}
+                        {
+                            menuItem.id == 1 && <LibraryBooks/>
+                        }
+                        {
+                            menuItem.id == 2 && <MenuBook/>
+                        }
                       </ListItemIcon>
-                      <ListItemText primary={text}/>
+                      <ListItemText primary={menuItem.name}/>
                     </ListItemButton>
                   </ListItem>
                 </Link>
