@@ -1,5 +1,6 @@
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {
+  Button,
   Checkbox,
   Divider,
   IconButton,
@@ -128,7 +129,13 @@ export default function TodayCompCopy() {
                             </Typography>
                           </Grid2>
                           :
-                          <Typography>{todo.task}</Typography>
+                          <Stack direction={"row"} alignItems={"center"} justifyContent={"space-between"} flexGrow={1}>
+                            <Typography>{todo.task}</Typography>
+                            <Stack direction={"row"} spacing={1} sx={{size:"smoll"}}>
+                              <Button variant={"contained"}>수정</Button>
+                              <Button color={"error"} variant={"contained"}>삭제</Button>
+                            </Stack>
+                          </Stack>
                     }
                   </Paper>
               )
