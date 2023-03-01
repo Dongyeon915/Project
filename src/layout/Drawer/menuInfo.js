@@ -10,6 +10,7 @@ export const menuInfo = [
     link: "/repository",
   },
   {
+    id: 3,
     name: "Schedule",
     link: "/today"
   }
