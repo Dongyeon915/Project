@@ -10,9 +10,10 @@ import {
   Stack,
   Typography
 } from "@mui/material";
-import RepositoriesComp from "../repositories/RepositoriesComp";
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import {useState} from "react";
+import TaskAltIcon from '@mui/icons-material/TaskAlt';
+import TodayCompCopy from "./TodayCompCopy";
 
 const localStorage = window.localStorage;
 
@@ -44,7 +45,7 @@ export default function TodayComp() {
 
   const buttonEvent = () => {
     if (state.todoInput.length == 0) {
-      alert("Fuck You!")
+      alert("항목을 입력해주세요")
       return
     }
     setState(prevState => {
@@ -97,6 +98,7 @@ export default function TodayComp() {
   };
 
   return (
+
       <Container fixed={"true"}>
         <Grid2 container={"true"} lg={12} spacing={2}>
           {/*<Grid2 lg={12}>*/}
@@ -133,10 +135,7 @@ export default function TodayComp() {
                             todoComplete(e, index)
                           }} defaultChecked color="secondary"/>
                           {
-                            todo.complete ?
-                                <Typography
-                                    sx={{textDecoration: "line-through"}}>{todo.task} {todo.completeTime}</Typography>
-                                :
+                            todo.complete ? <Typography sx={{textDecoration: "line-through"}}>{todo.task} {todo.completeTime}</Typography> :
                                 <Typography>{todo.task}</Typography>
                           }
                         </Paper>
@@ -164,17 +163,9 @@ export default function TodayComp() {
               </Stack>
             </Paper>
           </Grid2>
-          <Grid2 lg={6}>
-            <Paper variant={"elevation"} elevation={4}>
-              달력 화면
-              <RepositoriesComp/>
-            </Paper>
-          </Grid2>
 
-
+        <TodayCompCopy/>
         </Grid2>
-
-
       </Container>
   )
 }
