@@ -5,6 +5,7 @@ import {
   IconButton,
   Input,
   Paper,
+  Snackbar,
   Stack,
   Typography
 } from "@mui/material";
@@ -66,10 +67,23 @@ export default function TodayCompCopy() {
     })
   }
 
+  // 스테이크 바 이벤트
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setState(prevState => {
+      return {
+        ...prevState,
+        open: false
+      }
+    });
+  };
+
   return (
       // todo title 및 날짜
       <Grid2 lg={6}>
-        <Paper variant={"elevation"} elevation={4} sx={{padding: 3}}>
+        <Paper variant={"elevation"} elevation={4} sx={{padding: 3,}}>
           <Stack direction={"row"} justifyContent={"space-between"}
                  alignItems={"center"}>
             <Typography variant={"h6"} fontWeight={700}>Todo
@@ -137,8 +151,14 @@ export default function TodayCompCopy() {
               <TaskAltIcon sx={{color: "white"}} fontSize={"medium"}/>
             </IconButton>
           </Stack>
-
         </Paper>
+
+        <Snackbar
+            open={state.open}
+            autoHideDuration={3000}
+            onClose={handleClose}
+            message="You are so Nice!"
+        />
       </Grid2>
   )
 }
