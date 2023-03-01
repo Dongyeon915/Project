@@ -43,6 +43,7 @@ export default function TodayComp() {
     ]
   })
 
+  // 투두리스트 버튼 이벤트
   const buttonEvent = () => {
     if (state.todoInput.length == 0) {
       alert("항목을 입력해주세요")
@@ -61,6 +62,7 @@ export default function TodayComp() {
     })
   }
 
+  // 체크박스 이벤트
   const todoComplete = (event, index) => {
     const date = new Date()
     const todoList = state.todoList;
@@ -76,6 +78,7 @@ export default function TodayComp() {
     })
   }
 
+  // input 이벤트
   const todoInputHandler = (e) => {
     setState(prevState => {
       return {
@@ -85,6 +88,7 @@ export default function TodayComp() {
     })
   }
 
+  // 스테이크 바 이벤트
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
