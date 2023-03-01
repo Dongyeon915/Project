@@ -8,7 +8,12 @@ import Divider from "@mui/material/Divider";
 import * as React from "react";
 import {Avatar, Link, Stack, Typography} from "@mui/material";
 import GitUser from "../../components/user-comp/GitUser";
-import {LibraryBooks, MenuBook} from "@mui/icons-material";
+import {
+  AccessAlarm,
+  AccessTime,
+  LibraryBooks,
+  MenuBook
+} from "@mui/icons-material";
 import {Link as RouterLink} from "react-router-dom";
 import {menuInfo} from "./menuInfo";
 
@@ -51,6 +56,9 @@ function MyDrawerIList() {
                         }
                         {
                             menuItem.id == 2 && <MenuBook/>
+                        }
+                        {
+                          menuItem.id == 3 && <AccessTime/>
                         }
                       </ListItemIcon>
                       <ListItemText primary={menuItem.name}/>
