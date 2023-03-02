@@ -14,7 +14,7 @@ import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import {useState} from "react";
 import {Favorite, FavoriteBorder} from "@mui/icons-material";
 
-export default function TodayCompCopy() {
+export default function TodayCompCopy2() {
 
   const [state, setState] = useState({
     todoInput: "",

@@ -12,8 +12,10 @@ import {
 } from "@mui/material";
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import {useState} from "react";
-import TaskAltIcon from '@mui/icons-material/TaskAlt';
+import {Today} from "@mui/icons-material";
+import TodayTemplate from "./components/TodayTemplate";
 import TodayCompCopy from "./TodayCompCopy";
+import TodayCompCopy2 from "./TodayCompCopy2";
 
 const localStorage = window.localStorage;
 
@@ -139,7 +141,9 @@ export default function TodayComp() {
                             todoComplete(e, index)
                           }} defaultChecked color="secondary"/>
                           {
-                            todo.complete ? <Typography sx={{textDecoration: "line-through"}}>{todo.task} {todo.completeTime}</Typography> :
+                            todo.complete ? <Typography
+                                    sx={{textDecoration: "line-through"}}>{todo.task} {todo.completeTime}</Typography>
+                                :
                                 <Typography>{todo.task}</Typography>
                           }
                         </Paper>
@@ -167,8 +171,7 @@ export default function TodayComp() {
               </Stack>
             </Paper>
           </Grid2>
-
-        <TodayCompCopy/>
+          <TodayTemplate/>
         </Grid2>
       </Container>
   )
