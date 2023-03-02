@@ -18,12 +18,11 @@ export default function TodoItem(){
                 alignItems: "center",
                 marginBottom: 1
               }}>
-                {/* 체크박스 */}
                 <Checkbox defaultChecked color="error"
                           icon={<FavoriteBorder/>}
                           checkedIcon={<Favorite/>}
-                          checked={todo.complete}/>
-                {/* 투두 항목 */}
+                          checked={todo.complete}
+                />
                 <Stack direction={"row"} alignItems={"center"}
                        justifyContent={"space-between"} flexGrow={1}>
                   <Typography>{todo.task}</Typography>

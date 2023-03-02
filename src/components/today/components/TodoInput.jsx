@@ -1,7 +1,32 @@
 import {IconButton, Input, Stack} from "@mui/material";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
+import {useReducer} from "react";
+import {todoInfo} from "./todoInfo";
 
 export default function TodoInput() {
+
+  const reducer = (state,action) => {};
+
+  const initialState = {
+    todoList: [
+      {
+        id: 1,
+        task: "씻기",
+        complete: false,
+        completeTime: ''
+      },
+      {
+        id: 2,
+        task: "밥먹기",
+        complete: false,
+        completeTime: ''
+      }
+    ]
+  }
+
+  const[todoList, dispatch] = useReducer(reducer,initialState);
+
+
   return (
       <Stack direction={"row"} alignItems={"center"} sx={{
         backgroundColor: "#666666",

@@ -20,13 +20,13 @@ export default function TodayCompCopy() {
     todoInput: "",
     todoList: [
       {
-        id: 1,
+        id : '',
         task: "씻기",
         complete: false,
         completeTime: ''
       },
       {
-        id: 2,
+        id: '',
         task: "밥먹기",
         complete: false,
         completeTime: ''
@@ -79,7 +79,7 @@ export default function TodayCompCopy() {
   const deleteEvent = (e) => {
     setState(prevState => {
       const taskList = state.todoList
-      console.log(taskList)
+      console.log(e)
       taskList.pop()
       return {
         ...prevState,
@@ -87,6 +87,20 @@ export default function TodayCompCopy() {
       }
     })
   }
+
+  // // 삭제버튼 이벤트
+  // // 안먹힘
+  // const deleteEvent = (e,{todo}) => {
+  //   setState(prevState => {
+  //     var task = todo.task
+  //     var newTaskList = state.todoList
+  //     newTaskList = task.pop()
+  //     return {
+  //       ...prevState,
+  //       todoList: newTaskList
+  //     }
+  //   })
+  // }
 
 
   // 업데이트 이벤트
