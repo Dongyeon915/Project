@@ -68,9 +68,6 @@ function overviewComp() {
         <Container fixed={"true"} marginTop={2}>
           <Typography>
           </Typography>
-          <Stack marginTop={2}>
-            <img src="https://ghchart.rshah.org/dongyeon915"/>
-          </Stack>
         </Container>
       </Container>
   )
