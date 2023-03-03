@@ -20,13 +20,13 @@ export default function TodayCompCopy() {
     todoInput: "",
     todoList: [
       {
-        id : '',
+        id : 20,
         task: "씻기",
         complete: false,
         completeTime: ''
       },
       {
-        id: '',
+        id: 100,
         task: "밥먹기",
         complete: false,
         completeTime: ''
@@ -35,10 +35,11 @@ export default function TodayCompCopy() {
   })
 
   // 버튼 클릭시 todoList배열에 새로운 input 값을 추가
-  const buttontCopyEvent = () => {
+  const buttontCopyEvent = (event,index) => {
     setState(prevState => {
       const todoList = state.todoList
       todoList.push({
+        id: Date.now().toString(),
         task: state.todoInput,
         // 체크박스 이벤트를위한 값설정
         complete: false
@@ -76,31 +77,20 @@ export default function TodayCompCopy() {
   }
 
   // 삭제버튼 이벤트
-  const deleteEvent = (e) => {
+  const deleteEvent = (event,index) => {
+    // event를 todoItem으로 읽기 좋게 변경 사용
+    const todoList = state.todoList.filter(todoItem => {
+      if (todoItem.id !== state.todoList[index].id) return todoItem
+    })
     setState(prevState => {
-      const taskList = state.todoList
-      console.log(e)
-      taskList.pop()
       return {
         ...prevState,
-        todoList: taskList
+        todoList: todoList
       }
     })
   }
 
-  // // 삭제버튼 이벤트
-  // // 안먹힘
-  // const deleteEvent = (e,{todo}) => {
-  //   setState(prevState => {
-  //     var task = todo.task
-  //     var newTaskList = state.todoList
-  //     newTaskList = task.pop()
-  //     return {
-  //       ...prevState,
-  //       todoList: newTaskList
-  //     }
-  //   })
-  // }
+
 
 
   // 업데이트 이벤트
@@ -186,7 +176,10 @@ export default function TodayCompCopy() {
                                    sx={{size: "smoll"}}>
                               <Button variant={"contained"}>수정</Button>
                               <Button color={"error"} variant={"contained"}
-                                      onClick={deleteEvent}>삭제</Button>
+                                      onClick={(event) => {
+                                        deleteEvent(event,index)
+                                      }
+                              }>삭제</Button>
                             </Stack>
                           </Stack>
                     }
