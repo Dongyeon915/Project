@@ -34,6 +34,10 @@ export default function TodayCompCopy() {
     ]
   })
 
+  // const [clearState,setClear] = useState({
+  //   clearList : []
+  // })
+
   // 버튼 클릭시 todoList배열에 새로운 input 값을 추가
   const buttontCopyEvent = (event,index) => {
     setState(prevState => {
@@ -61,7 +65,7 @@ export default function TodayCompCopy() {
       return {
         ...prevState,
         open: event.target.checked,
-        todoList: todoList
+        todoList: todoList,
       }
     })
   }
@@ -88,6 +92,19 @@ export default function TodayCompCopy() {
         todoList: todoList
       }
     })
+  }
+  // 완료 이벤트
+  const clearEvent = (event,index) => {
+    console.log(index)
+    const clearList = state.todoList.filter(clearItem => {
+      if (clearItem.id !== state.todoList[index].id) return clearItem
+      })
+      setState(prevState => {
+        return {
+          ...prevState,
+          todoList: clearList
+        }
+      })
   }
 
 
@@ -145,7 +162,6 @@ export default function TodayCompCopy() {
                               checked={todo.complete}
                               onChange={(event) => {
                                 todoComplete(event, index)
-                                console.log(event.target.checked)
                               }}
                     />
 
@@ -164,7 +180,10 @@ export default function TodayCompCopy() {
                               </Typography>
                               <Stack flexGrow={1} alignItems={"end"}>
                                 <Button color={"success"} variant={"contained"}
-                                        onClick={deleteEvent}>완료</Button>
+                                        onClick={(event) => {
+                                          clearEvent(event,index)
+                                        }
+                                        }>완료</Button>
                               </Stack>
                             </Stack>
                           </Grid2>
