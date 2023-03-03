@@ -14,10 +14,12 @@ import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import {useState} from "react";
 import {Favorite, FavoriteBorder} from "@mui/icons-material";
 
-export default function TodayCompCopy() {
+export default function TaskComp() {
 
   const [state, setState] = useState({
     todoInput: "",
+    clearTask: 0,
+    restTask: 0,
     todoList: [
       // {
       //   id: 20,
@@ -34,6 +36,10 @@ export default function TodayCompCopy() {
 
   // 버튼 클릭시 todoList배열에 새로운 input 값을 추가
   const buttontCopyEvent = (event, index) => {
+    if (state.todoInput.length == 0) {
+      alert("Todo를 입력해주세요")
+      return
+    }
     setState(prevState => {
       const todoList = state.todoList
       todoList.push({
@@ -44,6 +50,7 @@ export default function TodayCompCopy() {
       })
       return {
         ...prevState,
+        restTask : state.restTask + 1,
         todoList: todoList
       }
     })
@@ -100,6 +107,8 @@ export default function TodayCompCopy() {
     setState(prevState => {
       return {
         ...prevState,
+        restTask: state.restTask - 1,
+        clearTask: state.clearTask + 1,
         todoList: clearList
       }
     })
@@ -125,7 +134,7 @@ export default function TodayCompCopy() {
 
   return (
       // todo title 및 날짜
-      <Grid2 lg={6}>
+      <Grid2 lg={6} sx={{maxHeight: 500, minWidth: 550}}>
         <Paper variant={"elevation"} elevation={4} sx={{padding: 3,}}>
           <Stack direction={"row"} justifyContent={"space-between"}
                  alignItems={"center"}>
@@ -133,6 +142,10 @@ export default function TodayCompCopy() {
               List</Typography>
             <Typography variant={"subtitle2"}
                         fontWeight={600}>{new Date().toLocaleDateString()}</Typography>
+          </Stack>
+          <Stack direction={"row"} flexGrow={1} justifyContent={"end"} spacing={2}>
+            <Typography color={"mediumvioletred"} variant={"subtitle2"}>Rest : {state.restTask}</Typography>
+            <Typography color={"green"} variant={"subtitle2"}>Clear : {state.clearTask}</Typography>
           </Stack>
           <Divider sx={{marginTop: 1, backgroundColor: "black",}}/>
 
@@ -171,15 +184,17 @@ export default function TodayCompCopy() {
                               <Typography
                                   sx={{textDecoration: "line-through"}}>{todo.task}</Typography>
                               <Stack direction={"row"} flexGrow={1}>
-                                <Stack direction={"row"} alignItems={"center"} spacing={5}>
-                                <Typography>
-                                  {todo.completeTime}
-                                </Typography>
-                                <Button color={"success"} variant={"contained"}
-                                        onClick={(event) => {
-                                          clearEvent(event, index)
-                                        }
-                                        }>완료</Button>
+                                <Stack direction={"row"} alignItems={"center"}
+                                       spacing={5}>
+                                  <Typography>
+                                    {todo.completeTime}
+                                  </Typography>
+                                  <Button color={"success"}
+                                          variant={"contained"}
+                                          onClick={(event) => {
+                                            clearEvent(event, index)
+                                          }
+                                          }>완료</Button>
                                 </Stack>
                               </Stack>
                             </Stack>
@@ -200,6 +215,7 @@ export default function TodayCompCopy() {
                           </Stack>
                     }
                   </Paper>
+
               )
             })}
           </Stack>
@@ -221,7 +237,7 @@ export default function TodayCompCopy() {
             </IconButton>
           </Stack>
         </Paper>
-
+        {/* todo 달성시 하단 문구 창 */}
         <Snackbar
             open={state.open}
             autoHideDuration={3000}

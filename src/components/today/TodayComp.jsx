@@ -12,11 +12,11 @@ import {
 } from "@mui/material";
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import {useState} from "react";
-import TodayCompCopy from "./TodayCompCopy";
+import TodayComp from "./TodayComp";
 
 const localStorage = window.localStorage;
 
-export default function TodayComp() {
+export default function TodayCompExample() {
 
   const [state, setState] = useState({
     open: false,
@@ -168,7 +168,6 @@ export default function TodayComp() {
               </Stack>
             </Paper>
           </Grid2>
-          <TodayCompCopy/>
         </Grid2>
       </Container>
   )
