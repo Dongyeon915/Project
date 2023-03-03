@@ -19,18 +19,12 @@ export default function TodayCompCopy() {
   const [state, setState] = useState({
     todoInput: "",
     todoList: [
-      {
-        id : 20,
-        task: "씻기",
-        complete: false,
-        completeTime: ''
-      },
-      {
-        id: 100,
-        task: "밥먹기",
-        complete: false,
-        completeTime: ''
-      }
+      // {
+      //   id: 20,
+      //   task: "씻기",
+      //   complete: false,
+      //   completeTime: ''
+      // }
     ]
   })
 
@@ -39,7 +33,7 @@ export default function TodayCompCopy() {
   // })
 
   // 버튼 클릭시 todoList배열에 새로운 input 값을 추가
-  const buttontCopyEvent = (event,index) => {
+  const buttontCopyEvent = (event, index) => {
     setState(prevState => {
       const todoList = state.todoList
       todoList.push({
@@ -81,10 +75,12 @@ export default function TodayCompCopy() {
   }
 
   // 삭제버튼 이벤트
-  const deleteEvent = (event,index) => {
+  const deleteEvent = (event, index) => {
     // event를 todoItem으로 읽기 좋게 변경 사용
     const todoList = state.todoList.filter(todoItem => {
-      if (todoItem.id !== state.todoList[index].id) return todoItem
+      if (todoItem.id !== state.todoList[index].id) {
+        return todoItem
+      }
     })
     setState(prevState => {
       return {
@@ -94,21 +90,20 @@ export default function TodayCompCopy() {
     })
   }
   // 완료 이벤트
-  const clearEvent = (event,index) => {
+  const clearEvent = (event, index) => {
     console.log(index)
     const clearList = state.todoList.filter(clearItem => {
-      if (clearItem.id !== state.todoList[index].id) return clearItem
-      })
-      setState(prevState => {
-        return {
-          ...prevState,
-          todoList: clearList
-        }
-      })
+      if (clearItem.id !== state.todoList[index].id) {
+        return clearItem
+      }
+    })
+    setState(prevState => {
+      return {
+        ...prevState,
+        todoList: clearList
+      }
+    })
   }
-
-
-
 
   // 업데이트 이벤트
   // const updateEvent = () => {
@@ -168,22 +163,24 @@ export default function TodayCompCopy() {
                     {/* 투두 항목 */}
                     {
                       todo.complete ?
-                          <Grid2 direction={"row"} flexGrow={1}>
-                            <Stack direction={"row"} spacing={1}
+                          <Grid2 direction={"row"}>
+                            <Stack direction={"row"} spacing={18}
                                    sx={{size: "smoll"}}
                                    alignItems={"center"}
                             >
                               <Typography
                                   sx={{textDecoration: "line-through"}}>{todo.task}</Typography>
-                              <Typography>
-                                {todo.completeTime}
-                              </Typography>
-                              <Stack flexGrow={1} alignItems={"end"}>
+                              <Stack direction={"row"} flexGrow={1}>
+                                <Stack direction={"row"} alignItems={"center"} spacing={5}>
+                                <Typography>
+                                  {todo.completeTime}
+                                </Typography>
                                 <Button color={"success"} variant={"contained"}
                                         onClick={(event) => {
-                                          clearEvent(event,index)
+                                          clearEvent(event, index)
                                         }
                                         }>완료</Button>
+                                </Stack>
                               </Stack>
                             </Stack>
                           </Grid2>
@@ -196,9 +193,9 @@ export default function TodayCompCopy() {
                               <Button variant={"contained"}>수정</Button>
                               <Button color={"error"} variant={"contained"}
                                       onClick={(event) => {
-                                        deleteEvent(event,index)
+                                        deleteEvent(event, index)
                                       }
-                              }>삭제</Button>
+                                      }>삭제</Button>
                             </Stack>
                           </Stack>
                     }
