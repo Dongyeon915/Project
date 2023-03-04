@@ -13,8 +13,13 @@ import {
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import {useState} from "react";
 import {Favorite, FavoriteBorder} from "@mui/icons-material";
+import UpdateComp from "./UpdateComp";
 
 export default function TaskComp() {
+
+  const [updateState,setUpdate] = useState({
+    upDateValue : false
+  })
 
   const [state, setState] = useState({
     todoInput: "",
@@ -71,6 +76,8 @@ export default function TaskComp() {
     })
   }
 
+
+
   //  inputBox 내용을 현재 e타겟 value로 setState저장
   const todoCopyInputHandler = (e) => {
     setState(prevState => {
@@ -92,7 +99,8 @@ export default function TaskComp() {
     setState(prevState => {
       return {
         ...prevState,
-        todoList: todoList
+        todoList: todoList,
+        restTask: state.restTask -1
       }
     })
   }
@@ -115,8 +123,15 @@ export default function TaskComp() {
   }
 
   // 업데이트 이벤트
-  // const updateEvent = () => {
-  //
+  // const updateBtnEvent = (event,index) => {
+  //   console.log(index)
+  //   const updateItem = updateState
+  //   updateItem[index].upDateValue = event.target.upDateValue
+  //   setUpdate(prevState => {
+  //       return {
+  //         upDateValue : updateItem
+  //       }
+  //   })
   // }
 
   // 스테이크 바 이벤트
@@ -154,7 +169,6 @@ export default function TaskComp() {
           {/*todo 항목*/}
           <Stack flexGrow={1} minHeight={320} maxHeight={320}
                  sx={{marginTop: 2, marginBottom: 2, overflowY: "auto"}}>
-
             {state.todoList.map((todo, index) => {
               return (
                   <Paper variant={"outlined"} elevation={"4"} sx={{
@@ -203,9 +217,31 @@ export default function TaskComp() {
                           <Stack direction={"row"} alignItems={"center"}
                                  justifyContent={"space-between"} flexGrow={1}>
                             <Typography>{todo.task}</Typography>
+
+                            {/*수정버튼이 true시 나오게 하기*/}
+                            {updateState.upDateValue &&
+                                <Stack direction={"row"} alignItems={"center"}
+                                       justifyContent={"space-between"} flexGrow={1}
+                                       position={"absolute"}
+                                       zIndex={1000}
+                                >
+                                  <Paper sx={{minWidth:400,position : "absolute"}} >
+                                    <Typography variant={"h5"} flexGrow={1}>
+                                      Edit
+                                    </Typography>
+                                    <Divider/>
+                                    <Input placeholder={"수정할 내용을 입력해주세요."} sx={{minWidth:400}}/>
+                                  </Paper>
+                                </Stack>
+                            }
                             <Stack direction={"row"} spacing={1}
                                    sx={{size: "smoll"}}>
-                              <Button variant={"contained"}>수정</Button>
+                              <Button variant={"contained"}
+                                      // onClick={(event) => {
+                                      //   updateBtnEvent(event,index)
+                                      // }
+                                      // }
+                              >수정</Button>
                               <Button color={"error"} variant={"contained"}
                                       onClick={(event) => {
                                         deleteEvent(event, index)
@@ -215,9 +251,10 @@ export default function TaskComp() {
                           </Stack>
                     }
                   </Paper>
-
               )
+
             })}
+
           </Stack>
 
 
@@ -232,7 +269,16 @@ export default function TaskComp() {
                    sx={{flexGrow: 1, color: "white"}}
                    onChange={todoCopyInputHandler}
             />
-            <IconButton onClick={buttontCopyEvent}>
+
+
+
+
+
+
+
+
+
+            <IconButton onKeyDown={(e) => buttontCopyEvent} onClick={buttontCopyEvent}>
               <TaskAltIcon sx={{color: "white"}} fontSize={"medium"}/>
             </IconButton>
           </Stack>
