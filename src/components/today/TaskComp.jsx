@@ -13,12 +13,12 @@ import {
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import {useState} from "react";
 import {Favorite, FavoriteBorder} from "@mui/icons-material";
-import UpdateComp from "./UpdateComp";
 
 export default function TaskComp() {
 
-  const [updateState,setUpdate] = useState({
-    upDateValue : false
+  const [updateState, setUpdate] = useState({
+    updateContent : '',
+    upDateValue: false
   })
 
   const [state, setState] = useState({
@@ -55,7 +55,8 @@ export default function TaskComp() {
       })
       return {
         ...prevState,
-        restTask : state.restTask + 1,
+        todoInput: "",
+        restTask: state.restTask + 1,
         todoList: todoList
       }
     })
@@ -76,8 +77,6 @@ export default function TaskComp() {
     })
   }
 
-
-
   //  inputBox 내용을 현재 e타겟 value로 setState저장
   const todoCopyInputHandler = (e) => {
     setState(prevState => {
@@ -86,6 +85,26 @@ export default function TaskComp() {
         todoInput: e.target.value
       }
     })
+  }
+
+  const enterEnventHandler = (e) => {
+    if (e.key === 'Enter') {
+      setState(prevState => {
+        return {
+          ...prevState,
+          todoInput: "",
+          restTask: state.restTask + 1,
+          todoList: [...prevState.todoList,
+            {
+              id: Date.now().toString(),
+              task: state.todoInput,
+              // 체크박스 이벤트를위한 값설정
+              complete: false
+            }
+          ]
+        }
+      })
+    }
   }
 
   // 삭제버튼 이벤트
@@ -100,7 +119,7 @@ export default function TaskComp() {
       return {
         ...prevState,
         todoList: todoList,
-        restTask: state.restTask -1
+        restTask: state.restTask - 1
       }
     })
   }
@@ -123,16 +142,50 @@ export default function TaskComp() {
   }
 
   // 업데이트 이벤트
-  // const updateBtnEvent = (event,index) => {
-  //   console.log(index)
-  //   const updateItem = updateState
-  //   updateItem[index].upDateValue = event.target.upDateValue
-  //   setUpdate(prevState => {
-  //       return {
-  //         upDateValue : updateItem
-  //       }
-  //   })
-  // }
+  const updateBtnEvent = (event, index) => {
+    const updateItem = true
+    setUpdate(prevState => {
+      return {
+        upDateValue: updateItem,
+        upDateIndex: index,
+        updateContent: state.todoList[index].task
+      }
+    })
+  }
+
+  const editUpdate =(e) => {
+    console.log(e.target.value)
+    setUpdate(prevState => {
+      return {
+        ...prevState,
+        updateContent: e.target.value
+      }
+    })
+  }
+
+  const updateContentBtn = (event,index) => {
+    const updateTodoList = state.todoList.filter((todoItem, idx) => {
+      if (idx == index) {
+        todoItem.task = updateState.updateContent
+        return todoItem
+      }
+      return todoItem
+    })
+    setState(prevState => {
+      return {
+        ...prevState,
+        todoList: updateTodoList
+      }
+    })
+    setUpdate(prevState => {
+      return {
+        ...prevState,
+        upDateValue: false
+      }
+    })
+
+  }
+
 
   // 스테이크 바 이벤트
   const handleClose = (event, reason) => {
@@ -158,9 +211,12 @@ export default function TaskComp() {
             <Typography variant={"subtitle2"}
                         fontWeight={600}>{new Date().toLocaleDateString()}</Typography>
           </Stack>
-          <Stack direction={"row"} flexGrow={1} justifyContent={"end"} spacing={2}>
-            <Typography color={"mediumvioletred"} variant={"subtitle2"}>Rest : {state.restTask}</Typography>
-            <Typography color={"green"} variant={"subtitle2"}>Clear : {state.clearTask}</Typography>
+          <Stack direction={"row"} flexGrow={1} justifyContent={"end"}
+                 spacing={2}>
+            <Typography color={"mediumvioletred"} variant={"subtitle2"}>Rest
+              : {state.restTask}</Typography>
+            <Typography color={"green"} variant={"subtitle2"}>Clear
+              : {state.clearTask}</Typography>
           </Stack>
           <Divider sx={{marginTop: 1, backgroundColor: "black",}}/>
 
@@ -186,69 +242,58 @@ export default function TaskComp() {
                                 todoComplete(event, index)
                               }}
                     />
-
                     {/* 투두 항목 */}
                     {
-                      todo.complete ?
-                          <Grid2 direction={"row"}>
-                            <Stack direction={"row"} spacing={18}
-                                   sx={{size: "smoll"}}
-                                   alignItems={"center"}
-                            >
-                              <Typography
-                                  sx={{textDecoration: "line-through"}}>{todo.task}</Typography>
-                              <Stack direction={"row"} flexGrow={1}>
-                                <Stack direction={"row"} alignItems={"center"}
-                                       spacing={5}>
-                                  <Typography>
-                                    {todo.completeTime}
-                                  </Typography>
-                                  <Button color={"success"}
-                                          variant={"contained"}
-                                          onClick={(event) => {
-                                            clearEvent(event, index)
-                                          }
-                                          }>완료</Button>
-                                </Stack>
-                              </Stack>
-                            </Stack>
-                          </Grid2>
-                          :
-                          <Stack direction={"row"} alignItems={"center"}
-                                 justifyContent={"space-between"} flexGrow={1}>
-                            <Typography>{todo.task}</Typography>
-
-                            {/*수정버튼이 true시 나오게 하기*/}
-                            {updateState.upDateValue &&
-                                <Stack direction={"row"} alignItems={"center"}
-                                       justifyContent={"space-between"} flexGrow={1}
-                                       position={"absolute"}
-                                       zIndex={1000}
+                      <Stack
+                          direction={"row"}
+                          alignItems={"center"}
+                          justifyContent={"space-between"}
+                          flexGrow={1}>
+                        {
+                          updateState.upDateValue && updateState.upDateIndex === index ?
+                              <Input value={updateState.updateContent} onChange={editUpdate} placeholder={"수정할 내용을 입력해주세요."} sx={{minWidth: 300}}/>
+                              :
+                              <>
+                                <Typography
+                                    sx={todo.complete && {textDecoration: "line-through"}}
                                 >
-                                  <Paper sx={{minWidth:400,position : "absolute"}} >
-                                    <Typography variant={"h5"} flexGrow={1}>
-                                      Edit
-                                    </Typography>
-                                    <Divider/>
-                                    <Input placeholder={"수정할 내용을 입력해주세요."} sx={{minWidth:400}}/>
-                                  </Paper>
-                                </Stack>
-                            }
-                            <Stack direction={"row"} spacing={1}
-                                   sx={{size: "smoll"}}>
+                                  {todo.task}
+                                </Typography>
+                              </>
+                        }
+                        {
+                            todo.complete &&
+                            <Typography>
+                              {todo.completeTime}
+                            </Typography>
+                        }
+                        <Stack direction={"row"} spacing={1}
+                               sx={{size: "small"}}>
+                          {
+                              (todo.complete === false) && (updateState.upDateValue === false) &&
+                              <>
+                                <Button variant={"contained"}
+                                        onClick={(event) => {
+                                          updateBtnEvent(event, index)
+                                        }
+                                        }
+                                >수정</Button>
+                                <Button color={"error"} variant={"contained"}
+                                        onClick={(event) => {
+                                          deleteEvent(event, index)
+                                        }
+                                        }>삭제</Button>
+                              </>
+                          }
+                          {
+                              updateState.upDateValue && updateState.upDateIndex === index  &&
                               <Button variant={"contained"}
-                                      // onClick={(event) => {
-                                      //   updateBtnEvent(event,index)
-                                      // }
-                                      // }
-                              >수정</Button>
-                              <Button color={"error"} variant={"contained"}
-                                      onClick={(event) => {
-                                        deleteEvent(event, index)
-                                      }
-                                      }>삭제</Button>
-                            </Stack>
-                          </Stack>
+                                      onClick={(event) => {updateContentBtn(event,index)}}
+                              >완료</Button>
+                          }
+                        </Stack>
+
+                      </Stack>
                     }
                   </Paper>
               )
@@ -267,18 +312,11 @@ export default function TaskComp() {
             {/*flexGrow 사용시 남은 여백만큼 위치 차지함*/}
             <Input placeholder={"New Task..."}
                    sx={{flexGrow: 1, color: "white"}}
+                   value={state.todoInput}
                    onChange={todoCopyInputHandler}
+                   onKeyDown={enterEnventHandler}
             />
-
-
-
-
-
-
-
-
-
-            <IconButton onKeyDown={(e) => buttontCopyEvent} onClick={buttontCopyEvent}>
+            <IconButton onClick={buttontCopyEvent}>
               <TaskAltIcon sx={{color: "white"}} fontSize={"medium"}/>
             </IconButton>
           </Stack>
