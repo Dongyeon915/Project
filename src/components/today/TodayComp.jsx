@@ -1,93 +1,14 @@
 import Grid2 from "@mui/material/Unstable_Grid2";
-import {Container} from "@mui/material";
-import {useState} from "react";
+import {Avatar, Box, CircularProgress, Container} from "@mui/material";
 import TaskComp from "./TaskComp";
+import Calendar from "react-calendar";
+import "../../css/calendar.css";
+import {GitHub} from "@mui/icons-material";
+import CircularStatic from "./CircularProgressWithLabel";
 
 const localStorage = window.localStorage;
 
 export default function TodayComp() {
-
-  const [state, setState] = useState({
-    open: false,
-    todoInput: '',
-    todoList: [
-      {
-        task: 1,
-        complete: false,
-        completeTime: ''
-      },
-      {
-        task: 2,
-        complete: false
-      },
-      {
-        task: 3,
-        complete: false
-      },
-      {
-        task: 4,
-        complete: false
-      }
-    ]
-  })
-
-  // 투두리스트 버튼 이벤트
-  const buttonEvent = () => {
-    if (state.todoInput.length == 0) {
-      alert("항목을 입력해주세요")
-      return
-    }
-    setState(prevState => {
-      const todoList = state.todoList
-      todoList.push({
-        task: state.todoInput,
-        complete: false
-      })
-      return {
-        ...prevState,
-        todoList: todoList
-      }
-    })
-  }
-
-  // 체크박스 이벤트
-  const todoComplete = (event, index) => {
-    const date = new Date()
-    const todoList = state.todoList;
-    todoList[index].complete = event.target.checked
-    todoList[index].completeTime = date.toLocaleTimeString()
-
-    setState(prevState => {
-      return {
-        ...prevState,
-        open: event.target.checked,
-        todoList: todoList
-      }
-    })
-  }
-
-  // input 이벤트
-  const todoInputHandler = (e) => {
-    setState(prevState => {
-      return {
-        ...prevState,
-        todoInput: e.target.value
-      }
-    })
-  }
-
-  // 스테이크 바 이벤트
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setState(prevState => {
-      return {
-        ...prevState,
-        open: false
-      }
-    });
-  };
 
   return (
 
@@ -101,7 +22,42 @@ export default function TodayComp() {
           {/*</Grid2>*/}
         </Grid2>
         <Grid2 container="true" spacing={2} sm={12}>
-          <TaskComp/>
+          <Grid2 sm={6}>
+            <TaskComp/>
+          </Grid2>
+          <Grid2 sm={6}>
+            <Calendar
+                minDate={new Date(2023, 2, 1)}
+                minDetail={"year"}
+                defaultValue={new Date()}
+                onClickDay={(value, event) => {
+                  console.log("onClickDay")
+                  console.log(value)
+                }}
+                tileContent={
+                  (dateInfo) => {
+                    const date = dateInfo.date
+                    if (date.getDate() === 4) {
+                      return (
+                          <Box sx={{paddingTop: 2}}>
+                            <CircularStatic progress={70} />
+                          </Box>
+                      )
+                    } else if(date.getDate() < 4) {
+                      return (
+                          <Box sx={{paddingTop: 2}}>
+                            <CircularStatic progress={10} />
+                          </Box>
+                      )
+                    } else  {
+                      return (
+                          <Box sx={{paddingTop: 2, height: "50px"}}></Box>
+                      )
+                    }
+                  }
+                }
+            />
+          </Grid2>
         </Grid2>
       </Container>
   )
