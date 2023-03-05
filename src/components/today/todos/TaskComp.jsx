@@ -26,12 +26,12 @@ export default function TaskComp() {
     clearTask: 0,
     restTask: 0,
     todoList: [
-      // {
-      //   id: 20,
-      //   task: "씻기",
-      //   complete: false,
-      //   completeTime: ''
-      // }
+      {
+        id: 20,
+        task: "씻기",
+        complete: false,
+        completeTime: ''
+      }
     ]
   })
 
@@ -72,6 +72,8 @@ export default function TaskComp() {
       return {
         ...prevState,
         open: event.target.checked,
+        restTask: state.restTask - 1,
+        clearTask: state.clearTask + 1,
         todoList: todoList,
       }
     })
@@ -120,23 +122,6 @@ export default function TaskComp() {
         ...prevState,
         todoList: todoList,
         restTask: state.restTask - 1
-      }
-    })
-  }
-  // 완료 이벤트
-  const clearEvent = (event, index) => {
-    console.log(index)
-    const clearList = state.todoList.filter(clearItem => {
-      if (clearItem.id !== state.todoList[index].id) {
-        return clearItem
-      }
-    })
-    setState(prevState => {
-      return {
-        ...prevState,
-        restTask: state.restTask - 1,
-        clearTask: state.clearTask + 1,
-        todoList: clearList
       }
     })
   }
