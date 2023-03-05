@@ -4,7 +4,7 @@ import TaskComp from "./todos/TaskComp";
 import "../../css/calendar.css";
 import CalendarComp from "./todos/CalendarComp";
 
-const localStorage = window.localStorage;
+
 
 export default function TodayComp() {
 
