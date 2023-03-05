@@ -23,7 +23,7 @@ export default function TodayComp() {
           <Grid2 sm={6}>
             <TaskComp/>
           </Grid2>
-          <Grid2 sm={6}>
+          <Grid2 sm={6} padding={2}>
             <CalendarComp/>
           </Grid2>
         </Grid2>
