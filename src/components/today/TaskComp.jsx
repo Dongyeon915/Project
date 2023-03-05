@@ -18,7 +18,7 @@ export default function TaskComp() {
 
   const [updateState, setUpdate] = useState({
     updateContent : '',
-    upDateValue: false
+    updateValue: false
   })
 
   const [state, setState] = useState({
@@ -146,8 +146,8 @@ export default function TaskComp() {
     const updateItem = true
     setUpdate(prevState => {
       return {
-        upDateValue: updateItem,
-        upDateIndex: index,
+        updateValue: updateItem,
+        updateIndex: index,
         updateContent: state.todoList[index].task
       }
     })
@@ -180,7 +180,7 @@ export default function TaskComp() {
     setUpdate(prevState => {
       return {
         ...prevState,
-        upDateValue: false
+        updateValue: false
       }
     })
 
@@ -250,7 +250,7 @@ export default function TaskComp() {
                           justifyContent={"space-between"}
                           flexGrow={1}>
                         {
-                          updateState.upDateValue && updateState.upDateIndex === index ?
+                          updateState.updateValue && updateState.updateIndex === index ?
                               <Input value={updateState.updateContent} onChange={editUpdate} placeholder={"수정할 내용을 입력해주세요."} sx={{minWidth: 300}}/>
                               :
                               <>
@@ -270,7 +270,7 @@ export default function TaskComp() {
                         <Stack direction={"row"} spacing={1}
                                sx={{size: "small"}}>
                           {
-                              (todo.complete === false) && (updateState.upDateValue === false) &&
+                              (todo.complete === false) && (updateState.updateValue === false) &&
                               <>
                                 <Button variant={"contained"}
                                         onClick={(event) => {
@@ -286,7 +286,7 @@ export default function TaskComp() {
                               </>
                           }
                           {
-                              updateState.upDateValue && updateState.upDateIndex === index  &&
+                              updateState.updateValue && updateState.updateIndex === index  &&
                               <Button variant={"contained"}
                                       onClick={(event) => {updateContentBtn(event,index)}}
                               >완료</Button>
