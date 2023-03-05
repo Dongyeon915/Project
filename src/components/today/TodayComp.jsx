@@ -1,9 +1,8 @@
 import Grid2 from "@mui/material/Unstable_Grid2";
-import {Box, Container} from "@mui/material";
-import TaskComp from "./TaskComp";
-import Calendar from "react-calendar";
+import {Container} from "@mui/material";
+import TaskComp from "./todos/TaskComp";
 import "../../css/calendar.css";
-import CircularStatic from "./CircularProgressWithLabel";
+import CalendarComp from "./todos/CalendarComp";
 
 const localStorage = window.localStorage;
 
@@ -25,37 +24,7 @@ export default function TodayComp() {
             <TaskComp/>
           </Grid2>
           <Grid2 sm={6}>
-            <Calendar
-                minDate={new Date(2023, 2, 1)}
-                minDetail={"year"}
-                defaultValue={new Date()}
-                onClickDay={(value, event) => {
-                  console.log("onClickDay")
-                  console.log(value)
-                }}
-                tileContent={
-                  (dateInfo) => {
-                    const date = dateInfo.date
-                    if (date.getDate() === 4) {
-                      return (
-                          <Box sx={{paddingTop: 2}}>
-                            <CircularStatic progress={70}/>
-                          </Box>
-                      )
-                    } else if (date.getDate() < 4) {
-                      return (
-                          <Box sx={{paddingTop: 2}}>
-                            <CircularStatic progress={10}/>
-                          </Box>
-                      )
-                    } else {
-                      return (
-                          <Box sx={{paddingTop: 2, height: "50px"}}></Box>
-                      )
-                    }
-                  }
-                }
-            />
+            <CalendarComp/>
           </Grid2>
         </Grid2>
       </Container>
