@@ -12,12 +12,12 @@ import {
 } from "@mui/material";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import {useState} from "react";
-import {Favorite, FavoriteBorder} from "@mui/icons-material";
+import {Favorite, FavoriteBorder, GitHub,AlarmOn} from "@mui/icons-material";
 
 export default function TaskComp() {
 
   const [updateState, setUpdate] = useState({
-    updateContent : '',
+    updateContent: '',
     updateValue: false
   })
 
@@ -26,18 +26,14 @@ export default function TaskComp() {
     clearTask: 0,
     restTask: 0,
     todoList: [
-      {
-        id: 20,
-        task: "씻기",
-        complete: false,
-        completeTime: ''
-      }
+      // {
+      //   id: 20,
+      //   task: "씻기",
+      //   complete: false,
+      //   completeTime: ''
+      // }
     ]
   })
-
-  // const [clearState,setClear] = useState({
-  //   clearList : []
-  // })
 
   // 버튼 클릭시 todoList배열에 새로운 input 값을 추가
   const buttontCopyEvent = (event, index) => {
@@ -138,7 +134,7 @@ export default function TaskComp() {
     })
   }
 
-  const editUpdate =(e) => {
+  const editUpdate = (e) => {
     console.log(e.target.value)
     setUpdate(prevState => {
       return {
@@ -148,7 +144,7 @@ export default function TaskComp() {
     })
   }
 
-  const updateContentBtn = (event,index) => {
+  const updateContentBtn = (event, index) => {
     const updateTodoList = state.todoList.filter((todoItem, idx) => {
       if (idx == index) {
         todoItem.task = updateState.updateContent
@@ -170,7 +166,6 @@ export default function TaskComp() {
     })
 
   }
-
 
   // 스테이크 바 이벤트
   const handleClose = (event, reason) => {
@@ -232,30 +227,42 @@ export default function TaskComp() {
                       <Stack
                           direction={"row"}
                           alignItems={"center"}
-                          justifyContent={"space-between"}
-                          flexGrow={1}>
+                      >
                         {
-                          updateState.updateValue && updateState.updateIndex === index ?
-                              <Input value={updateState.updateContent} onChange={editUpdate} placeholder={"수정할 내용을 입력해주세요."} sx={{minWidth: 300}}/>
+                          updateState.updateValue && updateState.updateIndex
+                          === index ?
+                              <Input value={updateState.updateContent}
+                                     onChange={editUpdate}
+                                     placeholder={"수정할 내용을 입력해주세요."}
+                                     sx={{minWidth: 300}}/>
                               :
                               <>
                                 <Typography
-                                    sx={todo.complete && {textDecoration: "line-through"}}
+                                    minWidth={270}
+                                    sx={todo.complete
+                                        && {textDecoration: "line-through"}}
                                 >
+
                                   {todo.task}
                                 </Typography>
                               </>
                         }
                         {
                             todo.complete &&
-                            <Typography>
-                              {todo.completeTime}
-                            </Typography>
+                            <Stack direction={"row"}>
+                              <Typography>
+                                {todo.completeTime}
+                              </Typography>
+                              <Stack marginLeft={2}>
+                                <AlarmOn fontSize={"medium"} color={"success"}/>
+                              </Stack>
+                            </Stack>
                         }
                         <Stack direction={"row"} spacing={1}
                                sx={{size: "small"}}>
                           {
-                              (todo.complete === false) && (updateState.updateValue === false) &&
+                              (todo.complete === false)
+                              && (updateState.updateValue === false) &&
                               <>
                                 <Button variant={"contained"}
                                         onClick={(event) => {
@@ -271,9 +278,12 @@ export default function TaskComp() {
                               </>
                           }
                           {
-                              updateState.updateValue && updateState.updateIndex === index  &&
+                              updateState.updateValue && updateState.updateIndex
+                              === index &&
                               <Button variant={"contained"}
-                                      onClick={(event) => {updateContentBtn(event,index)}}
+                                      onClick={(event) => {
+                                        updateContentBtn(event, index)
+                                      }}
                               >완료</Button>
                           }
                         </Stack>
