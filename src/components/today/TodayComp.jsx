@@ -1,9 +1,8 @@
 import Grid2 from "@mui/material/Unstable_Grid2";
-import {Avatar, Box, CircularProgress, Container} from "@mui/material";
+import {Box, Container} from "@mui/material";
 import TaskComp from "./TaskComp";
 import Calendar from "react-calendar";
 import "../../css/calendar.css";
-import {GitHub} from "@mui/icons-material";
 import CircularStatic from "./CircularProgressWithLabel";
 
 const localStorage = window.localStorage;
@@ -40,16 +39,16 @@ export default function TodayComp() {
                     if (date.getDate() === 4) {
                       return (
                           <Box sx={{paddingTop: 2}}>
-                            <CircularStatic progress={70} />
+                            <CircularStatic progress={70}/>
                           </Box>
                       )
-                    } else if(date.getDate() < 4) {
+                    } else if (date.getDate() < 4) {
                       return (
                           <Box sx={{paddingTop: 2}}>
-                            <CircularStatic progress={10} />
+                            <CircularStatic progress={10}/>
                           </Box>
                       )
-                    } else  {
+                    } else {
                       return (
                           <Box sx={{paddingTop: 2, height: "50px"}}></Box>
                       )
