@@ -1,6 +1,6 @@
 import {AppBar, Avatar, IconButton, Toolbar, Typography} from "@mui/material";
 import * as React from "react";
-import GitUser from "../../components/user-comp/GitUser";
+import GitUser from "../../components/user-comp/gitUser";
 import {GitHub} from "@mui/icons-material";
 
 function MyAppBar({handleDrawerToggle}) {

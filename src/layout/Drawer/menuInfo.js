@@ -13,5 +13,11 @@ export const menuInfo = [
     id: 3,
     name: "Schedule",
     link: "/today"
+  },
+  {
+    id: 4,
+    name: "Calendar",
+    link: "/calendar"
   }
+
 ]

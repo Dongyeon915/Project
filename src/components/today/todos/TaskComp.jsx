@@ -21,15 +21,27 @@ export default function TaskComp() {
     updateValue: false
   })
 
+  // DB와 Spring Project 변수명
+  // private Integer task_id;
+  // private String join_date_id;
+  // private String todo_task;
+  // private Integer checkbox_complete;
+  // private String complete_time;
+  // private Integer rest_task;
+  // private Integer clear_task;
+
+
   const [state, setState] = useState({
     todoInput: "",
     clearTask: 0,
     restTask: 0,
     todoList: [
       // {
-      //   id: 20,
+      //   task_id: 1,
+      //   join_date_id : "2023-03-05",
       //   task: "씻기",
-      //   complete: false,
+      //   rest_task : 1
+      //   checkbox_complete: false,
       //   completeTime: ''
       // }
     ]
@@ -134,6 +146,7 @@ export default function TaskComp() {
     })
   }
 
+  // 업데이트 value저장
   const editUpdate = (e) => {
     console.log(e.target.value)
     setUpdate(prevState => {

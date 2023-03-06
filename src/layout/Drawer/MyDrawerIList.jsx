@@ -7,7 +7,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import * as React from "react";
 import {Avatar, Link, Stack, Typography} from "@mui/material";
-import GitUser from "../../components/user-comp/GitUser";
+import GitUser from "../../components/user-comp/gitUser";
 import {
   AccessAlarm,
   AccessTime,
@@ -16,6 +16,7 @@ import {
 } from "@mui/icons-material";
 import {Link as RouterLink} from "react-router-dom";
 import {menuInfo} from "./menuInfo";
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 function MyDrawerIList() {
   return (
@@ -59,6 +60,9 @@ function MyDrawerIList() {
                         }
                         {
                           menuItem.id == 3 && <AccessTime/>
+                        }
+                        {
+                          menuItem.id == 4 && <CalendarMonthIcon/>
                         }
                       </ListItemIcon>
                       <ListItemText primary={menuItem.name}/>

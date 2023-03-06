@@ -1,14 +1,12 @@
 import Calendar from "react-calendar";
-import {Box} from "@mui/material";
-import CircularStatic from "./CircularProgressWithLabel";
+import 'react-calendar/dist/Calendar.css';
 
-export default function CalendarComp(){
+export default function BigCalendarComp() {
   return (
       <Calendar
           minDetail={"year"}
           defaultValue={new Date()}
           onClickDay={(value, event) => {
-            console.log(value)
           }}
           // tileContent={
           //   (dateInfo) => {

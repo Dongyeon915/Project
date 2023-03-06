@@ -4,7 +4,7 @@ import OverviewComp from "../components/overview-comp/OverviewComp";
 import RepositoriesComp from "../components/repositories/RepositoriesComp";
 import Schedule from "../components/Schedule";
 import TodayComp from "../components/today/TodayComp";
-
+import BigCalendar from "../components/calendar/BigCalendar"
 
 export const router = createBrowserRouter([
   {
@@ -30,6 +30,10 @@ export const router = createBrowserRouter([
       {
         path: "/today",
         element: <TodayComp/>
+      },
+      {
+        path: "/calendar",
+        element: <BigCalendar/>
       }
     ]
   }
