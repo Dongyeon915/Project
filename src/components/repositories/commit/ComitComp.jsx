@@ -1,5 +1,5 @@
 import {Box, Paper} from "@mui/material";
-import gitProjectCommits from "./GitProjectCommits";
+import gitProjectCommits from "./gitProjectCommits";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
