@@ -1,37 +1,38 @@
 import Calendar from "react-calendar";
-import {Box} from "@mui/material";
-import CircularStatic from "./CircularProgressWithLabel";
+import {Paper} from "@mui/material";
+export default function CalendarComp() {
 
-export default function CalendarComp(){
   return (
-      <Calendar
-          minDetail={"year"}
-          defaultValue={new Date()}
-          onClickDay={(value, event) => {
-            console.log(value)
-          }}
-          // tileContent={
-          //   (dateInfo) => {
-          //     const date = dateInfo.date
-          //     if (date.getDate() === 4) {
-          //       return (
-          //           <Box sx={{paddingTop: 2}}>
-          //             <CircularStatic progress={70}/>
-          //           </Box>
-          //       )
-          //     } else if (date.getDate() < 4) {
-          //       return (
-          //           <Box sx={{paddingTop: 2}}>
-          //             {/*<CircularStatic progress={10}/>*/}
-          //           </Box>
-          //       )
-          //     } else {
-          //       return (
-          //           <Box sx={{paddingTop: 2, height: "50px"}}></Box>
-          //       )
-          //     }
-          //   }
-          // }
-      />
+      <Paper variant={"elevation"} elevation={4}>
+          <Calendar
+              minDetail={"year"}
+              defaultValue={new Date()}
+              onClickDay={(value, event) => {
+                console.log(value)
+              }}
+              // tileContent={
+              //   (dateInfo) => {
+              //     const date = dateInfo.date
+              //     if (date.getDate() === 4) {
+              //       return (
+              //           <Box sx={{paddingTop: 2}}>
+              //             <CircularStatic progress={70}/>
+              //           </Box>
+              //       )
+              //     } else if (date.getDate() < 4) {
+              //       return (
+              //           <Box sx={{paddingTop: 2}}>
+              //             {/*<CircularStatic progress={10}/>*/}
+              //           </Box>
+              //       )
+              //     } else {
+              //       return (
+              //           <Box sx={{paddingTop: 2, height: "50px"}}></Box>
+              //       )
+              //     }
+              //   }
+              // }
+          />
+      </Paper>
   )
 }
