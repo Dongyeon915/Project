@@ -7,7 +7,7 @@ import {
   Stack,
   Typography
 } from "@mui/material";
-import repositoryWebhooks from "./RepositoryWebhooks";
+import repositoryWebhooks from "./repositoryWebhooks";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {GitHub} from "@mui/icons-material";
 
