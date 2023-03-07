@@ -11,56 +11,71 @@ import Divider from "@mui/material/Divider";
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import NotStartedIcon from '@mui/icons-material/NotStarted';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import {useEffect, useRef, useState} from "react";
+import Schedule from "../../Schedule";
 
-const pomodoroMinut = [
-  {
-    value: 'timeSet25',
-    label: 25,
-  },
-  {
-    value: 'timeSet45',
-    label: 50,
-  },
-  {
-    value: 'timeSet60',
-    label: 60,
-  },
-];
 
-const pomodorosecond = [
-  {
-    value: 'timeSet0',
-    label: 0,
-  },
-  {
-    value: 'timeSet25',
-    label: 25,
-  },
-  {
-    value: 'timeSet45',
-    label: 45,
-  },
-  {
-    value: 'timeSet60',
-    label: 60,
-  },
-];
 
 export default function PomodoroComp() {
+
+  const [timeState,setTime] = useState({
+    minute : 0,
+    second : 0
+  })
+
+
+
+
+  // 시간 설정
+  const startTimer = () => {
+
+  };
+
+
+  // 정지 이벤트
+  const pauseTimer = () => {
+
+  };
+
+
+  // reset 이벤트
+  const resetTimer = () => {
+
+  };
+
+
+  const setMinut = (e) => {
+    setTime(prevState => {
+      return {
+        minute: e.target.label
+      }
+    })
+  }
+
+  console.log(timeState.minute)
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+
+    },1000)
+  },[]);
+
+
+
   return (
       <Grid2 container={"true"}>
         <Grid2 sm={6} >
           <Paper variant={"elevation"} elevation={4} sx={{borderRadius: 20}}>
             <Stack marginLeft={4} padding={2}>
               <Typography color={"orangered"} fontWeight={"bolder"} flexGrow={1}
-                          variant={"h1"}>25 분 00 초</Typography>
+                          variant={"h1"}>{timeState.minute} 분 {timeState.second} 초</Typography>
             </Stack>
             <Divider variant={"middle"}/>
             <Stack direction={"row"} spacing={3} padding={2}
                    justifyContent={"center"}>
               <Button sx={{padding: 1}} variant={"contained"} size={"large"}
                       color={"warning"}>
-                <NotStartedIcon sx={{marginRight: 1}}/>Stop</Button>
+                <NotStartedIcon sx={{marginRight: 1}}/>Pause</Button>
               <Button sx={{padding: 1}} variant={"contained"} size={"large"}
                       color={"success"}>
                 <PlayCircleOutlineIcon sx={{marginRight: 1}}/>Start</Button>
@@ -87,14 +102,10 @@ export default function PomodoroComp() {
               </Typography>
               <TextField sx={{minWidth: 200, marginRight: 10}}
                          id="outlined-select-currency"
-                         select
-                         label="SelectMinute"
+                         label="Value 0 ~ 60"
+
               >
-                {pomodoroMinut.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                ))}
+
               </TextField>
             </Stack>
             <Divider variant={"middle"}/>
@@ -106,14 +117,9 @@ export default function PomodoroComp() {
               </Typography>
               <TextField sx={{minWidth: 200, marginRight: 10}}
                          id="outlined-select-currency"
-                         select
-                         label="SelectMinute"
+                         label="Value 0 ~ 60"
               >
-                {pomodorosecond.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                ))}
+
               </TextField>
             </Stack>
           </Paper>
