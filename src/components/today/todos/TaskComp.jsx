@@ -37,11 +37,10 @@ export default function TaskComp() {
     restTask: 0,
     todoList: [
       // {
-      //   task_id: 1,
-      //   join_date_id : "2023-03-05",
+      //   taskId: 1,
+      //   joinDateId : "2023-03-05",
       //   task: "씻기",
-      //   rest_task : 1
-      //   checkbox_complete: false,
+      //   checkboxComplete: false,
       //   completeTime: ''
       // }
     ]
