@@ -2,76 +2,157 @@ import Grid2 from "@mui/material/Unstable_Grid2";
 import {Button, Paper, Stack, TextField, Typography} from "@mui/material";
 import Divider from "@mui/material/Divider";
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
-import NotStartedIcon from '@mui/icons-material/NotStarted';
+import NotStartedIcon from '@mui/icons-material/NotStartedOutlined';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
-import {useEffect, useState} from "react";
+import {useCallback, useRef, useState} from "react";
+import {PomodoroSample} from "../../../sample/PomodoroSample";
 
 export default function PomodoroComp() {
 
-  // function calcTime(time) {
-  //   const hour = parseInt(time / ( 60 * 60));
-  //   time -= (60 * 60) * hour
-  //   const minute = parseInt(time / 60);
-  //   const second = time % 60
-  //   if (hour == 0)
-  //     return `${minute.toString().padStart(2, '0')}:${second.toString().padStart(2, '0')}`
-  //   return `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}:${second.toString().padStart(2, '0')}`
-  // }
+  // JavaScript =>  false, null, undefined, 0, ''
+  // null 은 초기값이 없기 때문에 false
+  // undefined 은 아무것도 없는 상태
+  const timerReference = useRef(undefined)
 
-  const [timeState, setTime] = useState({
-    // minute : timeState.minute ? parseInt(timeState.minute) : 0,
-    minute: '00',
-    second: '00'
-  })
+  const [pomodoroState, pomodoroSetState] = useState(PomodoroSample)
+
+  function calcTime(epocTime) {
+    const hour = parseInt(epocTime / (60 * 60))
+    epocTime = epocTime - (hour * 60 * 60)
+    const minute = parseInt(epocTime / 60)
+    const seconde = epocTime % 60
+    return `${minute.toString().padStart(2, '0')}:${seconde.toString().padStart(
+        2, '0')}`
+  }
 
   // 시간 설정
-  const startTimer = () => {
-    console.log("start 버튼 작동")
-  };
+  // ref state로 시간을 멈출수 없고 start버튼 누를시 여러개가 실행될수 있고 ref로 만들시 clearInterval관리와 참조해서 다른곳에서 사용할수있다.
+  const startTimer = useCallback(() => {
+    if (timerReference.current) {
+      console.log("Timer Already Exist!")
+      return;
+    }
+    // --------------------------------------------------
+    pomodoroSetState(prevState => {
+      return {
+        ...prevState,
+        timer: {
+          ...prevState.timer,
+          isRunning: !prevState.timer.isRunning,
+          isRest: !prevState.timer.isRest
+        }
+      }
+    })
+    // ---------------------------------------------------
+    let count, interval
+    timerReference.current = setInterval(() => {
+      pomodoroSetState(prevState => {
+        if (prevState.timer.count === 0) {
+          clearInterval(timerReference.current)
+          timerReference.current = null
+          if (!prevState.timer.isRest) {
+            interval = prevState.timer.interval + 1
+            count = prevState.input.rest * 60
+          } else {
+            interval = prevState.timer.interval
+            count = prevState.input.minute * 60
+          }
+          return {
+            ...prevState,
+            timer: {
+              ...prevState.timer,
+              isRunning: !prevState.timer.isRunning,
+              // isWorking: !prevState.timer.isWorking,
+              interval: interval,
+              count: count
+            }
+          };
+        }
+        // isWorking true
+        return {
+          ...prevState,
+          timer: {
+            ...prevState.timer,
+            count: prevState.timer.count - 1
+          }
+        }
+      })
+    }, 100)
+  }, [])
 
   // 정지 이벤트
   const pauseTimer = () => {
     console.log("pause 버튼 작동")
+
+    pomodoroSetState(prevState => {
+      return {
+        ...prevState,
+        timer: {
+          ...prevState.timer,
+          isRunning: false
+        }
+      }
+    })
+
+    if (timerReference.current) {
+      clearInterval(timerReference.current)
+      timerReference.current = null
+    } else {
+      return;
+    }
   };
 
   // reset 이벤트
   const resetTimer = () => {
+    clearInterval(timerReference.current)
+    timerReference.current = null
+    pomodoroSetState(prevState => {
+      return {
+        ...prevState,
+        timer: {
+          ...prevState.timer,
+          isRunning: false,
+          count: prevState.input.minute * 60
+        }
+      }
+    })
+    alert("타이머 시간을 초기화 했습니다.^^")
     console.log("reset 버튼 작동")
   };
 
   // text file 분을 state set
-  const setMinut = (evnet) => {
-    setTime(prevState => {
+  const setFocuseTime = (event) => {
+    pomodoroSetState(prevState => {
       return {
         ...prevState,
-        minute: evnet.target.value
-      }
-    })
-  }
-  //  초 설정
-  const setSecond = (evnet) => {
-    setTime(prevState => {
-      return {
-        ...prevState,
-        second: evnet.target.value
+        input: {
+          ...prevState.input,
+          minute: parseInt(event.target.value)
+        },
+        timer: {
+          ...prevState.timer,
+          count: parseInt(event.target.value) * 60
+        }
       }
     })
   }
 
-  // setInterval 주어진 함수를 주어진 시간마다 실행
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTime(prevState => {
-        return {
-          ...prevState,
-          second: timeState.second - 1
+  //  초 설정
+  const setRestTime = (event) => {
+    pomodoroSetState(prevState => {
+      return {
+        ...prevState,
+        input: {
+          ...prevState.input,
+          rest: parseInt(event.target.value)
+        },
+        timer: {
+          ...prevState.timer,
+          count: parseInt(event.target.value) * 60
         }
-      })
-    }, 1000)
-    return () => {
-      clearInterval(timer)
-    }
-  }, [timeState]);
+      }
+    })
+  }
 
   return (
       <Grid2 container={"true"}>
@@ -81,7 +162,10 @@ export default function PomodoroComp() {
             {/* 상단 시간 영역*/}
             <Stack marginLeft={4} padding={2}>
               <Typography color={"orangered"} fontWeight={"bolder"} flexGrow={1}
-                          variant={"h1"}>{timeState.minute} 분 {timeState.second} 초</Typography>
+                          variant={"h1"}>
+                {pomodoroState.timer.count ? calcTime(pomodoroState.timer.count)
+                    : 0}
+              </Typography>
             </Stack>
             <Divider variant={"middle"}/>
 
@@ -89,11 +173,17 @@ export default function PomodoroComp() {
             <Stack direction={"row"} spacing={3} padding={2}
                    justifyContent={"center"}>
               {/* 일시정지 버튼 */}
-              <Button sx={{padding: 1}} variant={"contained"} size={"large"}
-                      color={"warning"}
-                      onClick={pauseTimer}
-              >
-                <NotStartedIcon sx={{marginRight: 1}}/>Pause</Button>
+
+              {
+                  pomodoroState.timer.isRunning && <Button sx={{padding: 1}}
+                                                           variant={"contained"}
+                                                           size={"large"}
+                                                           color={"warning"}
+                                                           onClick={pauseTimer}
+                  >
+                    <NotStartedIcon sx={{marginRight: 1}}/>Pause</Button>
+              }
+
               {/* start 버튼 */}
               <Button sx={{padding: 1}} variant={"contained"} size={"large"}
                       color={"success"}
@@ -125,15 +215,21 @@ export default function PomodoroComp() {
               <Typography variant={"h5"} flexGrow={1} marginLeft={5}>
                 Select Minute
               </Typography>
+              {/* onChang시 (event를 넣지않아도 해당 이벤트의 event 정보가 넘어가므로 index시에만 전달하기) */}
               <TextField sx={{minWidth: 200, marginRight: 10}}
-                         id="outlined-select-currency"
                          label="Value 0 ~ 60"
-                         onChange={event => {
-                           setMinut(event)
+                         onChange={setFocuseTime}
+                         maxRows={1}
+                         type={"number"}
+                         value={pomodoroState.input.minute}
+                         inputProps={{
+                           inputMode: 'numeric',
+                           pattern: '[0-9]{2}',
+                           min: '1',
+                           max: '10'
                          }}
-
+                         disabled={pomodoroState.timer.isRunning}
               >
-
               </TextField>
             </Stack>
             <Divider variant={"middle"}/>
@@ -144,11 +240,11 @@ export default function PomodoroComp() {
                 Select Second
               </Typography>
               <TextField sx={{minWidth: 200, marginRight: 10}}
-                         id="outlined-select-currency"
                          label="Value 0 ~ 60"
-                         onChange={event => {
-                           setSecond(event)
-                         }}
+                         onChange={setRestTime}
+                         type={"number"}
+                         value={pomodoroState.input.rest}
+                         disabled={pomodoroState.timer.isRunning}
               >
               </TextField>
             </Stack>
