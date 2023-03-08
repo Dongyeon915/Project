@@ -9,6 +9,7 @@ import {
   Typography
 } from "@mui/material";
 import {Aod, GitHub, Mail} from "@mui/icons-material";
+import PomodoroExample from "../today/pomodoro/Example/PomodoroExample";
 
 function overviewComp() {
   return (
@@ -66,8 +67,7 @@ function overviewComp() {
         </Grid2>
         {/* 하단 부분 */}
         <Container fixed={"true"} marginTop={2}>
-          <Typography>
-          </Typography>
+          <PomodoroExample/>
         </Container>
       </Container>
   )
