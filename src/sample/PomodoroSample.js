@@ -6,6 +6,7 @@ export const PomodoroSample = {
   timer: {
     isRest: true,
     isRunning: false,
+    isPause: false,
     interval: 0,
     count: 15 * 60
   }
