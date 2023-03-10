@@ -8,7 +8,6 @@ import {useCallback, useRef, useState} from "react";
 import {PomodoroSample} from "../../../sample/PomodoroSample";
 
 export default function PomodoroComp() {
-
   // JavaScript =>  false, null, undefined, 0, ''
   // null 은 초기값이 없기 때문에 false
   // undefined 은 아무것도 없는 상태
@@ -20,9 +19,16 @@ export default function PomodoroComp() {
     const hour = parseInt(epocTime / (60 * 60))
     epocTime = epocTime - (hour * 60 * 60)
     const minute = parseInt(epocTime / 60)
-    const seconde = epocTime % 60
-    return `${minute.toString().padStart(2, '0')}:${seconde.toString().padStart(
-        2, '0')}`
+    const second = epocTime % 60
+    return `${minute.toString().padStart(2, '0')}:${second.toString().padStart(2, '0')}`
+  }
+
+  function startButtonTitle() {
+    // if(pomodoroState.timer.isPause) {
+    //   return "Re-Start"
+    // }
+    // return "Start"
+    return pomodoroState.timer.isPause? "Re-Start" : "Start"
   }
 
   // 시간 설정
@@ -34,12 +40,21 @@ export default function PomodoroComp() {
     }
     // --------------------------------------------------
     pomodoroSetState(prevState => {
+      let pauseState, isRestState
+      if (pomodoroState.timer.isPause) {
+        pauseState = true
+        isRestState = prevState.timer.isRest
+      } else {
+        pauseState = false
+        isRestState = !prevState.timer.isRest
+      }
       return {
         ...prevState,
         timer: {
           ...prevState.timer,
+          isRest: isRestState,
           isRunning: !prevState.timer.isRunning,
-          isRest: !prevState.timer.isRest
+          isPause: pauseState
         }
       }
     })
@@ -50,19 +65,18 @@ export default function PomodoroComp() {
         if (prevState.timer.count === 0) {
           clearInterval(timerReference.current)
           timerReference.current = null
-          if (!prevState.timer.isRest) {
-            interval = prevState.timer.interval + 1
-            count = prevState.input.rest * 60
-          } else {
+          if (prevState.timer.isRest) {
             interval = prevState.timer.interval
             count = prevState.input.minute * 60
+          } else {
+            interval = prevState.timer.interval + 1
+            count = prevState.input.rest * 60
           }
           return {
             ...prevState,
             timer: {
               ...prevState.timer,
               isRunning: !prevState.timer.isRunning,
-              // isWorking: !prevState.timer.isWorking,
               interval: interval,
               count: count
             }
@@ -77,19 +91,19 @@ export default function PomodoroComp() {
           }
         }
       })
-    }, 100)
+    }, 1000)
   }, [])
 
   // 정지 이벤트
-  const pauseTimer = () => {
+  const pauseTimer = useCallback(() => {
     console.log("pause 버튼 작동")
-
     pomodoroSetState(prevState => {
       return {
         ...prevState,
         timer: {
           ...prevState.timer,
-          isRunning: false
+          isRunning: false,
+          isPause: true
         }
       }
     })
@@ -97,10 +111,8 @@ export default function PomodoroComp() {
     if (timerReference.current) {
       clearInterval(timerReference.current)
       timerReference.current = null
-    } else {
-      return;
     }
-  };
+  }, []);
 
   // reset 이벤트
   const resetTimer = () => {
@@ -112,7 +124,8 @@ export default function PomodoroComp() {
         timer: {
           ...prevState.timer,
           isRunning: false,
-          count: prevState.input.minute * 60
+          count: prevState.input.minute * 60,
+          isPause: false
         }
       }
     })
@@ -127,6 +140,7 @@ export default function PomodoroComp() {
         ...prevState,
         input: {
           ...prevState.input,
+          // 문자열로 인식할수 있으므로 parseInt로 value설정
           minute: parseInt(event.target.value)
         },
         timer: {
@@ -137,7 +151,7 @@ export default function PomodoroComp() {
     })
   }
 
-  //  초 설정
+  //  휴식 시간 설정
   const setRestTime = (event) => {
     pomodoroSetState(prevState => {
       return {
@@ -157,7 +171,7 @@ export default function PomodoroComp() {
   return (
       <Grid2 container={"true"}>
         <Grid2 sm={6}>
-          <Paper variant={"elevation"} elevation={4} sx={{borderRadius: 20}}>
+          <Paper variant="elevation" elevation={"4"} sx={{borderRadius: 20}}>
 
             {/* 상단 시간 영역*/}
             <Stack marginLeft={4} padding={2}>
@@ -173,23 +187,31 @@ export default function PomodoroComp() {
             <Stack direction={"row"} spacing={3} padding={2}
                    justifyContent={"center"}>
               {/* 일시정지 버튼 */}
-
               {
-                  pomodoroState.timer.isRunning && <Button sx={{padding: 1}}
-                                                           variant={"contained"}
-                                                           size={"large"}
-                                                           color={"warning"}
-                                                           onClick={pauseTimer}
-                  >
-                    <NotStartedIcon sx={{marginRight: 1}}/>Pause</Button>
+                  pomodoroState.timer.isRunning
+                  &&
+                  <Button sx={{padding: 1}}
+                          variant={"contained"}
+                          size={"large"}
+                          color={"warning"}
+                          onClick={pauseTimer}>
+                    <NotStartedIcon sx={{marginRight: 1}}/>
+                    Pause
+                  </Button>
               }
 
               {/* start 버튼 */}
-              <Button sx={{padding: 1}} variant={"contained"} size={"large"}
-                      color={"success"}
-                      onClick={startTimer}
-              >
-                <PlayCircleOutlineIcon sx={{marginRight: 1}}/>Start</Button>
+              {
+                pomodoroState.timer.isRunning
+                  ||
+                  <Button sx={{padding: 1}}
+                          variant={"contained"} size={"large"}
+                          color={"success"}
+                          onClick={startTimer}>
+                    <PlayCircleOutlineIcon sx={{marginRight: 1}}/>
+                    {startButtonTitle()}
+                  </Button>
+              }
               {/* reset 버튼 */}
               <Button sx={{padding: 1}} variant={"contained"} size={"large"}
                       color={"error"}
@@ -224,9 +246,7 @@ export default function PomodoroComp() {
                          value={pomodoroState.input.minute}
                          inputProps={{
                            inputMode: 'numeric',
-                           pattern: '[0-9]{2}',
-                           min: '1',
-                           max: '10'
+                           pattern: '[0-9]{2}'
                          }}
                          disabled={pomodoroState.timer.isRunning}
               >
@@ -237,12 +257,16 @@ export default function PomodoroComp() {
             {/*초단위 설정 화면*/}
             <Stack direction={"row"} alignItems={"center"} padding={1}>
               <Typography variant={"h5"} flexGrow={1} marginLeft={5}>
-                Select Second
+                Select  Rest
               </Typography>
               <TextField sx={{minWidth: 200, marginRight: 10}}
                          label="Value 0 ~ 60"
                          onChange={setRestTime}
                          type={"number"}
+                         inputProps={{
+                           inputMode: 'numeric',
+                           pattern: '[0-9]{2}'
+                         }}
                          value={pomodoroState.input.rest}
                          disabled={pomodoroState.timer.isRunning}
               >
