@@ -1,4 +1,4 @@
-import {RESET_TIMER, START_TIMER} from "../actions/pomodoroAction";
+import {RESET_TIMER, START_TIMER} from "../../actions/pomodoroAction";
 
 export const pomodoroInitialState = {
   pomodoro: {
@@ -53,4 +53,3 @@ export default function pomodoroReducer(state = pomodoroInitialState,action){
   return state
   }
     // ---------------------------------------------------
-  if ()
