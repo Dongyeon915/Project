@@ -5,9 +5,9 @@ import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import NotStartedIcon from '@mui/icons-material/NotStartedOutlined';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import {useCallback, useRef, useState} from "react";
-import {PomodoroSample} from "../../../sample/PomodoroSample";
-import {store} from "../../../redux/store";
-import {startTimerActionCreator} from "../../../redux/actions/pomodoroAction";
+import {PomodoroSample} from "../../../../sample/PomodoroSample";
+import {store} from "../../../../redux/store";
+import {startTimerActionCreator} from "../../../../redux/actions/pomodoroAction";
 
 export default function PomodoroCopy() {
   // JavaScript =>  false, null, undefined, 0, ''
