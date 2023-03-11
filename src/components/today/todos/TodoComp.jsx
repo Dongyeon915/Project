@@ -18,7 +18,7 @@ import {
   addTodoActionCreator,
   completeTodoActionCreator, deleteTodoActionCreator, updateTodoActionCreator
 } from "../../../redux/actions/todoAction";
-export default function TaskComp() {
+export default function TodoComp() {
 
   const [updateState, setUpdate] = useState({
     task: '',
