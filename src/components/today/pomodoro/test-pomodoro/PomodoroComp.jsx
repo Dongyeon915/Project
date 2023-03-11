@@ -6,14 +6,16 @@ import NotStartedIcon from '@mui/icons-material/NotStartedOutlined';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import {useCallback, useRef, useState} from "react";
 import {PomodoroSample} from "../../../sample/PomodoroSample";
+import {store} from "../../../redux/store";
+import {startTimerActionCreator} from "../../../redux/actions/pomodoroAction";
 
-export default function PomodoroComp() {
+export default function PomodoroCopy() {
   // JavaScript =>  false, null, undefined, 0, ''
   // null 은 초기값이 없기 때문에 false
   // undefined 은 아무것도 없는 상태
   const timerReference = useRef(undefined)
 
-  const [pomodoroState, pomodoroSetState] = useState(PomodoroSample)
+  const [pomodoroState, pomodoroSetState] = useState(store.getState())
 
   function calcTime(epocTime) {
     const hour = parseInt(epocTime / (60 * 60))
@@ -24,59 +26,35 @@ export default function PomodoroComp() {
   }
 
   function startButtonTitle() {
-    // if(pomodoroState.timer.isPause) {
-    //   return "Re-Start"
-    // }
-    // return "Start"
+    if(pomodoroState.timer.isPause) {
+      return "Re-Start"
+    }
+    return "Start"
     return pomodoroState.timer.isPause? "Re-Start" : "Start"
   }
 
   // 시간 설정
   // ref state로 시간을 멈출수 없고 start버튼 누를시 여러개가 실행될수 있고 ref로 만들시 clearInterval관리와 참조해서 다른곳에서 사용할수있다.
   const startTimer = useCallback(() => {
-    if (timerReference.current) {
-      console.log("Timer Already Exist!")
-      return;
-    }
-    // --------------------------------------------------
-    pomodoroSetState(prevState => {
-      let pauseState, isRestState
-      if (pomodoroState.timer.isPause) {
-        pauseState = true
-        isRestState = prevState.timer.isRest
-      } else {
-        pauseState = false
-        isRestState = !prevState.timer.isRest
-      }
-      return {
-        ...prevState,
-        timer: {
-          ...prevState.timer,
-          isRest: isRestState,
-          isRunning: !prevState.timer.isRunning,
-          isPause: pauseState
-        }
-      }
-    })
-    // ---------------------------------------------------
+    store.dispatch(startTimerActionCreator(timerReference))
     let count, interval
     timerReference.current = setInterval(() => {
       pomodoroSetState(prevState => {
-        if (prevState.timer.count === 0) {
+        if (pomodoroState.pomo.pomodoro.timer.countValue === 0) {
           clearInterval(timerReference.current)
           timerReference.current = null
-          if (prevState.timer.isRest) {
-            interval = prevState.timer.interval
-            count = prevState.input.minute * 60
+          if (pomodoroState.pomo.pomodoro.timer.state.isRest) {
+            interval = prevState.pomo.pomodoro.result.interval
+            count = prevState.pomo.pomodoro.config.minute * 60
           } else {
-            interval = prevState.timer.interval + 1
-            count = prevState.input.rest * 60
+            interval = prevState.pomo.pomodoro.result.interval + 1
+            count = prevState.pomo.pomodoro.config.rest * 60
           }
           return {
-            ...prevState,
+            ...pomodoroState,
             timer: {
-              ...prevState.timer,
-              isRunning: !prevState.timer.isRunning,
+              ...pomodoroState.pomo.pomodoro.timer,
+              isRunning: !prevState.pomo.pomodoro.timer.state.isRunning,
               interval: interval,
               count: count
             }
@@ -84,10 +62,10 @@ export default function PomodoroComp() {
         }
         // isWorking true
         return {
-          ...prevState,
+          ...prevState.pomo.pomodoro,
           timer: {
-            ...prevState.timer,
-            count: prevState.timer.count - 1
+            ...prevState.pomo.pomodoro.timer,
+            count: prevState.pomo.pomodoro.timer.countValue - 1
           }
         }
       })
@@ -95,43 +73,43 @@ export default function PomodoroComp() {
   }, [])
 
   // 정지 이벤트
-  const pauseTimer = useCallback(() => {
-    console.log("pause 버튼 작동")
-    pomodoroSetState(prevState => {
-      return {
-        ...prevState,
-        timer: {
-          ...prevState.timer,
-          isRunning: false,
-          isPause: true
-        }
-      }
-    })
+  // const pauseTimer = useCallback(() => {
+  //   console.log("pause 버튼 작동")
+  //   pomodoroSetState(prevState => {
+  //     return {
+  //       ...prevState,
+  //       timer: {
+  //         ...prevState.timer,
+  //         isRunning: false,
+  //         isPause: true
+  //       }
+  //     }
+  //   })
 
-    if (timerReference.current) {
-      clearInterval(timerReference.current)
-      timerReference.current = null
-    }
-  }, []);
+  //   if (timerReference.current) {
+  //     clearInterval(timerReference.current)
+  //     timerReference.current = null
+  //   }
+  // }, []);
 
   // reset 이벤트
-  const resetTimer = () => {
-    clearInterval(timerReference.current)
-    timerReference.current = null
-    pomodoroSetState(prevState => {
-      return {
-        ...prevState,
-        timer: {
-          ...prevState.timer,
-          isRunning: false,
-          count: prevState.input.minute * 60,
-          isPause: false
-        }
-      }
-    })
-    alert("타이머 시간을 초기화 했습니다.^^")
-    console.log("reset 버튼 작동")
-  };
+  // const resetTimer = () => {
+  //   clearInterval(timerReference.current)
+  //   timerReference.current = null
+  //   pomodoroSetState(prevState => {
+  //     return {
+  //       ...prevState,
+  //       timer: {
+  //         ...prevState.timer,
+  //         isRunning: false,
+  //         count: prevState.input.minute * 60,
+  //         isPause: false
+  //       }
+  //     }
+  //   })
+  //   alert("타이머 시간을 초기화 했습니다.^^")
+  //   console.log("reset 버튼 작동")
+  // };
 
   // text file 분을 state set
   const setFocuseTime = (event) => {
@@ -194,7 +172,8 @@ export default function PomodoroComp() {
                           variant={"contained"}
                           size={"large"}
                           color={"warning"}
-                          onClick={pauseTimer}>
+                          // onClick={pauseTimer}
+                      >
                     <NotStartedIcon sx={{marginRight: 1}}/>
                     Pause
                   </Button>
@@ -202,7 +181,7 @@ export default function PomodoroComp() {
 
               {/* start 버튼 */}
               {
-                pomodoroState.timer.isRunning
+                  pomodoroState.timer.isRunning
                   ||
                   <Button sx={{padding: 1}}
                           variant={"contained"} size={"large"}
@@ -215,7 +194,7 @@ export default function PomodoroComp() {
               {/* reset 버튼 */}
               <Button sx={{padding: 1}} variant={"contained"} size={"large"}
                       color={"error"}
-                      onClick={resetTimer}
+                      // onClick={resetTimer}
               >
                 <RestartAltIcon sx={{marginRight: 1}}/>Reset</Button>
             </Stack>

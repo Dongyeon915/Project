@@ -25,14 +25,6 @@ export default function TaskComp() {
     state: false
   })
 
-  // DB와 Spring Project 변수명
-  // private Integer task_id;
-  // private String join_date_id;
-  // private String todo_task;
-  // private Integer checkbox_complete;
-  // private String complete_time;
-  // private Integer rest_task;
-  // private Integer clear_task;
 
   const [state, setState] = useState(store.getState())
   // 인풋을 따로 관리 하지않으면 useEffect 의미가없다 계속 내부 값이 변경되기때문에
