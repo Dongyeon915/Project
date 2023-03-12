@@ -24,10 +24,10 @@ export default function PomodoroCopy() {
   }
 
   function startButtonTitle() {
-    // if(pomodoroState.timer.isPause) {
-    //   return "Re-Start"
-    // }
-    // return "Start"
+    if(pomodoroState.timer.isPause) {
+      return "Re-Start"
+    }
+    return "Start"
     return pomodoroState.timer.isPause? "Re-Start" : "Start"
   }
 
@@ -169,13 +169,12 @@ export default function PomodoroCopy() {
   }
 
   return (
-      <Grid2 container={"true"}>
-        <Grid2 sm={6}>
-          <Paper variant="elevation" elevation={"4"} sx={{borderRadius: 20}}>
-
+      <Grid2 container={"true"} direction={"column"} minHeight={500}>
+        <Grid2 sm={12}>
+          <Paper variant="elevation" elevation={"4"} sx={{borderRadius: 50,backgroundColor:"#ee5d50"}}>
             {/* 상단 시간 영역*/}
-            <Stack alignItems={"center"} padding={2}>
-              <Typography color={"orangered"} fontWeight={"bolder"} flexGrow={1}
+            <Stack alignItems={"center"} padding={3}>
+              <Typography color={"white"} fontWeight={"bolder"} flexGrow={1}
                           variant={"h1"}>
                 {pomodoroState.timer.count ? calcTime(pomodoroState.timer.count)
                     : 0}
@@ -224,16 +223,17 @@ export default function PomodoroCopy() {
 
 
         {/*타이머 설정창*/}
-        <Grid2 sm={6}>
+        <Grid2 sm={12} marginTop={6}>
           <Paper>
-            <Typography variant={"h3"} flexGrow={1} marginLeft={10}
-                        color={"orangered"} fontWeight={"bolder"}>
+            <Typography marginLeft={5} variant={"h2"} flexGrow={1}
+                        color={"#ee5d50"} fontWeight={"bolder"}>
               Pomodoro Timer
             </Typography>
             <Divider variant={"middle"}/>
 
+
             {/*분단위을 설정하는 부분*/}
-            <Stack direction={"row"} alignItems={"center"} padding={1}>
+            <Stack direction={"row"} alignItems={"center"}>
               <Typography variant={"h5"} flexGrow={1} marginLeft={5}>
                 Select Minute
               </Typography>
@@ -255,11 +255,12 @@ export default function PomodoroCopy() {
             <Divider variant={"middle"}/>
 
             {/*초단위 설정 화면*/}
+
             <Stack direction={"row"} alignItems={"center"} padding={1}>
               <Typography variant={"h5"} flexGrow={1} marginLeft={5}>
                 Select  Rest
               </Typography>
-              <TextField sx={{minWidth: 200, marginRight: 10}}
+              <TextField sx={{minWidth: 200, marginRight: 9}}
                          label="Value 0 ~ 59"
                          onChange={setRestTime}
                          type={"number"}
