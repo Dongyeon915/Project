@@ -13,7 +13,7 @@ import {
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import {useCallback, useEffect, useMemo, useState} from "react";
 import {Favorite, FavoriteBorder, GitHub,AlarmOn} from "@mui/icons-material";
-import {store} from "../../../redux/store";
+import {reduxStore} from "../../../redux/store";
 import {
   addTodoActionCreator,
   completeTodoActionCreator, deleteTodoActionCreator, updateTodoActionCreator
@@ -26,16 +26,16 @@ export default function TodoComp() {
   })
 
 
-  const [state, setState] = useState(store.getState())
+  const [state, setState] = useState(reduxStore.getState())
   // 인풋을 따로 관리 하지않으면 useEffect 의미가없다 계속 내부 값이 변경되기때문에
   const [inputState, setInputState] = useState({
     todoInput: ''
   })
 
   useEffect(() => {
-    const unSubscribe = store.subscribe(() => {
+    const unSubscribe = reduxStore.subscribe(() => {
       console.log("Redux State Change!")
-      setState(store.getState())
+      setState(reduxStore.getState())
     })
     return () => {
       unSubscribe()
@@ -48,13 +48,13 @@ export default function TodoComp() {
       alert("Todo를 입력해주세요")
       return
     }
-    store.dispatch(addTodoActionCreator(inputState.todoInput))
+    reduxStore.dispatch(addTodoActionCreator(inputState.todoInput))
     setInputState({todoInput: ''})
   }
 
   // 체크박스 이벤트
   const todoComplete = (event, index) => {
-    store.dispatch(completeTodoActionCreator(index))
+    reduxStore.dispatch(completeTodoActionCreator(index))
   }
 
   //  inputBox 내용을 현재 e타겟 value로 setState저장
@@ -69,7 +69,7 @@ export default function TodoComp() {
 
   const enterEventHandler = (e) => {
     if (e.key === 'Enter' && inputState.todoInput.length != 0) {
-      store.dispatch(addTodoActionCreator(inputState.todoInput))
+      reduxStore.dispatch(addTodoActionCreator(inputState.todoInput))
       setInputState({todoInput: ''})
     } else if (e.key === 'Enter') {
       alert("Todo를 입력해주세요")
@@ -78,7 +78,7 @@ export default function TodoComp() {
 
   // 삭제버튼 이벤트
   const deleteEvent = (event, index) => {
-    store.dispatch(deleteTodoActionCreator(index))
+    reduxStore.dispatch(deleteTodoActionCreator(index))
   }
 
   // 업데이트 이벤트
@@ -109,7 +109,7 @@ export default function TodoComp() {
   }
 
   const updateContentBtn = (event, index) => {
-    store.dispatch(updateTodoActionCreator(index, updateState.task))
+    reduxStore.dispatch(updateTodoActionCreator(index, updateState.task))
     setUpdate(prevState => {
       return {
         ...prevState,
@@ -134,7 +134,7 @@ export default function TodoComp() {
   return (
       // todo title 및 날짜
       <Grid2 lg={6} sx={{maxHeight: 500, minWidth: 550}}>
-        <Paper variant={"elevation"} elevation={4} sx={{padding: 3,}}>
+        <Paper variant={"elevation"} elevation={4} sx={{padding: 3}}>
           <Stack direction={"row"} justifyContent={"space-between"}
                  alignItems={"center"}>
             <Typography variant={"h6"} fontWeight={700}>Todo

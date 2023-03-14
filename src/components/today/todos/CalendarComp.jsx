@@ -3,7 +3,7 @@ import {Paper} from "@mui/material";
 export default function CalendarComp() {
 
   return (
-      <Paper variant={"elevation"} elevation={4}>
+      <Paper variant={"elevation"} elevation={4} >
           <Calendar
               minDetail={"year"}
               defaultValue={new Date()}

@@ -241,7 +241,6 @@ export default function PomodoroCopy() {
               <TextField sx={{minWidth: 200, marginRight: 10}}
                          label="Value 0 ~ 59"
                          onChange={setFocuseTime}
-                         maxRows={1}
                          type={"number"}
                          value={pomodoroState.input.minute}
                          inputProps={{

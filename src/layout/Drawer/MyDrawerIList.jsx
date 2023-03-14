@@ -61,9 +61,9 @@ function MyDrawerIList() {
                         {
                           menuItem.id == 3 && <AccessTime/>
                         }
-                        {
-                          menuItem.id == 4 && <CalendarMonthIcon/>
-                        }
+                        {/*{*/}
+                        {/*  menuItem.id == 4 && <CalendarMonthIcon/>*/}
+                        {/*}*/}
                       </ListItemIcon>
                       <ListItemText primary={menuItem.name}/>
                     </ListItemButton>

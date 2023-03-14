@@ -67,7 +67,6 @@ function overviewComp() {
         </Grid2>
         {/* 하단 부분 */}
         <Container fixed={"true"} marginTop={2}>
-          <PomodoroExample/>
         </Container>
       </Container>
   )
