@@ -32,10 +32,10 @@ function repositoriesComp() {
                           {repository.name}
                         </Typography>
                       </Link>
-                      <Typography variant={"body2"}>
-                        업데이트 :
-                        {repository.updated_at}
-                      </Typography>
+                      {/*<Typography variant={"body2"}>*/}
+                      {/*  업데이트 :*/}
+                      {/*  {repository.updated_at}*/}
+                      {/*</Typography>*/}
                     </Stack>
                     <Stack direction={"row"} justifyContent={"space-between"}>
                       <Stack direction={"row"} marginTop={2} marginLeft={5}>
