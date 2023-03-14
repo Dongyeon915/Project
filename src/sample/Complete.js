@@ -21,7 +21,8 @@ export const response = {
       },
       config: {
         minute: 15,
-        rest: 5
+        rest: 5,
+        count: 15 * 60
       },
       timer: {
         state: {
@@ -29,7 +30,6 @@ export const response = {
           isRunning: false,
           isPause: false,
         },
-        count: 15 * 60
       }
     }
   }
