@@ -1,5 +1,5 @@
 
-export const SET_RUNNING_STATE = "SET_RUNNING_STATE"
+// export const SET_RUNNING_STATE = "SET_RUNNING_STATE"
 export const SET_COUNT_DOWN = "SET_COUNT_DOWN"
 export const RUN_TIMER = "RUN_TIMER"
 
@@ -31,11 +31,11 @@ export function setInputMinute(minute){
 }
 
 // start timer
-export function setRunningStateActionCreator(){
-  return {
-    type: SET_RUNNING_STATE
-  }
-}
+// export function setRunningStateActionCreator(){
+//   return {
+//     type: SET_RUNNING_STATE
+//   }
+// }
 
 // COUNT_DOWN
 export function runTimerActionCreator() {
@@ -56,7 +56,7 @@ export function setTimeActionCreator(time) {
     countDown: time * 60
   }
 }
-
+// start timer
 export function changeRunningStateActionCreator(){
   return {
     type: CHANGE_RUNNING_STATE
