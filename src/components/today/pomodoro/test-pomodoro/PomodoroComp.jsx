@@ -7,7 +7,7 @@ import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import {useCallback, useEffect, useRef, useState} from "react";
 import {
   changePauseStateActionCreator,
-  changeRestStateActionCreator,
+  changeRestStateActionCreator, changeRunningStateActionCreator,
   runTimerActionCreator,
   setInputMinnute, setInputMinute,
   setRunningStateActionCreator,
@@ -58,26 +58,23 @@ export default function PomodoroCopy() {
       dispatch(setRunningStateActionCreator())
       // dispatch(setTimeActionCreator(pomodoro.config.minute))
     } else if (pomodoro.timer.state.isRunning) {
-      dispatch(changeRestStateActionCreator())
+      dispatch(changeRunningStateActionCreator())
       dispatch(setTimeActionCreator(pomodoro.config.rest))
     } else if (pomodoro.timer.state.isPause) {
       dispatch(setRunningStateActionCreator())
       dispatch(setTimeActionCreator(pomodoro.config.countValue, true))
     }
-    if (pomodoro.config.countValue === 0)
-        // 비동기로 타이머는 안에 로직을 계속실행하는중
-    {
       timerReference.current = setInterval(() => {
         dispatch(runTimerActionCreator())
-      }, 100)
-    }
+      }, 10)
   }, [pomodoro.timer.state])
 
   useEffect(() => {
-    if (pomodoro.config.countValue === 0) {
+    if (pomodoro.config.countValue === 0 && pomodoro.timer.state.isRunning) {
       clearInterval(timerReference.current)
       timerReference.current = null
-    }
+      dispatch()
+    } 
     // TODO: Focus vs Rest
   }, [pomodoro.config.countValue])
 
@@ -110,9 +107,7 @@ export default function PomodoroCopy() {
   }
 
   useEffect(() => {
-    dispatch(setInputMinute(timeInputState.minute))
-    // dispatch(setTimeActionCreator(pomodoro.config.minute))
-    console.log("처음시작확인")
+    dispatch(setTimeActionCreator(pomodoro.config.minute))
     // Loading state
     // fetch("https://api.github.com/users/juyonglee")
     // .then(response => response.json())
@@ -201,12 +196,12 @@ export default function PomodoroCopy() {
             <Divider variant={"middle"}/>
 
             {/*분단위을 설정하는 부분*/}
-            <Stack direction={"row"} alignItems={"center"}>
+            <Stack direction={"row"} alignItems={"center"} padding={1}>
               <Typography variant={"h5"} flexGrow={1} marginLeft={5}>
                 Select Minute
               </Typography>
               {/* onChang시 (event를 넣지않아도 해당 이벤트의 event 정보가 넘어가므로 index시에만 전달하기) */}
-              <TextField sx={{minWidth: 100, marginRight: 1}}
+              <TextField sx={{minWidth: 200, marginRight: 9}}
                          label="Value 0 ~ 59"
                          onChange={setFocuseTime}
                          type={"number"}
@@ -218,12 +213,6 @@ export default function PomodoroCopy() {
                          disabled={pomodoro.timer.state.isRunning}
               >
               </TextField>
-              <Button variant={"contained"} size={"small"}
-                      color={"success"}
-                      sx={{marginRight: 1}}
-                  // onClick={minnuteBtnHandler}
-              >
-                확인</Button>
             </Stack>
             <Divider variant={"middle"}/>
 
