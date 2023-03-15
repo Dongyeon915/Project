@@ -28,21 +28,21 @@ export const pomodoroInitialState = {
 
 export default function pomodoroReducer(state = pomodoroInitialState, action) {
   // 타이머를 시작 한다
-  if (action.type === SET_RUNNING_STATE) {
-    return {
-      ...state,
-      timer: {
-        ...state.timer,
-        state: {
-          ...state.timer.state,
-          isRest: false,
-          isRunning: true,
-          isPause: false
-        }
-      }
-    }
-    //  타이머의 카운트를 줄인다
-  } else if (action.type === RUN_TIMER) {
+  // if (action.type === SET_RUNNING_STATE) {
+  //   return {
+  //     ...state,
+  //     timer: {
+  //       ...state.timer,
+  //       state: {
+  //         ...state.timer.state,
+  //         isRest: false,
+  //         isRunning: true,
+  //         isPause: false
+  //       }
+  //     }
+  //   }
+  //  타이머의 카운트를 줄인다
+  if (action.type === RUN_TIMER) {
     return {
       ...state,
       config: {
@@ -110,7 +110,8 @@ export default function pomodoroReducer(state = pomodoroInitialState, action) {
         state: {
           ...state.timer.state,
           isRest: true,
-          isRunning: false
+          isRunning: false,
+          isPause: false
         }
       }
     }

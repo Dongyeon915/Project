@@ -111,7 +111,7 @@ export default function PomodoroCopy() {
     dispatch(setTimeActionCreator(pomodoro.config.minute))
   };
 
-  // text file 분을 timeInputState set
+  // 분설정
   const setFocuseTime = (event) => {
     setTimeInputState(prevState => {
       return {
