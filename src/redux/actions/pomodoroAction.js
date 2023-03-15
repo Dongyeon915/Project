@@ -12,6 +12,9 @@ export const SET_PAUSE_STATE = "SET_PAUSE_STATE"
 
 export const FUCK_YOU = "FUCK_YOU"
 
+// 카운트 0일시 휴식중이 아니라면 휴식으로 바꾸는 action
+export const CHANGE_REST_STATE = "CHANGE_REST_STATE"
+
 export function fuckYou(userInfo) {
   return {
     type: FUCK_YOU,
@@ -54,7 +57,7 @@ export function setTimeActionCreator(time) {
   }
 }
 
-export function changeRestStateActionCreator(){
+export function changeRunningStateActionCreator(){
   return {
     type: CHANGE_RUNNING_STATE
   }
@@ -63,5 +66,11 @@ export function changeRestStateActionCreator(){
 export function changePauseStateActionCreator(){
   return {
     type: SET_PAUSE_STATE
+  }
+}
+
+export function changeRestStateActionCreator(){
+  return {
+    type: CHANGE_REST_STATE
   }
 }
