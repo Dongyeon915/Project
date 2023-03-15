@@ -9,7 +9,7 @@ import {
   changePauseStateActionCreator,
   changeRestStateActionCreator,
   runTimerActionCreator,
-  setInputMinnute,
+  setInputMinnute, setInputMinute,
   setRunningStateActionCreator,
   setTimeActionCreator
 } from "../../../../redux/actions/pomodoroAction";
@@ -54,7 +54,7 @@ export default function PomodoroCopy() {
     }
     if (pomodoro.timer.state.isRest) {
       // 타이머를 시작 한다
-      dispatch(setInputMinnute(timeInputState.minute))
+      dispatch(setInputMinute(timeInputState.minute))
       dispatch(setRunningStateActionCreator())
       // dispatch(setTimeActionCreator(pomodoro.config.minute))
     } else if (pomodoro.timer.state.isRunning) {
@@ -104,13 +104,13 @@ export default function PomodoroCopy() {
         minute: parseInt(event.target.value)
       }
     })
-    dispatch(setInputMinnute(timeInputState.minute))
+    dispatch(setInputMinute(timeInputState.minute))
     // console.log(timeInputState.minute)
     console.log(pomodoro.config.countValue)
   }
 
   useEffect(() => {
-    dispatch(setInputMinnute(timeInputState.minute))
+    dispatch(setInputMinute(timeInputState.minute))
     // dispatch(setTimeActionCreator(pomodoro.config.minute))
     console.log("처음시작확인")
     // Loading state
