@@ -16,8 +16,8 @@ export const pomodoroInitialState = {
     interval: 0
   },
   config: {
-    minute: 1,
-    rest: 10,
+    minute: 25,
+    rest: 0,
     countValue: 0
   },
   timer: {
@@ -31,6 +31,7 @@ export const pomodoroInitialState = {
 
 
 export default function pomodoroReducer(state = pomodoroInitialState, action) {
+  // 타이머를 시작 한다
   if (action.type === SET_RUNNING_STATE) {
     return {
       ...state,
@@ -44,25 +45,29 @@ export default function pomodoroReducer(state = pomodoroInitialState, action) {
         }
       }
     }
-  } else if (action.type === SET_MINUTE) {
+  //  타이머의 카운트를 줄인다
+  } else if (action.type === RUN_TIMER) {
     return {
       ...state,
       config: {
         ...state.config,
-        minute: action.minute
-      }
-    }
-  }else if (action.type === RUN_TIMER) {
-    return {
-      ...state,
-      config: {
-       ...state.config,
-       countValue: state.config.countValue - 1
+        countValue: state.config.countValue - 1
       },
       timer: {
         ...state.timer
       }
     }
+  //   타이머 분설정
+  }else if (action.type === SET_MINUTE) {
+    return {
+      ...state,
+      config: {
+        ...state.config,
+        minute: action.minute,
+        countValue: state.config.minute *60
+      }
+    }
+  //   매개로 받은 time을 countDown: time * 60 카운트 벨류설정
   } else if (action.type === SET_COUNT_DOWN){
     return {
       ...state,
@@ -92,12 +97,12 @@ export default function pomodoroReducer(state = pomodoroInitialState, action) {
         }
       }
     }
-  } else if (action.type === FUCK_YOU) {
-    return {
-      ...state,
-      userInfo: action.userInfo
-    }
-  }
+  // } else if (action.type === FUCK_YOU) {
+  //   return {
+  //     ...state,
+  //     userInfo: action.userInfo
+  //   }
+   }
 
   return state
 }
