@@ -54,6 +54,7 @@ export default function pomodoroReducer(state = pomodoroInitialState, action) {
       }
     }
     //   타이머 분설정
+  //   현재 미사용중 countDown 매개로 넣어서 정리중
   } else if (action.type === SET_MINUTE) {
     return {
       ...state,
