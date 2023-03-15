@@ -5,19 +5,13 @@ import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import NotStartedIcon from '@mui/icons-material/NotStartedOutlined';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import {useCallback, useEffect, useRef, useState} from "react";
-import {reduxStore} from "../../../../redux/store";
 import {
   changePauseStateActionCreator,
-  changeRestState, changeRestStateActionCreator,
-  countDownTimerActionCreator, fuckYou,
-  pauseTimerActionCreator,
-  resetTimerActionCreator,
+  changeRestStateActionCreator,
   runTimerActionCreator,
-  setCountDownActionCreator,
   setInputMinnute,
   setRunningStateActionCreator,
-  setRunningStateTimerActionCreator, setTimeActionCreator,
-  startTimerActionCreator
+  setTimeActionCreator
 } from "../../../../redux/actions/pomodoroAction";
 import {useDispatch, useSelector} from "react-redux";
 
@@ -34,45 +28,35 @@ export default function PomodoroCopy() {
     rest: pomodoro.config.rest
   })
 
-  useEffect(() => {
-    dispatch(setTimeActionCreator(pomodoro.config.minute))
-    // Loading state
-    // fetch("https://api.github.com/users/juyonglee")
-    // .then(response => response.json())
-    // .then(userInfo => dispatch(fuckYou(userInfo)))
-    // .catch(error => console.log(error))
-    return () => {
-      timerReference.current && clearInterval(timerReference.current)
-    }
-  }, [])
-
   function calcTime(epocTime) {
     const hour = parseInt(epocTime / (60 * 60))
     epocTime = epocTime - (hour * 60 * 60)
     const minute = parseInt(epocTime / 60)
     const second = epocTime % 60
-    return `${minute.toString().padStart(2, '0')}:${second.toString().padStart(2, '0')}`
+    return `${minute.toString().padStart(2, '0')}:${second.toString().padStart(
+        2, '0')}`
   }
 
   function startButtonTitle() {
-    if(pomodoro.timer.state.isPause) {
+    if (pomodoro.timer.state.isPause) {
       return "Re-Start"
     }
     return "Start"
-    return pomodoro.timer.state.isPause? "Re-Start" : "Start"
+    return pomodoro.timer.state.isPause ? "Re-Start" : "Start"
   }
 
   // 시간 설정
   // ref state로 시간을 멈출수 없고 start버튼 누를시 여러개가 실행될수 있고 ref로 만들시 clearInterval관리와 참조해서 다른곳에서 사용할수있다.
   const startTimer = useCallback(() => {
-    console.log("FUCKING BABY!")
     if (timerReference.current) {
       console.log("Timer Already Exist!")
       return;
     }
     if (pomodoro.timer.state.isRest) {
+      // 타이머를 시작 한다
+      dispatch(setInputMinnute(timeInputState.minute))
       dispatch(setRunningStateActionCreator())
-      dispatch(setTimeActionCreator(pomodoro.config.minute))
+      // dispatch(setTimeActionCreator(pomodoro.config.minute))
     } else if (pomodoro.timer.state.isRunning) {
       dispatch(changeRestStateActionCreator())
       dispatch(setTimeActionCreator(pomodoro.config.rest))
@@ -81,12 +65,13 @@ export default function PomodoroCopy() {
       dispatch(setTimeActionCreator(pomodoro.config.countValue, true))
     }
     if (pomodoro.config.countValue === 0)
-    // 비동기로 타이머는 안에 로직을 계속실행하는중
-    timerReference.current = setInterval(() => {
-      dispatch(runTimerActionCreator())
-    }, 100)
+        // 비동기로 타이머는 안에 로직을 계속실행하는중
+    {
+      timerReference.current = setInterval(() => {
+        dispatch(runTimerActionCreator())
+      }, 100)
+    }
   }, [pomodoro.timer.state])
-
 
   useEffect(() => {
     if (pomodoro.config.countValue === 0) {
@@ -103,7 +88,6 @@ export default function PomodoroCopy() {
     timerReference.current = null
   }, []);
 
-
   // reset 이벤트
   // const resetTimer = () => {
   //   clearInterval(timerReference.current)
@@ -112,18 +96,32 @@ export default function PomodoroCopy() {
   //   alert("타이머 시간을 초기화 했습니다.^^")
   // };
 
-
   // text file 분을 timeInputState set
   const setFocuseTime = (event) => {
     setTimeInputState(prevState => {
       return {
-      ...prevState,
-            minute: event.target.value
+        ...prevState,
+        minute: parseInt(event.target.value)
       }
     })
-  //   TODO 값넣기
+    dispatch(setInputMinnute(timeInputState.minute))
+    // console.log(timeInputState.minute)
+    console.log(pomodoro.config.countValue)
   }
 
+  useEffect(() => {
+    dispatch(setInputMinnute(timeInputState.minute))
+    // dispatch(setTimeActionCreator(pomodoro.config.minute))
+    console.log("처음시작확인")
+    // Loading state
+    // fetch("https://api.github.com/users/juyonglee")
+    // .then(response => response.json())
+    // .then(userInfo => dispatch(fuckYou(userInfo)))
+    // .catch(error => console.log(error))
+    return () => {
+      timerReference.current && clearInterval(timerReference.current)
+    }
+  }, [])
 
   //  휴식 시간 설정
   // const setRestTime = (event) => {
@@ -139,31 +137,33 @@ export default function PomodoroCopy() {
   //   })
   // }
 
-
   return (
       <Grid2 container={"true"} direction={"column"} minHeight={500}>
         <Grid2 sm={12}>
-          <Paper variant="elevation" elevation={"4"} sx={{borderRadius: 50,backgroundColor:"#ee5d50"}}>
+          <Paper variant="elevation" elevation={"4"}
+                 sx={{borderRadius: 50, backgroundColor: "#ee5d50"}}>
             {/* 상단 시간 영역*/}
             <Stack alignItems={"center"} padding={3}>
               <Typography color={"white"} fontWeight={"bolder"} flexGrow={1}
                           variant={"h1"}>
-                {pomodoro.config.countValue ? calcTime(pomodoro.config.countValue)
+                {pomodoro.config.countValue ? calcTime(
+                        pomodoro.config.countValue)
                     : 0}
               </Typography>
             </Stack>
             <Divider variant={"middle"}/>
 
             {/* 하단 버튼 영역*/}
-            <Stack direction={"row"} spacing={3} padding={2} justifyContent={"center"}>
+            <Stack direction={"row"} spacing={3} padding={2}
+                   justifyContent={"center"}>
               {/* 일시정지 버튼 */}
               {
                   pomodoro.timer.state.isRunning
-                  &&                  <Button sx={{padding: 1}}
-                          variant={"contained"}
-                          size={"large"}
-                          color={"warning"}
-                          onClick={pauseTimerHandler}>
+                  && <Button sx={{padding: 1}}
+                             variant={"contained"}
+                             size={"large"}
+                             color={"warning"}
+                             onClick={pauseTimerHandler}>
                     <NotStartedIcon sx={{marginRight: 1}}/>
                     Pause
                   </Button>
@@ -206,9 +206,9 @@ export default function PomodoroCopy() {
                 Select Minute
               </Typography>
               {/* onChang시 (event를 넣지않아도 해당 이벤트의 event 정보가 넘어가므로 index시에만 전달하기) */}
-              <TextField sx={{minWidth: 200, marginRight: 10}}
+              <TextField sx={{minWidth: 100, marginRight: 1}}
                          label="Value 0 ~ 59"
-                          onChange={setFocuseTime}
+                         onChange={setFocuseTime}
                          type={"number"}
                          value={timeInputState.minute}
                          inputProps={{
@@ -218,13 +218,19 @@ export default function PomodoroCopy() {
                          disabled={pomodoro.timer.state.isRunning}
               >
               </TextField>
+              <Button variant={"contained"} size={"small"}
+                      color={"success"}
+                      sx={{marginRight: 1}}
+                  // onClick={minnuteBtnHandler}
+              >
+                확인</Button>
             </Stack>
             <Divider variant={"middle"}/>
 
             {/*초단위 설정 화면*/}
             <Stack direction={"row"} alignItems={"center"} padding={1}>
               <Typography variant={"h5"} flexGrow={1} marginLeft={5}>
-                Select  Rest
+                Select Rest
               </Typography>
               <TextField sx={{minWidth: 200, marginRight: 9}}
                          label="Value 0 ~ 59"
