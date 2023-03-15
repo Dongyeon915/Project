@@ -18,6 +18,7 @@ import {
   addTodoActionCreator,
   completeTodoActionCreator, deleteTodoActionCreator, updateTodoActionCreator
 } from "../../../redux/actions/todoAction";
+import {useDispatch, useSelector} from "react-redux";
 export default function TodoComp() {
 
   const [updateState, setUpdate] = useState({
@@ -25,22 +26,25 @@ export default function TodoComp() {
     state: false
   })
 
+  const todo = useSelector(state => state.todo)
+  const dispatch = useDispatch()
 
-  const [state, setState] = useState(reduxStore.getState())
+  const [state, setState] = useState()
+
   // 인풋을 따로 관리 하지않으면 useEffect 의미가없다 계속 내부 값이 변경되기때문에
   const [inputState, setInputState] = useState({
     todoInput: ''
   })
 
-  useEffect(() => {
-    const unSubscribe = reduxStore.subscribe(() => {
-      console.log("Redux State Change!")
-      setState(reduxStore.getState())
-    })
-    return () => {
-      unSubscribe()
-    }
-  }, [])
+  // useEffect(() => {
+  //   const unSubscribe = reduxStore.subscribe(() => {
+  //     console.log("Redux State Change!")
+  //     setState(reduxStore.getState())
+  //   })
+  //   return () => {
+  //     unSubscribe()
+  //   }
+  // }, [])
 
   // 버튼 클릭시 todoList배열에 새로운 input 값을 추가
   const buttonClickEvent = (event, index) => {
@@ -48,13 +52,13 @@ export default function TodoComp() {
       alert("Todo를 입력해주세요")
       return
     }
-    reduxStore.dispatch(addTodoActionCreator(inputState.todoInput))
+    dispatch(addTodoActionCreator(inputState.todoInput))
     setInputState({todoInput: ''})
   }
 
   // 체크박스 이벤트
   const todoComplete = (event, index) => {
-    reduxStore.dispatch(completeTodoActionCreator(index))
+    dispatch(completeTodoActionCreator(index))
   }
 
   //  inputBox 내용을 현재 e타겟 value로 setState저장
@@ -69,7 +73,7 @@ export default function TodoComp() {
 
   const enterEventHandler = (e) => {
     if (e.key === 'Enter' && inputState.todoInput.length != 0) {
-      reduxStore.dispatch(addTodoActionCreator(inputState.todoInput))
+      dispatch(addTodoActionCreator(inputState.todoInput))
       setInputState({todoInput: ''})
     } else if (e.key === 'Enter') {
       alert("Todo를 입력해주세요")
@@ -78,13 +82,13 @@ export default function TodoComp() {
 
   // 삭제버튼 이벤트
   const deleteEvent = (event, index) => {
-    reduxStore.dispatch(deleteTodoActionCreator(index))
+    dispatch(deleteTodoActionCreator(index))
   }
 
   // 업데이트 이벤트
   const updateBtnEvent = (event, index) => {
     const updateItem = true
-    const todo =  state.todo.list.find(task => {
+    const todo =  todo.list.find(task => {
       if (task.taskId === index) return task
     })
     setUpdate(prevState => {
@@ -109,7 +113,7 @@ export default function TodoComp() {
   }
 
   const updateContentBtn = (event, index) => {
-    reduxStore.dispatch(updateTodoActionCreator(index, updateState.task))
+    dispatch(updateTodoActionCreator(index, updateState.task))
     setUpdate(prevState => {
       return {
         ...prevState,
@@ -145,9 +149,9 @@ export default function TodoComp() {
           <Stack direction={"row"} flexGrow={1} justifyContent={"end"}
                  spacing={2}>
             <Typography color={"mediumvioletred"} variant={"subtitle2"}>Rest
-              : {state.todo.result.rest}</Typography>
+              : {todo.result.rest}</Typography>
             <Typography color={"green"} variant={"subtitle2"}>Clear
-              : {state.todo.result.clear}</Typography>
+              : {todo.result.clear}</Typography>
           </Stack>
           <Divider sx={{marginTop: 1, backgroundColor: "black",}}/>
 
@@ -156,7 +160,7 @@ export default function TodoComp() {
           {/*todo 항목*/}
           <Stack flexGrow={1} minHeight={320} maxHeight={320}
                  sx={{marginTop: 2, marginBottom: 2, overflowY: "auto"}}>
-            {state.todo.list.map((todo) => {
+            {todo.list.map((todo) => {
               return (
                   <Paper variant={"outlined"} elevation={4} sx={{
                     padding: 2,
@@ -268,7 +272,7 @@ export default function TodoComp() {
         </Paper>
         {/* todo 달성시 하단 문구 창 */}
         <Snackbar
-            open={state.open}
+            open={todo.open}
             autoHideDuration={3000}
             onClose={handleClose}
             message="You are so Nice!"
