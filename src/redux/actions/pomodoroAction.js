@@ -20,7 +20,7 @@ export function fuckYou(userInfo) {
 }
 
 
-export function setInputMinnute(minute){
+export function setInputMinute(minute){
   return {
     type: SET_MINUTE,
     minute: minute
