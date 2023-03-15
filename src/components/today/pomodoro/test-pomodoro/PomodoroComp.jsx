@@ -74,7 +74,7 @@ export default function PomodoroCopy() {
       clearInterval(timerReference.current)
       timerReference.current = null
       dispatch()
-    } 
+    }
     // TODO: Focus vs Rest
   }, [pomodoro.config.countValue])
 
