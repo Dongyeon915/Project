@@ -20,10 +20,10 @@ export function fuckYou(userInfo) {
 }
 
 
-export function setInputMinnute(input){
+export function setInputMinnute(minute){
   return {
     type: SET_MINUTE,
-    minnute: input
+    minute: minute
   }
 }
 
@@ -41,13 +41,13 @@ export function runTimerActionCreator() {
   }
 }
 
-export function setTimeActionCreator(time, isResume=false) {
-  if (isResume) {
-    return {
-      type: SET_COUNT_DOWN,
-      countDown: time
-    }
-  }
+export function setTimeActionCreator(time) {
+  // if (isResume) {
+  //   return {
+  //     type: SET_COUNT_DOWN,
+  //     countDown: time
+  //   }
+  // }
   return {
     type: SET_COUNT_DOWN,
     countDown: time * 60
