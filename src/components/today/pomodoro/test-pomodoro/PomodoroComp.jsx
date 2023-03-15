@@ -7,9 +7,10 @@ import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import {useCallback, useEffect, useRef, useState} from "react";
 import {
   changePauseStateActionCreator,
-  changeRestStateActionCreator, changeRunningStateActionCreator,
+  changeRestStateActionCreator,
+  changeRunningStateActionCreator,
   runTimerActionCreator,
-  setInputMinnute, setInputMinute,
+  setInputMinute,
   setRunningStateActionCreator,
   setTimeActionCreator
 } from "../../../../redux/actions/pomodoroAction";
@@ -55,43 +56,60 @@ export default function PomodoroCopy() {
     if (pomodoro.timer.state.isRest) {
       // 타이머를 시작 한다
       dispatch(setInputMinute(timeInputState.minute))
-      dispatch(setRunningStateActionCreator())
+      dispatch(changeRunningStateActionCreator())
       // dispatch(setTimeActionCreator(pomodoro.config.minute))
     } else if (pomodoro.timer.state.isRunning) {
       dispatch(changeRunningStateActionCreator())
       dispatch(setTimeActionCreator(pomodoro.config.rest))
     } else if (pomodoro.timer.state.isPause) {
-      dispatch(setRunningStateActionCreator())
+      dispatch(changeRunningStateActionCreator())
       dispatch(setTimeActionCreator(pomodoro.config.countValue, true))
     }
-      timerReference.current = setInterval(() => {
-        dispatch(runTimerActionCreator())
-      }, 10)
+    timerReference.current = setInterval(() => {
+      // 카운터 수를 줄이는 dispatch
+      dispatch(runTimerActionCreator())
+    }, 10)
   }, [pomodoro.timer.state])
 
+  // 동연 손대는중
   useEffect(() => {
-    if (pomodoro.config.countValue === 0 && pomodoro.timer.state.isRunning) {
+    if (pomodoro.config.countValue === 0 && pomodoro.timer.state.isRunning
+        === false) {
       clearInterval(timerReference.current)
       timerReference.current = null
-      dispatch()
+      // 휴식시간 설정 디스패치
+      dispatch(setTimeActionCreator(timeInputState.rest))
+      dispatch(changeRestStateActionCreator())
+      dispatch(runTimerActionCreator())
+    } else if (pomodoro.config.countValue === 0 && pomodoro.timer.state.isRest
+        === true) {
+      clearInterval(timerReference.current)
+      timerReference.current = null
+      dispatch(setTimeActionCreator(timeInputState.minute))
+      dispatch(changeRunningStateActionCreator())
+      dispatch(runTimerActionCreator())
     }
-    // TODO: Focus vs Rest
   }, [pomodoro.config.countValue])
 
   // 정지 이벤트
+  // 동연 손대는중
   const pauseTimerHandler = useCallback(() => {
     dispatch(changePauseStateActionCreator())
-    clearInterval(timerReference.current)
-    timerReference.current = null
+    if (timerReference.current) {
+      clearInterval(timerReference.current)
+      timerReference.current = null
+    }
   }, []);
 
   // reset 이벤트
-  // const resetTimer = () => {
-  //   clearInterval(timerReference.current)
-  //   timerReference.current = null
-  //   reduxStore.dispatch(resetTimerActionCreator(timerReference))
-  //   alert("타이머 시간을 초기화 했습니다.^^")
-  // };
+  //  동연 손대는중
+  const resetTimer = () => {
+    clearInterval(timerReference.current)
+    timerReference.current = null
+    alert("타이머 시간을 초기화 했습니다.^^")
+    dispatch(changeRestStateActionCreator())
+    dispatch(setTimeActionCreator(pomodoro.config.minute))
+  };
 
   // text file 분을 timeInputState set
   const setFocuseTime = (event) => {
@@ -101,11 +119,12 @@ export default function PomodoroCopy() {
         minute: parseInt(event.target.value)
       }
     })
-    dispatch(setInputMinute(timeInputState.minute))
     // console.log(timeInputState.minute)
     console.log(pomodoro.config.countValue)
+    dispatch(setTimeActionCreator(timeInputState.minute))
   }
 
+  // 초기 시간설정
   useEffect(() => {
     dispatch(setTimeActionCreator(pomodoro.config.minute))
     // Loading state
@@ -119,18 +138,15 @@ export default function PomodoroCopy() {
   }, [])
 
   //  휴식 시간 설정
-  // const setRestTime = (event) => {
-  //   setPomodoroState(prevState => {
-  //     return {
-  //       ...prevState,
-  //       config: {
-  //         ...prevState.pomo.pomodoro.config,
-  //         rest: parseInt(event.target.value),
-  //         countValue: parseInt(event.target.value) * 60
-  //       }
-  //     }
-  //   })
-  // }
+  const setRestTime = (event) => {
+    setTimeInputState(prevState => {
+      return {
+        ...prevState,
+        rest: parseInt(event.target.value)
+      }
+    })
+    dispatch(setTimeActionCreator(timeInputState.rest))
+  }
 
   return (
       <Grid2 container={"true"} direction={"column"} minHeight={500}>
@@ -179,7 +195,7 @@ export default function PomodoroCopy() {
               {/* reset 버튼 */}
               <Button sx={{padding: 1}} variant={"contained"} size={"large"}
                       color={"error"}
-                  // onClick={resetTimer}
+                      onClick={resetTimer}
               >
                 <RestartAltIcon sx={{marginRight: 1}}/>Reset</Button>
             </Stack>
@@ -216,20 +232,20 @@ export default function PomodoroCopy() {
             </Stack>
             <Divider variant={"middle"}/>
 
-            {/*초단위 설정 화면*/}
+            {/*휴식 단위 설정 화면*/}
             <Stack direction={"row"} alignItems={"center"} padding={1}>
               <Typography variant={"h5"} flexGrow={1} marginLeft={5}>
                 Select Rest
               </Typography>
               <TextField sx={{minWidth: 200, marginRight: 9}}
                          label="Value 0 ~ 59"
-                  // onChange={setRestTime}
+                         onChange={setRestTime}
                          type={"number"}
                          inputProps={{
                            inputMode: 'numeric',
                            pattern: '[0-9]{2}'
                          }}
-                         value={pomodoro.config.rest}
+                         value={timeInputState.rest}
                          disabled={pomodoro.timer.state.isRunning}
               >
               </TextField>
