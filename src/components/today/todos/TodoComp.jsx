@@ -11,20 +11,26 @@ import {
   Typography
 } from "@mui/material";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
-import {useCallback, useEffect, useMemo, useState} from "react";
-import {Favorite, FavoriteBorder, GitHub,AlarmOn} from "@mui/icons-material";
-import {reduxStore} from "../../../redux/store";
+import {useEffect, useRef, useState} from "react";
+import {AlarmOn, Favorite, FavoriteBorder} from "@mui/icons-material";
 import {
   addTodoActionCreator,
-  completeTodoActionCreator, deleteTodoActionCreator, updateTodoActionCreator
+  completeTodoActionCreator,
+  deleteTodoActionCreator,
+  getAllTodoActionCreator,
+  updateTodoActionCreator
 } from "../../../redux/actions/todoAction";
 import {useDispatch, useSelector} from "react-redux";
+
 export default function TodoComp() {
 
   const [updateState, setUpdate] = useState({
     task: '',
     state: false
   })
+
+  // TODO 체크박스시 true,false이벤트 task클릭tl 리스트추가 수정이벤트
+  // TODO 가능하면 pomodoro도
 
   const todo = useSelector(state => state.todo)
   const dispatch = useDispatch()
@@ -36,15 +42,16 @@ export default function TodoComp() {
     todoInput: ''
   })
 
-  // useEffect(() => {
-  //   const unSubscribe = reduxStore.subscribe(() => {
-  //     console.log("Redux State Change!")
-  //     setState(reduxStore.getState())
-  //   })
-  //   return () => {
-  //     unSubscribe()
-  //   }
-  // }, [])
+  const todoInput = useRef()
+
+  useEffect(() => {
+    fetch("http://192.168.0.6:8080/schedules")
+    .then(response => response.json())
+    .then(todos => {
+      dispatch(getAllTodoActionCreator(todos))
+    })
+    .catch(error => console.log(error))
+  }, [])
 
   // 버튼 클릭시 todoList배열에 새로운 input 값을 추가
   const buttonClickEvent = (event, index) => {
@@ -61,20 +68,22 @@ export default function TodoComp() {
     dispatch(completeTodoActionCreator(index))
   }
 
-  //  inputBox 내용을 현재 e타겟 value로 setState저장
-  const todoCopyInputHandler = (e) => {
-    setInputState(prevState => {
-      return {
-        ...prevState,
-        todoInput: e.target.value
-      }
-    })
-  }
-
   const enterEventHandler = (e) => {
-    if (e.key === 'Enter' && inputState.todoInput.length != 0) {
-      dispatch(addTodoActionCreator(inputState.todoInput))
-      setInputState({todoInput: ''})
+    if (e.key === 'Enter' && todoInput.current.value.length != 0) {
+      fetch("http://192.168.0.6:8080/schedules", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+          todo_task: todoInput.current.value,
+          checkbox_complete: false,
+          date: Date.now().toString()
+        })
+      }).then(response => response.json())
+      .then(newTodo => {
+        console.log(newTodo)
+        dispatch(addTodoActionCreator(newTodo))
+        todoInput.current.value = ""
+      })
     } else if (e.key === 'Enter') {
       alert("Todo를 입력해주세요")
     }
@@ -82,14 +91,20 @@ export default function TodoComp() {
 
   // 삭제버튼 이벤트
   const deleteEvent = (event, index) => {
-    dispatch(deleteTodoActionCreator(index))
+    fetch(`http://192.168.0.6:8080/schedules/${index}`, {
+      method: "DELETE"
+    }).then(response => {
+      dispatch(deleteTodoActionCreator(index))
+    }).catch(error => console.log(error))
   }
 
   // 업데이트 이벤트
   const updateBtnEvent = (event, index) => {
     const updateItem = true
-    const todo =  todo.list.find(task => {
-      if (task.taskId === index) return task
+    const todo = todo.list.find(task => {
+      if (task.taskId === index) {
+        return task
+      }
     })
     setUpdate(prevState => {
       return {
@@ -184,7 +199,8 @@ export default function TodoComp() {
                           alignItems={"center"}
                       >
                         {
-                          updateState.state && updateState.index === todo.taskId ?
+                          updateState.state && updateState.index === todo.taskId
+                              ?
                               <Input
                                   value={updateState.task}
                                   onChange={editUpdate}
@@ -233,7 +249,8 @@ export default function TodoComp() {
                               </>
                           }
                           {
-                              updateState.state && updateState.index === todo.taskId &&
+                              updateState.state && updateState.index
+                              === todo.taskId &&
                               <Button variant={"contained"}
                                       onClick={(event) => {
                                         updateContentBtn(event, todo.taskId)
@@ -251,7 +268,6 @@ export default function TodoComp() {
 
           </Stack>
 
-
           {/*todo input*/}
           <Stack direction={"row"} alignItems={"center"} sx={{
             backgroundColor: "#666666",
@@ -261,9 +277,9 @@ export default function TodoComp() {
             {/*flexGrow 사용시 남은 여백만큼 위치 차지함*/}
             <Input placeholder={"New Task..."}
                    sx={{flexGrow: 1, color: "white"}}
-                   value={inputState.todoInput}
-                   onChange={todoCopyInputHandler}
+                // value={inputState.todoInput}
                    onKeyDown={enterEventHandler}
+                   inputRef={todoInput}
             />
             <IconButton onClick={buttonClickEvent}>
               <TaskAltIcon sx={{color: "white"}} fontSize={"medium"}/>

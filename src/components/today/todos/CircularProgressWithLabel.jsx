@@ -21,7 +21,7 @@ function CircularProgressWithLabel(props) {
             }}
         >
           <Typography variant="caption" component="div" color="text.secondary">
-            {`${Math.round(props.value)}%`}
+            {`${Math.round(props.value)}`}
           </Typography>
         </Box>
       </Box>
@@ -38,7 +38,5 @@ CircularProgressWithLabel.propTypes = {
 };
 
 export default function CircularStatic({progress}) {
-
-
   return <CircularProgressWithLabel value={progress} />;
 }

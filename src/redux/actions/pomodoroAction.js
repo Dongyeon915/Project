@@ -1,4 +1,3 @@
-
 // export const SET_RUNNING_STATE = "SET_RUNNING_STATE"
 export const SET_COUNT_DOWN = "SET_COUNT_DOWN"
 export const RUN_TIMER = "RUN_TIMER"
@@ -15,27 +14,18 @@ export const FUCK_YOU = "FUCK_YOU"
 // 카운트 0일시 휴식중이 아니라면 휴식으로 바꾸는 action
 export const CHANGE_REST_STATE = "CHANGE_REST_STATE"
 
-export function fuckYou(userInfo) {
-  return {
-    type: FUCK_YOU,
-    userInfo: userInfo
-  }
-}
+// interver 올리는 액션
+export const PLUS_INTERVER = "PLUS_INTERVER"
 
+// rest설정 액션
+export const SET_REST_TIME = "SET_REST_TIME"
 
-export function setInputMinute(minute){
+export function setInputMinute(minute) {
   return {
     type: SET_MINUTE,
     minute: minute
   }
 }
-
-// start timer
-// export function setRunningStateActionCreator(){
-//   return {
-//     type: SET_RUNNING_STATE
-//   }
-// }
 
 // COUNT_DOWN
 export function runTimerActionCreator() {
@@ -45,32 +35,41 @@ export function runTimerActionCreator() {
 }
 
 export function setTimeActionCreator(time) {
-  // if (isResume) {
-  //   return {
-  //     type: SET_COUNT_DOWN,
-  //     countDown: time
-  //   }
-  // }
   return {
     type: SET_COUNT_DOWN,
     countDown: time * 60
   }
 }
+
 // start timer
-export function changeRunningStateActionCreator(){
+export function changeRunningStateActionCreator() {
   return {
     type: CHANGE_RUNNING_STATE
   }
 }
 
-export function changePauseStateActionCreator(){
+export function changePauseStateActionCreator() {
   return {
     type: SET_PAUSE_STATE
   }
 }
 
-export function changeRestStateActionCreator(){
+export function changeRestStateActionCreator(setRest) {
   return {
-    type: CHANGE_REST_STATE
+    type: CHANGE_REST_STATE,
+    setRest: setRest
+  }
+}
+
+export function setInterverStateActionCreator() {
+  return {
+    type: PLUS_INTERVER
+  }
+}
+
+export function setRestTimeStateActionCreator(restTime) {
+  return {
+    type: SET_REST_TIME,
+    restTime: restTime
   }
 }

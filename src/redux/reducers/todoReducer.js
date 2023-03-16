@@ -1,7 +1,7 @@
 import {
   ADD_TODO,
   COMPLETE_TODO,
-  DELETE_TODO,
+  DELETE_TODO, GET_ALL_TODO,
   UPDATE_TODO
 } from "../actions/todoAction";
 
@@ -15,7 +15,22 @@ const initialState = {
 
 // 초기값이 없다면 initialStat 값으로 세팅
 export default function todoReducer(state = initialState, action) {
-  if (action.type === ADD_TODO) {
+  if (action.type === GET_ALL_TODO) {
+    const todoList = []
+    action.todoList.forEach(todo => {
+      todoList.push({
+        taskId: todo.task_id,
+        data: todo.date,
+        complete: todo.checkbox_complete,
+        completeTime: todo.complete_time,
+        task: todo.todo_task
+      })
+    })
+    return {
+      ...state,
+      list: todoList
+    }
+  }else if (action.type === ADD_TODO) {
     return {
       ...state,
       result: {
@@ -25,10 +40,11 @@ export default function todoReducer(state = initialState, action) {
       list: [
         ...state.list,
         {
-          taskId: state.list.length + 1,
-          task: action.task,
-          complete: false,
-          completeTime: undefined
+          taskId: action.task.task_id,
+          data: action.task.date,
+          complete: action.task.checkbox_complete,
+          completeTime: action.task.complete_time,
+          task: action.task.todo_task
         }
       ]
     }

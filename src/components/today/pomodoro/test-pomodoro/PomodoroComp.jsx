@@ -11,7 +11,8 @@ import {
   changeRunningStateActionCreator,
   runTimerActionCreator,
   setInputMinute,
-  setRunningStateActionCreator,
+  setInterverStateActionCreator,
+  setRestTimeStateActionCreator,
   setTimeActionCreator
 } from "../../../../redux/actions/pomodoroAction";
 import {useDispatch, useSelector} from "react-redux";
@@ -39,10 +40,10 @@ export default function PomodoroCopy() {
   }
 
   function startButtonTitle() {
-    if (pomodoro.timer.state.isPause) {
-      return "Re-Start"
-    }
-    return "Start"
+    // if (pomodoro.timer.state.isPause) {
+    //   return "Re-Start"
+    // }
+    // return "Start"
     return pomodoro.timer.state.isPause ? "Re-Start" : "Start"
   }
 
@@ -53,56 +54,51 @@ export default function PomodoroCopy() {
       console.log("Timer Already Exist!")
       return;
     }
-    if (pomodoro.timer.state.isRest) {
-      // 타이머를 시작 한다
-      dispatch(setInputMinute(timeInputState.minute))
+    // 조건문 작성시 순서가 중요 하위 순서를 가지않을수 있음 if -> if로 작성시 매번 if문을 체크한다.
+    if (pomodoro.timer.state.isPause) {
       dispatch(changeRunningStateActionCreator())
-      // dispatch(setTimeActionCreator(pomodoro.config.minute))
-    } else if (pomodoro.timer.state.isRunning) {
-      dispatch(changeRunningStateActionCreator())
+    } else if (pomodoro.timer.state.isRest) {
+      console.log("레스트로 바뀌는 순간")
+      // dispatch(changeRestStateActionCreator(false))
       dispatch(setTimeActionCreator(pomodoro.config.rest))
-    } else if (pomodoro.timer.state.isPause) {
+    } else if (!pomodoro.timer.state.isRest) {
+      console.log("러닝으로 바뀌는 순간")
       dispatch(changeRunningStateActionCreator())
-      dispatch(setTimeActionCreator(pomodoro.config.countValue, true))
+      dispatch(setTimeActionCreator(pomodoro.config.minute))
     }
     timerReference.current = setInterval(() => {
       // 카운터 수를 줄이는 dispatch
       dispatch(runTimerActionCreator())
-    }, 10)
-  }, [pomodoro.timer.state])
+    }, 1)
+    //   처음 메모이제이션된 값만을 기억하기에
+  }, [pomodoro.timer.state, pomodoro.config])
 
-  // 동연 손대는중
+  // 카운트가 0일시
   useEffect(() => {
-    if (pomodoro.config.countValue === 0 && pomodoro.timer.state.isRunning
-        === false) {
+    if (pomodoro.config.countValue === 0) {
       clearInterval(timerReference.current)
       timerReference.current = null
-      // 휴식시간 설정 디스패치
-      dispatch(setTimeActionCreator(timeInputState.rest))
-      dispatch(changeRestStateActionCreator())
-      dispatch(runTimerActionCreator())
-    } else if (pomodoro.config.countValue === 0 && pomodoro.timer.state.isRest
-        === true) {
-      clearInterval(timerReference.current)
-      timerReference.current = null
-      dispatch(setTimeActionCreator(timeInputState.minute))
-      dispatch(changeRunningStateActionCreator())
-      dispatch(runTimerActionCreator())
+      if (pomodoro.timer.state.isRest) {
+        dispatch(setTimeActionCreator(pomodoro.config.minute))
+        dispatch(changeRestStateActionCreator(false))
+      } else if (pomodoro.timer.state.isRunning) {
+        dispatch(setTimeActionCreator(pomodoro.config.rest))
+        dispatch(changeRestStateActionCreator(true))
+        dispatch(setInterverStateActionCreator())
+      }
     }
   }, [pomodoro.config.countValue])
 
   // 정지 이벤트
-  // 동연 손대는중
   const pauseTimerHandler = useCallback(() => {
-    dispatch(changePauseStateActionCreator())
     if (timerReference.current) {
       clearInterval(timerReference.current)
       timerReference.current = null
     }
-  }, []);
+    dispatch(changePauseStateActionCreator())
+  }, [pomodoro.timer.state.isPause]);
 
   // reset 이벤트
-  //  동연 손대는중
   const resetTimer = () => {
     clearInterval(timerReference.current)
     timerReference.current = null
@@ -111,27 +107,9 @@ export default function PomodoroCopy() {
     dispatch(setTimeActionCreator(pomodoro.config.minute))
   };
 
-  // 분설정
-  const setFocuseTime = (event) => {
-    setTimeInputState(prevState => {
-      return {
-        ...prevState,
-        minute: parseInt(event.target.value)
-      }
-    })
-    // console.log(timeInputState.minute)
-    console.log(pomodoro.config.countValue)
-    dispatch(setTimeActionCreator(timeInputState.minute))
-  }
-
-  // 초기 시간설정
+  // 초기 시간 설정
   useEffect(() => {
     dispatch(setTimeActionCreator(pomodoro.config.minute))
-    // Loading state
-    // fetch("https://api.github.com/users/juyonglee")
-    // .then(response => response.json())
-    // .then(userInfo => dispatch(fuckYou(userInfo)))
-    // .catch(error => console.log(error))
     return () => {
       timerReference.current && clearInterval(timerReference.current)
     }
@@ -145,7 +123,20 @@ export default function PomodoroCopy() {
         rest: parseInt(event.target.value)
       }
     })
-    dispatch(setTimeActionCreator(timeInputState.rest))
+    dispatch(setRestTimeStateActionCreator(event.target.value))
+    dispatch(setTimeActionCreator(event.target.value))
+  }
+
+  // 분설정
+  const setFocuseTime = (event) => {
+    setTimeInputState(prevState => {
+      return {
+        ...prevState,
+        minute: parseInt(event.target.value)
+      }
+    })
+    dispatch(setInputMinute(event.target.value))
+    dispatch(setTimeActionCreator(event.target.value))
   }
 
   return (
@@ -232,7 +223,7 @@ export default function PomodoroCopy() {
             </Stack>
             <Divider variant={"middle"}/>
 
-            {/*휴식 단위 설정 화면*/}
+            {/*휴식 시간 화면*/}
             <Stack direction={"row"} alignItems={"center"} padding={1}>
               <Typography variant={"h5"} flexGrow={1} marginLeft={5}>
                 Select Rest

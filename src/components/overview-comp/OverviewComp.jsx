@@ -66,6 +66,7 @@ function overviewComp() {
           </Grid2>
         </Grid2>
         {/* 하단 부분 */}
+        <img src="https://ghchart.rshah.org/juyonglee" />
         <Container fixed={"true"} marginTop={2}>
         </Container>
       </Container>
