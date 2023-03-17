@@ -1,7 +1,9 @@
 import {
   ADD_TODO,
   COMPLETE_TODO,
-  DELETE_TODO, GET_ALL_TODO,
+  DELETE_TODO,
+  GET_ALL_TODO,
+  UPDATE_CHECKBOX,
   UPDATE_TODO
 } from "../actions/todoAction";
 
@@ -30,7 +32,7 @@ export default function todoReducer(state = initialState, action) {
       ...state,
       list: todoList
     }
-  }else if (action.type === ADD_TODO) {
+  } else if (action.type === ADD_TODO) {
     return {
       ...state,
       result: {
@@ -51,9 +53,9 @@ export default function todoReducer(state = initialState, action) {
   } else if (action.type == COMPLETE_TODO) {
     let isComplete = false
     const todoList = state.list.filter(task => {
-      if(task.taskId === action.taskID) {
-        task.complete = !task.complete
-        task.completeTime = new Date().toLocaleTimeString()
+      if (task.taskId === action.taskId) {
+        task.complete = action.task.checkbox_complete
+        task.completeTime = action.task.completeTime
         isComplete = task.complete
       }
       return task
@@ -100,6 +102,20 @@ export default function todoReducer(state = initialState, action) {
     return {
       ...state,
       list: updateTodoList
+    }
+  //  체크박스 이벤트 사용중
+  } else if (action.type == UPDATE_CHECKBOX) {
+    const updateCheckBoxList = state.list.filter((todo) => {
+      if (todo.taskId == action.taskId) {
+        todo.complete = action.updateTodo.checkbox_complete
+        todo.completeTime = action.updateTodo.complete_time
+        return todo
+      }
+      return todo
+    })
+    return {
+      ...state,
+      list: updateCheckBoxList
     }
   }
   // 없는 액션타입은 꼭 state로 내보내 줘야한다.
