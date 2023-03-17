@@ -4,6 +4,9 @@ export const DELETE_TODO = "DELETE_TODO"
 export const UPDATE_TODO = "UPDATE_TODO"
 export const GET_ALL_TODO = "GET_ALL_TODO"
 
+// 체크 박스 업데이트 이벤트
+export const UPDATE_CHECKBOX = "UPDATE_CHECKBOX"
+
 export function getAllTodoActionCreator(todos) {
   return {
     type: GET_ALL_TODO,
@@ -39,5 +42,12 @@ export function updateTodoActionCreator(taskID, updateTask){
     type: UPDATE_TODO,
     taskID: taskID,
     updateTask: updateTask
+  }
+}
+
+export function checkBoxTodoActionCreator(updateTodo){
+  return {
+    type: UPDATE_CHECKBOX,
+    updateTodo: updateTodo
   }
 }
