@@ -106,9 +106,9 @@ export default function todoReducer(state = initialState, action) {
   //  체크박스 이벤트 사용중
   } else if (action.type == UPDATE_CHECKBOX) {
     const updateCheckBoxList = state.list.filter((todo) => {
-      if (todo.taskId == action.taskId) {
-        todo.complete = action.updateTodo.checkbox_complete
-        todo.completeTime = action.updateTodo.complete_time
+      if (todo.taskId == action.checkBoxupdate.task_id) {
+        todo.complete = action.checkBoxupdate.checkbox_complete
+        todo.completeTime = action.checkBoxupdate.complete_time
         return todo
       }else {
         return todo
