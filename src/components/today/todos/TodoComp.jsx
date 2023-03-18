@@ -14,7 +14,8 @@ import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import {useEffect, useRef, useState} from "react";
 import {AlarmOn, Favorite, FavoriteBorder} from "@mui/icons-material";
 import {
-  addTodoActionCreator, checkBoxTodoActionCreator,
+  addTodoActionCreator,
+  checkBoxTodoActionCreator,
   deleteTodoActionCreator,
   getAllTodoActionCreator,
   updateTodoActionCreator
@@ -95,23 +96,23 @@ export default function TodoComp() {
 //     }
 
   // 체크박스 이벤트 2
-      const todoComplete = (event, index) => {
-      fetch(`http://localhost:8080/schedules/checkbox`, {
-        method: "PUT",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({
-          task_id: index,
-          checkbox_complete: false,
-          complete_time: Date.now().toString()
-        })
-      }).then(response => response.json())
-      .then(updateTodo => {
-            console.log(index)
-            console.log(updateTodo)
-            dispatch(checkBoxTodoActionCreator(updateTodo))
-          }
-      )
-    }
+  const todoComplete = (event, index) => {
+    fetch(`http://localhost:8080/schedules/checkbox`, {
+      method: "PUT",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        task_id: index,
+        checkbox_complete: true,
+        complete_time: Date.now()
+      })
+    }).then(response => response.json())
+    .then(response => {
+          console.log(index)
+          console.log("업데이트 값" + response)
+          dispatch(checkBoxTodoActionCreator(response))
+        }
+    ).catch(error => console.log(error))
+  }
 
   const enterEventHandler = (e) => {
     if (e.key === 'Enter' && todoInput.current.value.length != 0) {
@@ -174,11 +175,13 @@ export default function TodoComp() {
 //     }
 //   })
 // }
+
 // 업데이트 복구용
 // // 업데이트 이벤트
+//   수정버튼
   const updateBtnEvent = (event, index) => {
     const updateItem = true
-    const todo = todo.list.find(task => {
+    const todoList = todo.list.find(task => {
       if (task.taskId === index) {
         return task
       }
@@ -188,7 +191,7 @@ export default function TodoComp() {
         state: updateItem,
         index: index,
         // 배열을 반환시 필터
-        task: todo.task
+        task: todoList.task
       }
     })
   }
@@ -205,7 +208,18 @@ export default function TodoComp() {
   }
 
   const updateContentBtn = (event, index) => {
-    dispatch(updateTodoActionCreator(index, updateState.task))
+    fetch("http://localhost:8080/schedules", {
+      method: "PUT",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        task_id: index,
+        todo_task: updateState.task
+      })
+    }).then(response => response.json())
+    .then(updateTodo => {
+      dispatch(updateTodoActionCreator(updateTodo))
+      console.log(updateTodo)
+    })
     setUpdate(prevState => {
       return {
         ...prevState,
@@ -213,6 +227,17 @@ export default function TodoComp() {
       }
     })
   }
+
+  // 업데이트 시 입력 버튼 복원용
+  // const updateContentBtn = (event, index) => {
+  //   dispatch(updateTodoActionCreator(index, updateState.task))
+  //   setUpdate(prevState => {
+  //     return {
+  //       ...prevState,
+  //       state: false
+  //     }
+  //   })
+  // }
 
 // 스테이크 바 이벤트
   const handleClose = (event, reason) => {
