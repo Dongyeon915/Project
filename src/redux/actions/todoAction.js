@@ -37,11 +37,11 @@ export function deleteTodoActionCreator(taskID){
   }
 }
 
-export function updateTodoActionCreator(taskID, updateTask){
+export function updateTodoActionCreator(updateTodo){
   return {
     type: UPDATE_TODO,
-    taskID: taskID,
-    updateTask: updateTask
+    // taskID: taskID,
+    updateTodo: updateTodo
   }
 }
 
