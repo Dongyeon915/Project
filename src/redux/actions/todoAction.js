@@ -48,6 +48,6 @@ export function updateTodoActionCreator(updateTodo){
 export function checkBoxTodoActionCreator(updateTodo){
   return {
     type: UPDATE_CHECKBOX,
-    updateTodo: updateTodo
+    checkBoxupdate: updateTodo
   }
 }
