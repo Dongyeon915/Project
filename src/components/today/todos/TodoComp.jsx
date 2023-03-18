@@ -15,7 +15,6 @@ import {useEffect, useRef, useState} from "react";
 import {AlarmOn, Favorite, FavoriteBorder} from "@mui/icons-material";
 import {
   addTodoActionCreator,
-  checkBoxTodoActionCreator,
   deleteTodoActionCreator,
   getAllTodoActionCreator,
   updateTodoActionCreator
@@ -96,20 +95,39 @@ export default function TodoComp() {
 //     }
 
   // 체크박스 이벤트 2
+  // const todoComplete = (event, index) => {
+  //   fetch(`http://localhost:8080/schedules/checkbox/${index}`, {
+  //     method: "PUT",
+  //     headers: {"Content-Type": "application/json"},
+  //     body: JSON.stringify({
+  //       checkbox_complete: true,
+  //       complete_time: Date.now()
+  //     })
+  //   }).then(response => response.json())
+  //   .then(updateTodo => {
+  //         console.log(updateTodo)
+  //         console.log("업데이트 값" + updateTodo)
+  //         dispatch(checkBoxTodoActionCreator(updateTodo))
+  //         alert(`${updateTodo.todo_task}를 클리어 했습니다`)
+  //       }
+  //   ).catch(error => console.log(error))
+  // }
+
+  // 체크박스 이벤트 3
   const todoComplete = (event, index) => {
-    fetch(`http://localhost:8080/schedules/checkbox`, {
+    fetch(`http://localhost:8080/schedules/checkbox/${index}`, {
       method: "PUT",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({
-        task_id: index,
         checkbox_complete: true,
         complete_time: Date.now()
       })
     }).then(response => response.json())
-    .then(response => {
-          console.log(index)
-          console.log("업데이트 값" + response)
-          dispatch(checkBoxTodoActionCreator(response))
+    .then(updateTodo => {
+          console.log(updateTodo)
+          console.log("업데이트 값" + updateTodo)
+          dispatch(checkBoxTodoActionCreator(updateTodo))
+          alert(`${updateTodo.todo_task}를 클리어 했습니다`)
         }
     ).catch(error => console.log(error))
   }
@@ -144,38 +162,6 @@ export default function TodoComp() {
     }).catch(error => console.log(error))
   }
 
-// 업데이트 이벤트
-// const updateBtnEvent = (event, index) => {
-//     const updateItem = true
-//   fetch(`http://localhost:8080/schedules/${index}`,{
-//     method: "PUT",
-//     headers: {"Content-Type": "application/json"},
-//     body: JSON.stringify({
-//       todo_task: todoInput.current.value,
-//       checkbox_complete: false,
-//       date: Date.now().toString()
-//     })
-//   }).then(response => response.json())
-//   .then(UpdateTodo => {
-//     console.log(UpdateTodo)
-//     todoInput.current.value = ""
-//   })
-//
-//   const todo = todo.list.find(task => {
-//     if (task.taskId === index) {
-//       return task
-//     }
-//   })
-//   setUpdate(prevState => {
-//     return {
-//       state: updateItem,
-//       index: index,
-//       // 배열을 반환시 필터
-//       task: todo.task
-//     }
-//   })
-// }
-
 // 업데이트 복구용
 // // 업데이트 이벤트
 //   수정버튼
@@ -206,7 +192,6 @@ export default function TodoComp() {
       }
     })
   }
-
   const updateContentBtn = (event, index) => {
     fetch("http://localhost:8080/schedules", {
       method: "PUT",
