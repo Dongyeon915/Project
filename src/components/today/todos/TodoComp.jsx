@@ -15,6 +15,7 @@ import {useEffect, useRef, useState} from "react";
 import {AlarmOn, Favorite, FavoriteBorder} from "@mui/icons-material";
 import {
   addTodoActionCreator,
+  checkBoxTodoActionCreator,
   deleteTodoActionCreator,
   getAllTodoActionCreator,
   updateTodoActionCreator
@@ -50,7 +51,8 @@ export default function TodoComp() {
       dispatch(getAllTodoActionCreator(todos))
     })
     .catch(error => console.log(error))
-  }, [])
+  // ```````````````````````````````````````````````````````````````랜더중요``````````````````````````````````````
+  }, [todo.list])
 
   // 버튼 클릭시 todoList배열에 새로운 input 값을 추가
   const buttonClickEvent = (event, index) => {
@@ -108,7 +110,6 @@ export default function TodoComp() {
   //         console.log(updateTodo)
   //         console.log("업데이트 값" + updateTodo)
   //         dispatch(checkBoxTodoActionCreator(updateTodo))
-  //         alert(`${updateTodo.todo_task}를 클리어 했습니다`)
   //       }
   //   ).catch(error => console.log(error))
   // }
@@ -119,15 +120,16 @@ export default function TodoComp() {
       method: "PUT",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({
+        task_id: index,
         checkbox_complete: true,
-        complete_time: Date.now()
+        complete_time: Date.now().toString()
       })
     }).then(response => response.json())
     .then(updateTodo => {
           console.log(updateTodo)
           console.log("업데이트 값" + updateTodo)
           dispatch(checkBoxTodoActionCreator(updateTodo))
-          alert(`${updateTodo.todo_task}를 클리어 했습니다`)
+
         }
     ).catch(error => console.log(error))
   }
@@ -162,7 +164,7 @@ export default function TodoComp() {
     }).catch(error => console.log(error))
   }
 
-// 업데이트 복구용
+
 // // 업데이트 이벤트
 //   수정버튼
   const updateBtnEvent = (event, index) => {
