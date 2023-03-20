@@ -10,11 +10,11 @@ export default function CalendarComp() {
   const dispatch = useDispatch()
   const [results, setResult] = useState({count:[]})
 
-  useEffect(()=>{
-    setResult({
-      count: [10, 3, 5, 6, 7, 8, 9, 10, 20, 30, 50, 80, 10, 20, 30, 40],
-    })
-  }, [])
+  // useEffect(()=>{
+  //   setResult({
+  //     count: [10, 3, 5, 6, 7, 8, 9, 10, 20, 30, 50, 80, 10, 20, 30, 40],
+  //   })
+  // }, [])
 
   return (
       <Paper variant={"elevation"} elevation={4} >
