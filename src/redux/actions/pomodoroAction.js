@@ -61,9 +61,10 @@ export function changeRestStateActionCreator(setRest) {
   }
 }
 
-export function setInterverStateActionCreator() {
+export function setInterverStateActionCreator(interval) {
   return {
-    type: PLUS_INTERVER
+    type: PLUS_INTERVER,
+    interval: interval
   }
 }
 

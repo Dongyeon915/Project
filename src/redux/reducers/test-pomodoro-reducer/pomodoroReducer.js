@@ -11,10 +11,10 @@ import {
 
 export const pomodoroInitialState = {
   result: {
-    interval: 10
+    interval: 0
   },
   config: {
-    minute: 50,
+    minute: 10,
     rest: 10,
     countValue: 10
   },

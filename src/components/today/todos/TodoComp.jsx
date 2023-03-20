@@ -51,7 +51,7 @@ export default function TodoComp() {
       dispatch(getAllTodoActionCreator(todos))
     })
     .catch(error => console.log(error))
-  // ```````````````````````````````````````````````````````````````랜더중요``````````````````````````````````````
+    // ```````````````````````````````````````````````````````````````랜더중요``````````````````````````````````````
   }, [todo.list])
 
   // 버튼 클릭시 todoList배열에 새로운 input 값을 추가
@@ -95,24 +95,6 @@ export default function TodoComp() {
 //           }
 //       )
 //     }
-
-  // 체크박스 이벤트 2
-  // const todoComplete = (event, index) => {
-  //   fetch(`http://localhost:8080/schedules/checkbox/${index}`, {
-  //     method: "PUT",
-  //     headers: {"Content-Type": "application/json"},
-  //     body: JSON.stringify({
-  //       checkbox_complete: true,
-  //       complete_time: Date.now()
-  //     })
-  //   }).then(response => response.json())
-  //   .then(updateTodo => {
-  //         console.log(updateTodo)
-  //         console.log("업데이트 값" + updateTodo)
-  //         dispatch(checkBoxTodoActionCreator(updateTodo))
-  //       }
-  //   ).catch(error => console.log(error))
-  // }
 
   // 체크박스 이벤트 3
   const todoComplete = (event, index) => {
@@ -163,7 +145,6 @@ export default function TodoComp() {
       dispatch(deleteTodoActionCreator(index))
     }).catch(error => console.log(error))
   }
-
 
 // // 업데이트 이벤트
 //   수정버튼
