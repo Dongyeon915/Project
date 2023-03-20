@@ -16,10 +16,6 @@ import {
   setTimeActionCreator
 } from "../../../../redux/actions/pomodoroAction";
 import {useDispatch, useSelector} from "react-redux";
-import {
-  addTodoActionCreator,
-  checkBoxTodoActionCreator
-} from "../../../../redux/actions/todoAction";
 
 export default function PomodoroCopy() {
   // JavaScript =>  false, null, undefined, 0, ''
@@ -63,7 +59,6 @@ export default function PomodoroCopy() {
       dispatch(changeRunningStateActionCreator())
     } else if (pomodoro.timer.state.isRest) {
       console.log("레스트로 바뀌는 순간")
-      // dispatch(changeRestStateActionCreator(false))
       dispatch(setTimeActionCreator(pomodoro.config.rest))
     } else if (!pomodoro.timer.state.isRest) {
       console.log("러닝으로 바뀌는 순간")
@@ -89,23 +84,23 @@ export default function PomodoroCopy() {
         dispatch(setTimeActionCreator(pomodoro.config.rest))
         dispatch(changeRestStateActionCreator(true))
         dispatch(setInterverStateActionCreator())
+        plusInterval()
       }
     }
   }, [pomodoro.config.countValue])
 
-  // 인터벌 DB증가 연결
-  const plusInterver = () => {
-    fetch("\"http://localhost:8080/pomodoro", {
+
+  const plusInterval = () => {
+    fetch("http://localhost:8080/pomodoro", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({
-        date: Date.now().toString(),
-        interver : pomodoro.result.interval + 1
+        interval: 1
       })
     }).then(response => response.json())
-    .then(interver => {
-          console.log(interver)
-      dispatch(setInterverStateActionCreator())
+    .then(interval => {
+          console.log(interval)
+
         }
     ).catch(error => console.log(error))
   }
