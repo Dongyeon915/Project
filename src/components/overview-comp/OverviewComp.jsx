@@ -9,7 +9,6 @@ import {
   Typography
 } from "@mui/material";
 import {Aod, GitHub, Mail} from "@mui/icons-material";
-import PomodoroExample from "../../sample/Example/PomodoroExample";
 
 function overviewComp() {
   return (

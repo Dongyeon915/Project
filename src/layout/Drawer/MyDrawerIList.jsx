@@ -17,6 +17,7 @@ import {
 import {Link as RouterLink} from "react-router-dom";
 import {menuInfo} from "./menuInfo";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import ContactEmergencyIcon from '@mui/icons-material/ContactEmergency';
 
 function MyDrawerIList() {
   return (
@@ -61,9 +62,9 @@ function MyDrawerIList() {
                         {
                           menuItem.id == 3 && <AccessTime/>
                         }
-                        {/*{*/}
-                        {/*  menuItem.id == 4 && <CalendarMonthIcon/>*/}
-                        {/*}*/}
+                        {
+                            menuItem.id == 4 && <ContactEmergencyIcon/>
+                        }
                       </ListItemIcon>
                       <ListItemText primary={menuItem.name}/>
                     </ListItemButton>

@@ -23,7 +23,8 @@ function MyAppBar({handleDrawerToggle}) {
             <MenuIcon/>
           </IconButton>
           <IconButton>
-            <GitHub/>
+            <Avatar alt="유저이미지" src={GitUser.avatar_url}
+                    sx={{width: 30, height: 30}}/>
           </IconButton>
           <Typography variant={"h6"} sx={{flexGrow: 1}}>My Schedule</Typography>
           <IconButton>

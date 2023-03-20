@@ -43,7 +43,7 @@ export default function todoReducer(state = initialState, action) {
         ...state.list,
         {
           taskId: action.task.task_id,
-          data: action.task.date,
+          date: action.task.date,
           complete: action.task.checkbox_complete,
           completeTime: action.task.complete_time,
           task: action.task.todo_task
@@ -107,12 +107,14 @@ export default function todoReducer(state = initialState, action) {
   } else if (action.type == UPDATE_CHECKBOX) {
     const updateCheckBoxList = state.list.filter((todo) => {
       if (todo.taskId == action.checkBoxupdate.task_id) {
+        todo.taskId = action.checkBoxupdate.task_id
+        todo.task = action.checkBoxupdate.todo_task
         todo.complete = action.checkBoxupdate.checkbox_complete
         todo.completeTime = action.checkBoxupdate.complete_time
-        return todo
-      }else {
+        todo.date = action.task.date
         return todo
       }
+        return todo
     })
     return {
       ...state,

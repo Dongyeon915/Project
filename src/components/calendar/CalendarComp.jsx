@@ -1,7 +1,7 @@
 import Calendar from "react-calendar";
 import {Paper} from "@mui/material";
 import Box from "@mui/material/Box";
-import CircularStatic from "./CircularProgressWithLabel";
+import CircularStatic from "../today/todos/CircularProgressWithLabel";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 export default function CalendarComp() {

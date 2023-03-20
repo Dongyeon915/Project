@@ -14,10 +14,9 @@ export const menuInfo = [
     name: "Schedule",
     link: "/today"
   },
-  // {
-  //   id: 4,
-  //   name: "Calendar",
-  //   link: "/calendar"
-  // }
-
+  {
+    id: 4,
+    name: "My total",
+    link: "/total"
+  }
 ]

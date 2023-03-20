@@ -16,10 +16,6 @@ import {
   setTimeActionCreator
 } from "../../../../redux/actions/pomodoroAction";
 import {useDispatch, useSelector} from "react-redux";
-import {
-  addTodoActionCreator,
-  checkBoxTodoActionCreator
-} from "../../../../redux/actions/todoAction";
 
 export default function PomodoroCopy() {
   // JavaScript =>  false, null, undefined, 0, ''
@@ -92,23 +88,6 @@ export default function PomodoroCopy() {
       }
     }
   }, [pomodoro.config.countValue])
-
-  // 인터벌 DB증가 연결
-  const plusInterver = () => {
-    fetch("\"http://localhost:8080/pomodoro", {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({
-        date: Date.now().toString(),
-        interver : pomodoro.result.interval + 1
-      })
-    }).then(response => response.json())
-    .then(interver => {
-          console.log(interver)
-      dispatch(setInterverStateActionCreator())
-        }
-    ).catch(error => console.log(error))
-  }
 
   // 정지 이벤트
   const pauseTimerHandler = useCallback(() => {
