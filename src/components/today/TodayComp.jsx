@@ -10,7 +10,7 @@ import {
 import TodoComp from "./todos/TodoComp";
 import "../../css/calendar.css";
 import CalendarComp from "../calendar/CalendarComp";
-import PomodoroCompDong from "./pomodoro/test-pomodoro/PomodoroCompDong"
+import PomodoroComp from "./pomodoro/test-pomodoro/PomodoroComp"
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 export default function TodayComp() {
@@ -39,7 +39,7 @@ export default function TodayComp() {
           </Grid2>
           <Grid2 sm={6} padding={2}>
             <Paper variant={"elevation"} elevation={3}>
-              <PomodoroCompDong/>
+              <PomodoroComp/>
             </Paper>
           </Grid2>
         </Grid2>
