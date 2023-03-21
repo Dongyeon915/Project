@@ -11,6 +11,7 @@ import {
 
 export const pomodoroInitialState = {
   result: {
+    date: new Date().toLocaleDateString(),
     interval: 0
   },
   config: {

@@ -51,29 +51,15 @@ export default function todoReducer(state = initialState, action) {
       ]
     }
   } else if (action.type == COMPLETE_TODO) {
-    let isComplete = false
     const todoList = state.list.filter(task => {
       if (task.taskId === action.taskId) {
-        task.complete = action.task.checkbox_complete
-        task.completeTime = action.task.completeTime
-        isComplete = task.complete
+        task.complete = !task.complete
+        task.completeTime = new Date().getTime();
       }
       return task
     })
-    let restCount = state.result.rest, clearCount = state.result.clear
-    if (isComplete) {
-      restCount--
-      clearCount++
-    } else {
-      restCount++
-      clearCount--
-    }
     return {
       ...state,
-      result: {
-        clear: clearCount,
-        rest: restCount
-      },
       list: todoList
     }
   } else if (action.type == DELETE_TODO) {
@@ -102,23 +88,6 @@ export default function todoReducer(state = initialState, action) {
     return {
       ...state,
       list: updateTodoList
-    }
-  //  체크박스 이벤트 사용중
-  } else if (action.type == UPDATE_CHECKBOX) {
-    const updateCheckBoxList = state.list.filter((todo) => {
-      if (todo.taskId == action.checkBoxupdate.task_id) {
-        todo.taskId = action.checkBoxupdate.task_id
-        todo.task = action.checkBoxupdate.todo_task
-        todo.complete = action.checkBoxupdate.checkbox_complete
-        todo.completeTime = action.checkBoxupdate.complete_time
-        todo.date = action.task.date
-        return todo
-      }
-        return todo
-    })
-    return {
-      ...state,
-      list: updateCheckBoxList
     }
   }
   // 없는 액션타입은 꼭 state로 내보내 줘야한다.

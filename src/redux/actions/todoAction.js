@@ -25,7 +25,7 @@ export function addTodoActionCreator(task) {
 export function completeTodoActionCreator(taskID) {
   return {
     type: COMPLETE_TODO,
-    taskID: taskID
+    taskId: taskID
   }
 }
 
