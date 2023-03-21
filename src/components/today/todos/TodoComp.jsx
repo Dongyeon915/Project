@@ -11,16 +11,17 @@ import {
   Typography
 } from "@mui/material";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
-import {useEffect, useRef, useState} from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
 import {AlarmOn, Favorite, FavoriteBorder} from "@mui/icons-material";
 import {
   addTodoActionCreator,
-  checkBoxTodoActionCreator,
+  completeTodoActionCreator,
   deleteTodoActionCreator,
   getAllTodoActionCreator,
   updateTodoActionCreator
 } from "../../../redux/actions/todoAction";
 import {useDispatch, useSelector} from "react-redux";
+import {myRequestGenerator} from "../../../helper/helper";
 
 export default function TodoComp() {
 
@@ -29,8 +30,6 @@ export default function TodoComp() {
     state: false
   })
 
-  // TODO 체크박스시 true,false이벤트  수정이벤트
-  // TODO 가능하면 pomodoro도
 
   const todo = useSelector(state => state.todo)
   const dispatch = useDispatch()
@@ -44,15 +43,18 @@ export default function TodoComp() {
 
   const todoInput = useRef()
 
+  const shcdules = useCallback(() => {
+    myRequestGenerator("schedules")
+  }, [])
+
   useEffect(() => {
-    fetch("http://localhost:8080/schedules")
+    fetch(myRequestGenerator("/schedules"))
     .then(response => response.json())
     .then(todos => {
       dispatch(getAllTodoActionCreator(todos))
     })
     .catch(error => console.log(error))
-    // ```````````````````````````````````````````````````````````````랜더중요``````````````````````````````````````
-  }, [todo.list])
+  }, [])
 
   // 버튼 클릭시 todoList배열에 새로운 input 값을 추가
   const buttonClickEvent = (event, index) => {
@@ -60,7 +62,7 @@ export default function TodoComp() {
       alert("Todo를 입력해주세요")
       return
     } else if (todoInput.current.value.length != 0) {
-      fetch("http://localhost:8080/schedules", {
+      fetch(shcdules(), {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({
@@ -77,48 +79,27 @@ export default function TodoComp() {
     }
   }
 
-// 체크박스 이벤트 1
-//     const todoComplete = (event, index) => {
-//       fetch(`http://localhost:8080/schedules/checkbox`, {
-//         method: "PUT",
-//         headers: {"Content-Type": "application/json"},
-//         body: JSON.stringify({
-//           task_id: index,
-//           checkbox_complete: true,
-//           complete_time: Date.now().toString()
-//         })
-//       }).then(response => response.json())
-//       .then(updateTodo => {
-//             console.log(index)
-//             console.log(updateTodo)
-//             dispatch(checkBoxTodoActionCreator(updateTodo))
-//           }
-//       )
-//     }
-
   // 체크박스 이벤트 3
   const todoComplete = (event, index) => {
-    fetch(`http://localhost:8080/schedules/checkbox/${index}`, {
+    dispatch(completeTodoActionCreator(index))
+    fetch(myRequestGenerator(`/schedules/checkbox/${index}`), {
       method: "PUT",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({
         task_id: index,
-        checkbox_complete: true,
+        checkbox_complete: event.target.checked,
         complete_time: Date.now().toString()
       })
-    }).then(response => response.json())
-    .then(updateTodo => {
-          console.log(updateTodo)
-          console.log("업데이트 값" + updateTodo)
-          dispatch(checkBoxTodoActionCreator(updateTodo))
-
-        }
-    ).catch(error => console.log(error))
+    }).catch(error => {
+      console.log(error)
+      dispatch(completeTodoActionCreator(index))
+      alert("서버 오류가 있습니다.")
+    })
   }
 
   const enterEventHandler = (e) => {
     if (e.key === 'Enter' && todoInput.current.value.length != 0) {
-      fetch("http://localhost:8080/schedules", {
+      fetch(myRequestGenerator("/schedules"), {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({
@@ -139,7 +120,7 @@ export default function TodoComp() {
 
 // 삭제버튼 이벤트
   const deleteEvent = (event, index) => {
-    fetch(`http://localhost:8080/schedules/${index}`, {
+    fetch(myRequestGenerator(`/schedules/${index}`), {
       method: "DELETE"
     }).then(response => {
       dispatch(deleteTodoActionCreator(index))
@@ -176,7 +157,7 @@ export default function TodoComp() {
     })
   }
   const updateContentBtn = (event, index) => {
-    fetch("http://localhost:8080/schedules", {
+    fetch(myRequestGenerator("/schedules"), {
       method: "PUT",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({
@@ -195,17 +176,6 @@ export default function TodoComp() {
       }
     })
   }
-
-  // 업데이트 시 입력 버튼 복원용
-  // const updateContentBtn = (event, index) => {
-  //   dispatch(updateTodoActionCreator(index, updateState.task))
-  //   setUpdate(prevState => {
-  //     return {
-  //       ...prevState,
-  //       state: false
-  //     }
-  //   })
-  // }
 
 // 스테이크 바 이벤트
   const handleClose = (event, reason) => {
@@ -226,7 +196,7 @@ export default function TodoComp() {
         <Paper variant={"elevation"} elevation={4} sx={{padding: 3}}>
           <Stack direction={"row"} justifyContent={"space-between"}
                  alignItems={"center"}>
-            <Typography variant={"h6"} fontWeight={700}>Todo
+            <Typography variant={"h6"} fontWeight={700}>
               List</Typography>
             <Typography variant={"subtitle2"}
                         fontWeight={600}>{new Date().toLocaleDateString()}</Typography>
