@@ -16,7 +16,14 @@ import {
   setTimeActionCreator
 } from "../../../../redux/actions/pomodoroAction";
 import {useDispatch, useSelector} from "react-redux";
+import {myRequestGenerator} from "../../../../helper/helper";
 
+// TODO config 값을 DB에 저장해서 초기에 useEffect로 설정
+
+
+
+
+// TODO 인터벌이 올라가면 해당 유저의 인터벌이 올라가게
 export default function PomodoroCopy() {
   // JavaScript =>  false, null, undefined, 0, ''
   // null 은 초기값이 없기 때문에 false
@@ -29,6 +36,21 @@ export default function PomodoroCopy() {
     minute: pomodoro.config.minute,
     rest: pomodoro.config.rest
   })
+
+  useEffect(() => {
+    fetch(myRequestGenerator("/pomodoro?" + new URLSearchParams({
+      userID: 1,
+      date: new Date().toISOString().split("T")[0]
+    })), {
+      method: "GET",
+      headers: {
+        "content-type": "application/json"
+      }
+    })
+    .then(response => response.json())
+    .then(pomodoroInfo => console.log(pomodoroInfo))
+    .catch(error => console.error(error))
+  }, [])
 
   function calcTime(epocTime) {
     const hour = parseInt(epocTime / (60 * 60))
