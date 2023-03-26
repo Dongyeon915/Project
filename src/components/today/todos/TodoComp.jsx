@@ -11,7 +11,7 @@ import {
   Typography
 } from "@mui/material";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
-import {useCallback, useEffect, useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {AlarmOn, Favorite, FavoriteBorder} from "@mui/icons-material";
 import {
   addTodoActionCreator,
@@ -22,14 +22,14 @@ import {
 } from "../../../redux/actions/todoAction";
 import {useDispatch, useSelector} from "react-redux";
 import {myRequestGenerator} from "../../../helper/helper";
-
+import CancelIcon from '@mui/icons-material/Cancel';
+import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 export default function TodoComp() {
 
   const [updateState, setUpdate] = useState({
     task: '',
     state: false
   })
-
 
   const todo = useSelector(state => state.todo)
   const dispatch = useDispatch()
@@ -43,18 +43,23 @@ export default function TodoComp() {
 
   const todoInput = useRef()
 
-  const shcdules = useCallback(() => {
-    myRequestGenerator("schedules")
-  }, [])
+  // 수정전
+  // useEffect(() => {
+  //   // result state설정
+  //   fetch(myRequestGenerator("/schedules"))
+  //   .then(response => response.json())
+  //   .then(todos => {
+  //     dispatch(getAllTodoActionCreator(todos))
+  //     let completeCount = 0, restCount = 0
+  //     for (const todo of todos) {
+  //       todo.checkbox_complete? completeCount++ : restCount++
+  //     }
+  //     console.log("Complete: " + completeCount +", Rest: " + restCount)
+  //   })
+  //   .catch(error => console.log(error))
+  // }, [])
 
-  useEffect(() => {
-    fetch(myRequestGenerator("/schedules"))
-    .then(response => response.json())
-    .then(todos => {
-      dispatch(getAllTodoActionCreator(todos))
-    })
-    .catch(error => console.log(error))
-  }, [])
+
 
   // 버튼 클릭시 todoList배열에 새로운 input 값을 추가
   const buttonClickEvent = (event, index) => {
@@ -62,21 +67,25 @@ export default function TodoComp() {
       alert("Todo를 입력해주세요")
       return
     } else if (todoInput.current.value.length != 0) {
-      fetch(shcdules(), {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({
-          todo_task: todoInput.current.value,
-          checkbox_complete: false,
-          date: Date.now().toString()
-        })
-      }).then(response => response.json())
-      .then(newTodo => {
-        console.log(newTodo)
-        dispatch(addTodoActionCreator(newTodo))
-        todoInput.current.value = ""
-      })
+      todoUpdateAPI()
     }
+  }
+  const todoUpdateAPI = () => {
+    fetch(myRequestGenerator("/schedules"), {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        todo_task: todoInput.current.value,
+        checkbox_complete: false,
+        user_id: 2,
+        date: new Date().toISOString().split("T")[0]
+      })
+    }).then(response => response.json())
+    .then(newTodo => {
+      console.log(newTodo)
+      dispatch(addTodoActionCreator(newTodo))
+      todoInput.current.value = ""
+    })
   }
 
   // 체크박스 이벤트 3
@@ -87,6 +96,8 @@ export default function TodoComp() {
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({
         task_id: index,
+        user_id:2,
+        date: new Date().toISOString().split("T")[0],
         checkbox_complete: event.target.checked,
         complete_time: Date.now().toString()
       })
@@ -99,20 +110,7 @@ export default function TodoComp() {
 
   const enterEventHandler = (e) => {
     if (e.key === 'Enter' && todoInput.current.value.length != 0) {
-      fetch(myRequestGenerator("/schedules"), {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({
-          todo_task: todoInput.current.value,
-          checkbox_complete: false,
-          date: Date.now().toString()
-        })
-      }).then(response => response.json())
-      .then(newTodo => {
-        console.log(newTodo)
-        dispatch(addTodoActionCreator(newTodo))
-        todoInput.current.value = ""
-      })
+      todoUpdateAPI()
     } else if (e.key === 'Enter') {
       alert("Todo를 입력해주세요")
     }
@@ -161,6 +159,7 @@ export default function TodoComp() {
       method: "PUT",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({
+        user_id: 2,
         task_id: index,
         todo_task: updateState.task
       })
@@ -189,6 +188,13 @@ export default function TodoComp() {
       }
     });
   };
+
+  function printCompleteTime(time) {
+    return new Date(time).toLocaleString("ko-KR", {
+      hour: "2-digit",
+      minute: "2-digit"
+    })
+  }
 
   return (
       // todo title 및 날짜
@@ -262,30 +268,32 @@ export default function TodoComp() {
                             todo.complete &&
                             <Stack direction={"row"}>
                               <Typography>
-                                {todo.completeTime}
+                                {printCompleteTime(todo.completeTime)}
                               </Typography>
                               <Stack marginLeft={2}>
                                 <AlarmOn fontSize={"medium"} color={"success"}/>
                               </Stack>
                             </Stack>
                         }
-                        <Stack direction={"row"} spacing={1}
+                        <Stack direction={"row"} spacing={3}
                                sx={{size: "small"}}>
                           {
                               (todo.complete === false)
                               && (updateState.state === false) &&
                               <>
-                                <Button variant={"contained"}
+                                <IconButton variant={"contained"}
+                                            color={"warning"}
+                                            sx={{marginLeft:4}}
                                         onClick={(event) => {
                                           updateBtnEvent(event, todo.taskId)
                                         }
                                         }
-                                >수정</Button>
-                                <Button color={"error"} variant={"contained"}
+                                ><AutoFixHighIcon/></IconButton>
+                                <IconButton color={"error"} variant={"contained"}
                                         onClick={(event) => {
                                           deleteEvent(event, todo.taskId)
                                         }
-                                        }>삭제</Button>
+                                        }><CancelIcon/></IconButton>
                               </>
                           }
                           {
@@ -308,7 +316,6 @@ export default function TodoComp() {
 
           </Stack>
 
-          {/*todo input*/}
           <Stack direction={"row"} alignItems={"center"} sx={{
             backgroundColor: "#666666",
             borderRadius: 10,

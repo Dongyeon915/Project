@@ -3,7 +3,6 @@ import {
   COMPLETE_TODO,
   DELETE_TODO,
   GET_ALL_TODO,
-  UPDATE_CHECKBOX,
   UPDATE_TODO
 } from "../actions/todoAction";
 

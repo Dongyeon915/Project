@@ -17,6 +17,7 @@ import {
 } from "../../../../redux/actions/pomodoroAction";
 import {useDispatch, useSelector} from "react-redux";
 import {myRequestGenerator} from "../../../../helper/helper";
+import {response} from "../../../../sample/Complete";
 
 export default function PomodoroCopy() {
   // JavaScript =>  false, null, undefined, 0, ''
@@ -42,39 +43,44 @@ export default function PomodoroCopy() {
     //   console.log(`latitude`, position.coords.latitude)
     //   console.log(`longitude`,position.coords.longitude)
     // })
-    // fetch(myRequestGenerator(`/pomodoro/1`), {
-    //   method: "GET",
-    //   headers: {"Content-Type": "application/json"},
-    // }).then(response => response.json())
-    // .then(pomodoroInfo => {
-    //   console.log(pomodoroInfo)
-    //   dispatch(setTimeActionCreator(pomodoroInfo.minute))
-    //   dispatch(setRestTimeStateActionCreator(pomodoroInfo.rest))
-    // }).catch(err => {
-    //   console.log(err)
-    // })
+    fetch(myRequestGenerator(`/pomodoro`), {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body:JSON.stringify({
+        "userId": 2,
+        "date": new Date().toISOString().split("T")[0]
+      })
+    }).then(response => response.json())
+    .then(pomodoroInfo => {
+      console.log(pomodoroInfo)
+      dispatch(setTimeActionCreator(pomodoroInfo.minute))
+      console.log(pomodoroInfo.toString())
+      dispatch(setRestTimeStateActionCreator(pomodoroInfo.rest))
+    }).catch(err => {
+      console.log(err)
+    })
   }, [])
 
   // TODO 인터벌이 올라가면 해당 유저의 인터벌이 올라가게
   // 1이라는 가정
-  const plusInterval = () => {
-    fetch(myRequestGenerator(`/pomodoro/1`), {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({
-        interval: 1
-      })
-    }).then(response => response.json())
-    .then(interval => {
-          console.log(interval)
-        }
-    ).catch(error => console.log(error))
-  }
+  // const plusInterval = () => {
+  //   fetch(myRequestGenerator(`/pomodoro/1`), {
+  //     method: "POST",
+  //     headers: {"Content-Type": "application/json"},
+  //     body: JSON.stringify({
+  //       interval: 1
+  //     })
+  //   }).then(response => response.json())
+  //   .then(interval => {
+  //         console.log(interval)
+  //       }
+  //   ).catch(error => console.log(error))
+  // }
 
   // pomodoro DB에 date와 userID넣기
   // useEffect(() => {
   //   fetch(myRequestGenerator("/pomodoro?" + new URLSearchParams({
-  //     userID: 1,
+  //     userID: 2,
   //     date: new Date().toISOString().split("T")[0]
   //   })), {
   //     method: "GET",
@@ -84,9 +90,12 @@ export default function PomodoroCopy() {
   //   })
   //   .then(response => response.json())
   //   .then(pomodoroInfo => console.log(pomodoroInfo))
+  //   .then()
   //   .catch(error => console.error(error))
   // }, [])
 
+
+  // 화면 보여주기 설정
   function calcTime(epocTime) {
     const hour = parseInt(epocTime / (60 * 60))
     epocTime = epocTime - (hour * 60 * 60)
@@ -153,6 +162,7 @@ export default function PomodoroCopy() {
           date: new Date().toISOString().split("T")[0]
         })
       }).then(response => response.json())
+      .then(clear => console.log(clear))
       .catch(error => console.log(error))
     }
   }, [pomodoro.config.countValue])
@@ -177,12 +187,12 @@ export default function PomodoroCopy() {
   };
 
   // 초기 시간 설정
-  // useEffect(() => {
-  //   dispatch(setTimeActionCreator(pomodoro.config.minute))
-  //   return () => {
-  //     timerReference.current && clearInterval(timerReference.current)
-  //   }
-  // }, [])
+  useEffect(() => {
+    dispatch(setTimeActionCreator(pomodoro.config.minute))
+    return () => {
+      timerReference.current && clearInterval(timerReference.current)
+    }
+  }, [])
 
   //  휴식 시간 설정
   const setRestTime = (event) => {

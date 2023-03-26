@@ -1,6 +1,6 @@
 import {
   CHANGE_REST_STATE,
-  CHANGE_RUNNING_STATE,
+  CHANGE_RUNNING_STATE, PLUS_INTERVAL_COUNT,
   PLUS_INTERVER,
   RUN_TIMER,
   SET_COUNT_DOWN,
@@ -15,9 +15,9 @@ export const pomodoroInitialState = {
     interval: 0
   },
   config: {
-    minute: 10,
-    rest: 10,
-    countValue: 10
+    minute: 0,
+    rest: 0,
+    countValue: 0
   },
   timer: {
     state: {
@@ -111,6 +111,14 @@ export default function pomodoroReducer(state = pomodoroInitialState, action) {
       config: {
         ...state.config,
         rest: action.restTime
+      }
+    }
+  }else if (action.type === PLUS_INTERVAL_COUNT){
+    return {
+      ...state,
+      result: {
+        ...state.result,
+        interval: state.result.interval + 1
       }
     }
   }

@@ -9,17 +9,20 @@ export const CHANGE_RUNNING_STATE = "CHANGE_RUNNING_STATE"
 
 export const SET_PAUSE_STATE = "SET_PAUSE_STATE"
 
-export const FUCK_YOU = "FUCK_YOU"
 
 // 카운트 0일시 휴식중이 아니라면 휴식으로 바꾸는 action
 export const CHANGE_REST_STATE = "CHANGE_REST_STATE"
 
-// interver 올리는 액션
+// interval 올리는 액션 과거
 export const PLUS_INTERVER = "PLUS_INTERVER"
 
 // rest설정 액션
 export const SET_REST_TIME = "SET_REST_TIME"
 
+// 인터벌을 올리는 액션
+export const PLUS_INTERVAL_COUNT = "PLUS_INTERVAL_COUNT"
+
+// event.target value로 state만 저장
 export function setInputMinute(minute) {
   return {
     type: SET_MINUTE,
@@ -61,16 +64,22 @@ export function changeRestStateActionCreator(setRest) {
   }
 }
 
-export function setInterverStateActionCreator(interval) {
-  return {
-    type: PLUS_INTERVER,
-    interval: interval
-  }
-}
+// export function setInterverStateActionCreator(interval) {
+//   return {
+//     type: PLUS_INTERVER,
+//     interval: interval
+//   }
+// }
 
 export function setRestTimeStateActionCreator(restTime) {
   return {
     type: SET_REST_TIME,
     restTime: restTime
+  }
+}
+
+export function plusIntervalCountActionCreator(){
+  return {
+    type: PLUS_INTERVAL_COUNT,
   }
 }
