@@ -24,6 +24,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {myRequestGenerator} from "../../../helper/helper";
 import CancelIcon from '@mui/icons-material/Cancel';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
+
 export default function TodoComp() {
 
   const [updateState, setUpdate] = useState({
@@ -59,7 +60,15 @@ export default function TodoComp() {
   //   .catch(error => console.log(error))
   // }, [])
 
-
+  // userId로 정보를 가져오기
+  useEffect(() => {
+    fetch(myRequestGenerator(`/schedules/user/23`), {
+    }).then(response => response.json())
+    .then(newTodo => {
+      console.log(newTodo)
+     dispatch(getAllTodoActionCreator(newTodo))
+    }).catch(error => console.log(error))
+  }, [])
 
   // 버튼 클릭시 todoList배열에 새로운 input 값을 추가
   const buttonClickEvent = (event, index) => {
@@ -96,7 +105,7 @@ export default function TodoComp() {
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({
         task_id: index,
-        user_id:2,
+        user_id: 2,
         date: new Date().toISOString().split("T")[0],
         checkbox_complete: event.target.checked,
         complete_time: Date.now().toString()
@@ -283,17 +292,18 @@ export default function TodoComp() {
                               <>
                                 <IconButton variant={"contained"}
                                             color={"warning"}
-                                            sx={{marginLeft:4}}
-                                        onClick={(event) => {
-                                          updateBtnEvent(event, todo.taskId)
-                                        }
-                                        }
+                                            sx={{marginLeft: 4}}
+                                            onClick={(event) => {
+                                              updateBtnEvent(event, todo.taskId)
+                                            }
+                                            }
                                 ><AutoFixHighIcon/></IconButton>
-                                <IconButton color={"error"} variant={"contained"}
-                                        onClick={(event) => {
-                                          deleteEvent(event, todo.taskId)
-                                        }
-                                        }><CancelIcon/></IconButton>
+                                <IconButton color={"error"}
+                                            variant={"contained"}
+                                            onClick={(event) => {
+                                              deleteEvent(event, todo.taskId)
+                                            }
+                                            }><CancelIcon/></IconButton>
                               </>
                           }
                           {
