@@ -15,8 +15,8 @@ export const pomodoroInitialState = {
     interval: 0
   },
   config: {
-    minute: 0,
-    rest: 0,
+    minute: 10,
+    rest: 10,
     countValue: 0
   },
   timer: {
