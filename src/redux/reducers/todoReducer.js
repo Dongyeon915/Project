@@ -7,6 +7,7 @@ import {
 } from "../actions/todoAction";
 
 const initialState = {
+  userId: null,
   result: {
     clear: 0,
     rest: 0,
@@ -20,6 +21,7 @@ export default function todoReducer(state = initialState, action) {
     const todoList = []
     action.todoList.forEach(todo => {
       todoList.push({
+        userId: todo.user_id,
         taskId: todo.task_id,
         data: todo.date,
         complete: todo.checkbox_complete,
