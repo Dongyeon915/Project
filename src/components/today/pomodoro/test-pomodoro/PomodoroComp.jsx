@@ -54,28 +54,13 @@ export default function PomodoroCopy() {
     .then(pomodoroInfo => {
       console.log(pomodoroInfo)
       dispatch(setTimeActionCreator(pomodoroInfo.minute))
+      dispatch(setInputMinute(pomodoroInfo.minute))
       console.log(pomodoroInfo.toString())
       dispatch(setRestTimeStateActionCreator(pomodoroInfo.rest))
     }).catch(err => {
       console.log(err)
     })
   }, [])
-
-  // TODO 인터벌이 올라가면 해당 유저의 인터벌이 올라가게
-  // 1이라는 가정
-  // const plusInterval = () => {
-  //   fetch(myRequestGenerator(`/pomodoro/1`), {
-  //     method: "POST",
-  //     headers: {"Content-Type": "application/json"},
-  //     body: JSON.stringify({
-  //       interval: 1
-  //     })
-  //   }).then(response => response.json())
-  //   .then(interval => {
-  //         console.log(interval)
-  //       }
-  //   ).catch(error => console.log(error))
-  // }
 
   // pomodoro DB에 date와 userID넣기
   // useEffect(() => {
@@ -93,7 +78,6 @@ export default function PomodoroCopy() {
   //   .then()
   //   .catch(error => console.error(error))
   // }, [])
-
 
   // 화면 보여주기 설정
   function calcTime(epocTime) {
