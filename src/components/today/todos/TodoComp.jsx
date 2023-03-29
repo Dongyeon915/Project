@@ -61,14 +61,30 @@ export default function TodoComp() {
   // }, [])
 
   // userId로 정보를 가져오기
+  // useEffect(() => {
+  //   fetch(myRequestGenerator(`/schedules/user/23`), {
+  //   }).then(response => response.json())
+  //   .then(newTodo => {
+  //     console.log(newTodo)
+  //    dispatch(getAllTodoActionCreator(newTodo))
+  //   }).catch(error => console.log(error))
+  // }, [])
+
+  // userID와 오늘의 date가 일치하는 정보만 가져온다
   useEffect(() => {
-    fetch(myRequestGenerator(`/schedules/user/23`), {
+    fetch(myRequestGenerator(`/schedules/user`), {
+      method:"POST",
+      headers: {"Content-Type": "application/json"},
+      body:JSON.stringify({
+        user_id: 23,
+        date: new Date().toISOString().split("T")[0]
+      })
     }).then(response => response.json())
-    .then(newTodo => {
-      console.log(newTodo)
-     dispatch(getAllTodoActionCreator(newTodo))
+      .then(newTodo => {
+      dispatch(getAllTodoActionCreator(newTodo))
     }).catch(error => console.log(error))
   }, [])
+
 
   // 버튼 클릭시 todoList배열에 새로운 input 값을 추가
   const buttonClickEvent = (event, index) => {
