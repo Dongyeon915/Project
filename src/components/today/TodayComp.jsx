@@ -9,9 +9,10 @@ import {
 } from "@mui/material";
 import TodoComp from "./todos/TodoComp";
 import "../../css/calendar.css";
-import CalendarComp from "../calendar/CalendarComp";
+import CalendarCompCopy from "../calendar/CalendarCompCopy";
 import PomodoroComp from "./pomodoro/test-pomodoro/PomodoroComp"
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Tui from "../calendar/MyComponent";
 
 export default function TodayComp() {
 
@@ -27,7 +28,7 @@ export default function TodayComp() {
                 <Typography color={"white"} variant={"h5"}>Calendar</Typography>
               </AccordionSummary>
               <AccordionDetails >
-                <CalendarComp/>
+                <CalendarCompCopy/>
               </AccordionDetails>
             </Accordion>
           </Grid2>

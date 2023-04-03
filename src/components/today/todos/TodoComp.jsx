@@ -24,6 +24,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {myRequestGenerator} from "../../../helper/helper";
 import CancelIcon from '@mui/icons-material/Cancel';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
+import Editor from '@toast-ui/editor';
+import '@toast-ui/editor/dist/toastui-editor.css';
 
 export default function TodoComp() {
 
