@@ -2,7 +2,7 @@ import {
   ADD_TODO,
   COMPLETE_TODO,
   DELETE_TODO,
-  GET_ALL_TODO,
+  GET_ALL_TODO, GET_USER_RSULT,
   UPDATE_TODO
 } from "../actions/todoAction";
 
@@ -61,7 +61,12 @@ export default function todoReducer(state = initialState, action) {
     })
     return {
       ...state,
-      list: todoList
+      list: todoList,
+      result: {
+        ...state.result,
+        rest: state.result.rest - 1,
+        clear: state.result.clear  + 1
+      }
     }
   } else if (action.type == DELETE_TODO) {
     // event를 todoItem으로 읽기 좋게 변경 사용
@@ -89,6 +94,17 @@ export default function todoReducer(state = initialState, action) {
     return {
       ...state,
       list: updateTodoList
+    }
+  } else if (action.type == GET_USER_RSULT){
+
+      return {
+        ...state,
+        userId: action.user_id,
+        result: {
+          ...state.result,
+          rest: action.userResult.rest_task,
+          clear: action.userResult.clear_task
+        }
     }
   }
   // 없는 액션타입은 꼭 state로 내보내 줘야한다.
