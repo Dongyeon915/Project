@@ -17,7 +17,7 @@ import {
   addTodoActionCreator,
   completeTodoActionCreator,
   deleteTodoActionCreator,
-  getAllTodoActionCreator,
+  getAllTodoActionCreator, getUserResult,
   updateTodoActionCreator
 } from "../../../redux/actions/todoAction";
 import {useDispatch, useSelector} from "react-redux";
@@ -26,6 +26,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import Editor from '@toast-ui/editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
+import {response} from "../../../sample/Complete";
 
 export default function TodoComp() {
 
@@ -62,15 +63,6 @@ export default function TodoComp() {
   //   .catch(error => console.log(error))
   // }, [])
 
-  // userId로 정보를 가져오기
-  // useEffect(() => {
-  //   fetch(myRequestGenerator(`/schedules/user/23`), {
-  //   }).then(response => response.json())
-  //   .then(newTodo => {
-  //     console.log(newTodo)
-  //    dispatch(getAllTodoActionCreator(newTodo))
-  //   }).catch(error => console.log(error))
-  // }, [])
 
   // userID와 오늘의 date가 일치하는 정보만 가져온다
   useEffect(() => {
@@ -78,14 +70,33 @@ export default function TodoComp() {
       method:"POST",
       headers: {"Content-Type": "application/json"},
       body:JSON.stringify({
-        user_id: 23,
+        user_id: 2,
         date: new Date().toISOString().split("T")[0]
       })
     }).then(response => response.json())
       .then(newTodo => {
       dispatch(getAllTodoActionCreator(newTodo))
+        getRsult()
     }).catch(error => console.log(error))
   }, [])
+
+
+  // rest와 clear를 해당 유저로 세팅하기 useEffect 사용시 무한네트워크 요청으로 함수로빼서 관리
+  const getRsult = () => {
+    fetch(myRequestGenerator(`/result`), {
+      method:"POST",
+      headers: {"Content-Type": "application/json"},
+      body:JSON.stringify({
+        user_id: 2,
+        date: new Date().toISOString().split("T")[0],
+      })
+    }).then(response => response.json())
+    .then(result => {
+      console.log(result)
+      dispatch(getUserResult(result))
+    }).catch(error => console.log(error))
+  }
+
 
 
   // 버튼 클릭시 todoList배열에 새로운 input 값을 추가
@@ -115,7 +126,10 @@ export default function TodoComp() {
     })
   }
 
-  // 체크박스 이벤트 3
+  // 체크박스 이벤트
+  useEffect(() => {
+
+  })
   const todoComplete = (event, index) => {
     dispatch(completeTodoActionCreator(index))
     fetch(myRequestGenerator(`/schedules/checkbox/${index}`), {
