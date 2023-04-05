@@ -30,6 +30,12 @@ export const response = {
           isRunning: false,
           isPause: false,
         },
+        todoRsult:{
+          userId: null,
+          date:null,
+          clear: 0,
+          rest: 0,
+        }
       }
     }
   }

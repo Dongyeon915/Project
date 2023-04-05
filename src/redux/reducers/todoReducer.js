@@ -96,7 +96,6 @@ export default function todoReducer(state = initialState, action) {
       list: updateTodoList
     }
   } else if (action.type == GET_USER_RSULT){
-
       return {
         ...state,
         userId: action.user_id,

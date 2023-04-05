@@ -7,7 +7,7 @@ import {
   SET_MINUTE,
   SET_PAUSE_STATE,
   SET_REST_TIME
-} from "../../actions/pomodoroAction";
+} from "../actions/pomodoroAction";
 
 export const pomodoroInitialState = {
   result: {
