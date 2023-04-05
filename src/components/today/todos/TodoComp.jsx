@@ -44,25 +44,7 @@ export default function TodoComp() {
   const [inputState, setInputState] = useState({
     todoInput: ''
   })
-
   const todoInput = useRef()
-
-  // 수정전
-  // useEffect(() => {
-  //   // result state설정
-  //   fetch(myRequestGenerator("/schedules"))
-  //   .then(response => response.json())
-  //   .then(todos => {
-  //     dispatch(getAllTodoActionCreator(todos))
-  //     let completeCount = 0, restCount = 0
-  //     for (const todo of todos) {
-  //       todo.checkbox_complete? completeCount++ : restCount++
-  //     }
-  //     console.log("Complete: " + completeCount +", Rest: " + restCount)
-  //   })
-  //   .catch(error => console.log(error))
-  // }, [])
-
 
   // userID와 오늘의 date가 일치하는 정보만 가져온다
   useEffect(() => {
@@ -92,12 +74,9 @@ export default function TodoComp() {
       })
     }).then(response => response.json())
     .then(result => {
-      console.log(result)
       dispatch(getUserResult(result))
     }).catch(error => console.log(error))
   }
-
-
 
   // 버튼 클릭시 todoList배열에 새로운 input 값을 추가
   const buttonClickEvent = (event, index) => {
