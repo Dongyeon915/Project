@@ -2,31 +2,63 @@ import '@toast-ui/editor/dist/toastui-editor.css';
 import React, {useEffect, useRef, useState} from "react"
 import {Editor} from '@toast-ui/react-editor';
 import {myRequestGenerator} from "../../helper/helper";
-import {TextField} from "@mui/material";
-import {response} from "../../sample/Complete";
-import {useNavigate} from "react-router-dom";
+import {Button, Stack, TextField} from "@mui/material";
+import {useLocation, useNavigate} from "react-router-dom";
+import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import FileDownloadDoneIcon from '@mui/icons-material/FileDownloadDone';
 
-export default function MyComponent() {
+export default function TilContentWriter() {
 
   const [state, setState] = useState({content: ''})
   const titleRef = useRef()
   const editorRef = useRef()
+  const typeRef = useRef()
   const navigate = useNavigate()
+  const location = useLocation();
+  let tuiContent = {};
+  let btnTitle = "등록"
+  if (location.pathname === "/TIL/Edit") {
+    tuiContent = location.state
+    btnTitle = "수정"
+  } else {
+    tuiContent = {
+      tuiTitle: "",
+      tuiContent: ""
+    }
+  }
 
   useEffect(() => {
+    if (tuiContent.tuiTitle) {
+      titleRef.current.value = tuiContent.tuiTitle
+    }
   }, [])
 
   const handleClick = () => {
-    fetch(myRequestGenerator(`/til`),{
-      method:"POST",
+    let requestMethod = "";
+    let requestPath = "";
+    let bodyData = {
+      tuiId: null,
+      tuiTitle: titleRef.current.value,
+      tuiContent: editorRef.current.getInstance().getMarkdown(),
+      type: typeRef.current.value,
+      createDate: new Date().toISOString().split("T")[0],
+      updateDate: new Date().toISOString().split("T")[0]
+    }
+
+    if (location.pathname === "/TIL/Edit") {
+      requestPath = myRequestGenerator(`/til`)
+      bodyData.tuiId = tuiContent.tuiId;
+      bodyData.createDate = tuiContent.createDate;
+      requestMethod = "PUT"
+    } else {
+      requestPath = myRequestGenerator(`/til`)
+      requestMethod = "POST"
+    }
+
+    fetch(requestPath, {
+      method: requestMethod,
       headers: {"Content-Type": "application/json"},
-      body:JSON.stringify({
-        tuiId: null,
-        tuiTitle: titleRef.current.value,
-        tuiContent: editorRef.current.getInstance().getMarkdown(),
-        type:"html",
-        createDate: new Date().toISOString().split("T")[0]
-      })
+      body: JSON.stringify(bodyData)
     }).then(response => {
       // 처음 성공 실패 여부를 확인
       if (response.status == 200) {
@@ -50,18 +82,29 @@ export default function MyComponent() {
   };
 
   return (
-        <>
-          <TextField sx={{width : "100%"}} inputRef={titleRef}/>
-          <Editor
-              previewStyle="vertical"
-              height="400px"
-              initialEditType="markdown"
-              initialValue={state.content}
-              ref={editorRef}
-              onChange={changeContent}
-              placeholder="Write Content Here!"
-          />
-          <button onClick={handleClick}>등록</button>
-        </>
-    );
+      <>
+        <Stack direction={"row"}>
+          <TextField label={"TITLE"} placeholder={"TITLE"} sx={{width: "70%"}}
+                     inputRef={titleRef}/>
+          <TextField label={"TYPE"} placeholder={"TYPE"} sx={{width: "30%"}}
+                     inputRef={typeRef}/>
+        </Stack>
+        <Editor
+            previewStyle="vertical"
+            height="400px"
+            initialEditType="markdown"
+            initialValue={tuiContent.tuiContent}
+            ref={editorRef}
+            onChange={changeContent}
+            placeholder="Write Content Here!"
+        />
+        <Stack justifyContent={"end"} marginTop={2}>
+          <Button variant="contained"
+                  color={"info"}
+                  startIcon={<FileDownloadDoneIcon/>} onClick={handleClick}>
+            {btnTitle}
+          </Button>
+        </Stack>
+      </>
+  );
 }
