@@ -5,6 +5,14 @@ import RepositoriesComp from "../components/repositories/RepositoriesComp";
 import Schedule from "../components/Schedule";
 import TodayComp from "../components/today/TodayComp";
 import Total from "../components/my-total/Total";
+import TodoComp from "../components/today/todos/TodoComp";
+
+// ------------------------------------ 여러개를 받아올수 있으므로 as지정
+import ToastComp, {loader as TIL_Loader} from "../components/toast/ToastComp";
+import TilContentViewer, {loader as TIL_LOADER} from "../components/toast/TilContentViewer";
+import TilContentWriter, {
+  TILContentLoader
+} from "../components/toast/TilContentWriter";
 
 export const router = createBrowserRouter([
   {
@@ -34,6 +42,23 @@ export const router = createBrowserRouter([
       {
         path: "/total",
         element: <Total/>
+      },
+      {
+        path: "/TIL",
+        element: <ToastComp/>
+      },
+      {
+        path: "/TIL/Write",
+        element: <TilContentWriter/>,
+      },
+      {
+        path: "/TIL/Edit",
+        element: <TilContentWriter/>,
+      },
+      {
+        path: "/TIL/:til_id",
+        element: <TilContentViewer/>,
+        loader: TIL_LOADER,
       }
     ]
   }
