@@ -14,7 +14,7 @@ function App() {
   };
 
   return (
-      <Box sx={{display: 'flex'}}>
+      <Box sx={{display: 'flex', backgroundColor: "#F3EED9",minHeight: 700}}>
         <CssBaseline/>
         <MyAppBar handleDrawerToggle={handleDrawerToggle}/>
         <MyDrawer handleDrawerToggle={handleDrawerToggle}
