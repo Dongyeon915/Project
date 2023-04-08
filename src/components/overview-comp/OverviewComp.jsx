@@ -9,8 +9,8 @@ import {
   Typography
 } from "@mui/material";
 import {Aod, GitHub, Mail} from "@mui/icons-material";
-import Tui from "../calendar/MyComponent";
-import MyComponent from "../calendar/MyComponent";
+import Tui from "../toast/TilContentWriter";
+import TilContentWriter from "../toast/TilContentWriter";
 
 function overviewComp() {
   return (
@@ -68,7 +68,6 @@ function overviewComp() {
         </Grid2>
         {/* 하단 부분 */}
         {/*<img src="https://ghchart.rshah.org/juyonglee" />*/}
-        <MyComponent/>
         <Container fixed={"true"} marginTop={2}>
         </Container>
       </Container>
