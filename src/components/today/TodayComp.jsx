@@ -12,7 +12,7 @@ import "../../css/calendar.css";
 import CalendarCompCopy from "../calendar/CalendarCompCopy";
 import PomodoroComp from "./pomodoro/test-pomodoro/PomodoroComp"
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Tui from "../calendar/MyComponent";
+import Tui from "../toast/TilContentWriter";
 
 export default function TodayComp() {
 
