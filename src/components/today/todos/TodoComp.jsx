@@ -17,16 +17,15 @@ import {
   addTodoActionCreator,
   completeTodoActionCreator,
   deleteTodoActionCreator,
-  getAllTodoActionCreator, getUserResult,
+  getAllTodoActionCreator,
+  getUserResult,
   updateTodoActionCreator
 } from "../../../redux/actions/todoAction";
 import {useDispatch, useSelector} from "react-redux";
 import {myRequestGenerator} from "../../../helper/helper";
 import CancelIcon from '@mui/icons-material/Cancel';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
-import Editor from '@toast-ui/editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
-import {response} from "../../../sample/Complete";
 
 export default function TodoComp() {
 
@@ -49,26 +48,25 @@ export default function TodoComp() {
   // userID와 오늘의 date가 일치하는 정보만 가져온다
   useEffect(() => {
     fetch(myRequestGenerator(`/schedules/user`), {
-      method:"POST",
+      method: "POST",
       headers: {"Content-Type": "application/json"},
-      body:JSON.stringify({
+      body: JSON.stringify({
         user_id: 2,
         date: new Date().toISOString().split("T")[0]
       })
     }).then(response => response.json())
-      .then(newTodo => {
+    .then(newTodo => {
       dispatch(getAllTodoActionCreator(newTodo))
-        getRsult()
+      getRsult()
     }).catch(error => console.log(error))
   }, [])
-
 
   // rest와 clear를 해당 유저로 세팅하기 useEffect 사용시 무한네트워크 요청으로 함수로빼서 관리
   const getRsult = () => {
     fetch(myRequestGenerator(`/result`), {
-      method:"POST",
+      method: "POST",
       headers: {"Content-Type": "application/json"},
-      body:JSON.stringify({
+      body: JSON.stringify({
         user_id: 2,
         date: new Date().toISOString().split("T")[0],
       })
@@ -95,7 +93,7 @@ export default function TodoComp() {
         todo_task: todoInput.current.value,
         checkbox_complete: false,
         user_id: 2,
-        date: new Date().toISOString().split("T")[0]
+        date: new Date().toISOString().split("T")[0],
       })
     }).then(response => response.json())
     .then(newTodo => {
