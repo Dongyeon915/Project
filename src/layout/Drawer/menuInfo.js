@@ -18,5 +18,10 @@ export const menuInfo = [
     id: 4,
     name: "My total",
     link: "/total"
+  },
+  {
+    id: 5,
+    name: "TIL",
+    link: "/TIL"
   }
 ]
