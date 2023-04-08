@@ -16,7 +16,7 @@ export default function CalendarComp() {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    fetch(myRequestGenerator(`/calendar`), {
+    fetch(myRequestGenerator(`/calendar/allUserCalendar`), {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({
@@ -25,16 +25,22 @@ export default function CalendarComp() {
     }).then(response => response.json())
     .then(response => {
       dispatch(getCalendarUserInfoActionCreator(response))
-      console.log(response)
+      console.log("------------------------------------------")
+      // console.log(response)
     })
     .catch(error => console.log(error))
   }, [])
 
-  console.log(todoResult.date)
-
   return (
       <Paper variant={"elevation"} elevation={4}>
         <Calendar
+            defaultValue={new Date()}
+            activeStartDate={new Date()}
+            // onClickDay={(value, event) => {
+            //     const date = new Date(value.getTime() - value.getTimezoneOffset() * 60000).toISOString().split("T")[0]
+            //   alert(date)
+            //
+            //   }}
             // navigationAriaLive={"polite"}
             nextLabel={
               <RedoIcon
@@ -59,24 +65,27 @@ export default function CalendarComp() {
             allowPartialRange={
               "true"
             }
-            tileContent={(activeStartDate) => {
-              // 하루 더먼저로 설정된다
-              console.log(activeStartDate.date)
-              for (let i = 0; i < 1; i++) {
-                if (activeStartDate.date.toISOString().split("T")[0] == todoResult.date) {
-                  return (
-                      <div>
-                        <Typography
-                        color={"darkred"}
-                        >rest : {todoResult.rest} 개</Typography>
-                        <Typography
-                        color={"green"}
-                        >clear : {todoResult.clear} 개</Typography>
-                      </div>
-                  )
-                }
-            }
-            }}
+            // tileContent={(activeStartDate) => {
+            //   // 하루 더먼저로 설정된다
+            //   for (let i = 0; i < 31; i++) {
+            //     if (new Date(activeStartDate.date.getTime() - activeStartDate.date.getTimezoneOffset() * 60000).toISOString().split("T")[0] == todoResult.date) {
+            //       return (
+            //           <div>
+            //             <Typography
+            //             color={"darkred"}
+            //             >rest : {todoResult[i].rest} 개</Typography>
+            //             <Typography
+            //             color={"green"}
+            //             >clear : {todoResult[i].clear} 개</Typography>
+            //           </div>
+            //       )
+            //     }
+            // }
+            // }}
+            // onClickDay={(value,event) => {
+            // alert(value.toISOString().split("T")[0])
+            // }
+            //}
           />
       </Paper>
 
