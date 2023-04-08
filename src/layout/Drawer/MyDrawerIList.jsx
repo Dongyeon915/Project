@@ -10,7 +10,7 @@ import {Avatar, Link, Stack, Typography} from "@mui/material";
 import GitUser from "../../components/user-comp/gitUser";
 import {
   AccessAlarm,
-  AccessTime,
+  AccessTime, GitHub,
   LibraryBooks,
   MenuBook
 } from "@mui/icons-material";
@@ -64,6 +64,9 @@ function MyDrawerIList() {
                         }
                         {
                             menuItem.id == 4 && <ContactEmergencyIcon/>
+                        }
+                        {
+                          menuItem.id == 5 && <GitHub/>
                         }
                       </ListItemIcon>
                       <ListItemText primary={menuItem.name}/>
