@@ -11,7 +11,7 @@ function MyAppBar({handleDrawerToggle}) {
           sx={{
             zIndex: 1500,
             marginLeft: {sm: "240px"},
-            backgroundColor:"#EE5D50FF"
+            backgroundColor:"#6A8A87"
           }}
       >
         <Toolbar>
