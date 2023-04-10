@@ -8,6 +8,8 @@ import {myRequestGenerator} from "../../helper/helper";
 import {
   getCalendarUserInfoActionCreator
 } from "../../redux/actions/calendarAction";
+import Box from "@mui/material/Box";
+import CircularStatic from "../today/todos/CircularProgressWithLabel";
 
 export default function CalendarComp() {
   const pomodoro = useSelector((state) => state.pomodoro)
@@ -25,23 +27,23 @@ export default function CalendarComp() {
     }).then(response => response.json())
     .then(response => {
       dispatch(getCalendarUserInfoActionCreator(response))
-      console.log("------------------------------------------")
       // console.log(response)
     })
     .catch(error => console.log(error))
   }, [])
+
+  console.log(todoResult)
+
 
   return (
       <Paper variant={"elevation"} elevation={4}>
         <Calendar
             defaultValue={new Date()}
             activeStartDate={new Date()}
-            // onClickDay={(value, event) => {
-            //     const date = new Date(value.getTime() - value.getTimezoneOffset() * 60000).toISOString().split("T")[0]
-            //   alert(date)
-            //
-            //   }}
-            // navigationAriaLive={"polite"}
+            onClickDay={(value, event) => {
+                const date = new Date(value.getTime() - value.getTimezoneOffset() * 60000).toISOString().split("T")[0]
+              alert(date)
+              }}
             nextLabel={
               <RedoIcon
                   color={"warning"}
@@ -65,27 +67,18 @@ export default function CalendarComp() {
             allowPartialRange={
               "true"
             }
-            // tileContent={(activeStartDate) => {
-            //   // 하루 더먼저로 설정된다
-            //   for (let i = 0; i < 31; i++) {
-            //     if (new Date(activeStartDate.date.getTime() - activeStartDate.date.getTimezoneOffset() * 60000).toISOString().split("T")[0] == todoResult.date) {
-            //       return (
-            //           <div>
-            //             <Typography
-            //             color={"darkred"}
-            //             >rest : {todoResult[i].rest} 개</Typography>
-            //             <Typography
-            //             color={"green"}
-            //             >clear : {todoResult[i].clear} 개</Typography>
-            //           </div>
-            //       )
-            //     }
-            // }
-            // }}
-            // onClickDay={(value,event) => {
-            // alert(value.toISOString().split("T")[0])
-            // }
-            //}
+            tileContent={(activeStartDate) => {
+              // const newDateValue = new Date(activeStartDate.date.getTime() - activeStartDate.date.getTimezoneOffset() * 60000).toISOString().split("T")[0]
+              for (let i = 0; i < todoResult.length; i++) {
+                    if (activeStartDate.getDate() === todoResult.getDate) {
+                      return (
+                          <Box sx={{paddingTop: 2}}>
+                            <p>vjzvso</p>
+
+                          </Box>
+                      )
+                    }}
+            }}
           />
       </Paper>
 
