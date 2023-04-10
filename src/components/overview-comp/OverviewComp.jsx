@@ -29,13 +29,13 @@ function overviewComp() {
             </Paper>
           </Grid2>
           <Grid2>
-            <Typography variant={"h4"} fontWeight={"inherit"}>
-              김동연
+            <Typography variant={"h4"} fontWeight={"inherit"}  sx={{fontFamily:"Oswald"}}>
+              kim
             </Typography>
-            <Typography variant={"body2"} marginTop={2}>
-              대부 촬영 당시 알 파치노에게 말을 아꼈지만,
+            <Typography variant={"body2"} marginTop={2} sx={{fontFamily:"Oswald"}}>
+              sksms
               <br/>
-              나는 그가 미국뿐만 아니라 세계 최고 배우 중 하나라고 생각한다.
+              한글
               <br/>
               이 영화는 이런 내 생각을 똑똑히 증명했다. 허풍처럼 들리는가? 글쎄,
               <br/>
