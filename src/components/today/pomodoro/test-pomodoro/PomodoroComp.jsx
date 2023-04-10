@@ -17,7 +17,6 @@ import {
 } from "../../../../redux/actions/pomodoroAction";
 import {useDispatch, useSelector} from "react-redux";
 import {myRequestGenerator} from "../../../../helper/helper";
-import {response} from "../../../../sample/Complete";
 
 export default function PomodoroCopy() {
   // JavaScript =>  false, null, undefined, 0, ''
@@ -46,7 +45,7 @@ export default function PomodoroCopy() {
     fetch(myRequestGenerator(`/pomodoro`), {
       method: "POST",
       headers: {"Content-Type": "application/json"},
-      body:JSON.stringify({
+      body: JSON.stringify({
         "userId": 2,
         "date": new Date().toISOString().split("T")[0]
       })
@@ -118,7 +117,7 @@ export default function PomodoroCopy() {
     timerReference.current = setInterval(() => {
       // 카운터 수를 줄이는 dispatch
       dispatch(runTimerActionCreator())
-    }, 1)
+    }, 1000)
     //   처음 메모이제이션된 값만을 기억하기에
   }, [pomodoro.timer.state, pomodoro.config])
 
@@ -150,7 +149,6 @@ export default function PomodoroCopy() {
       .catch(error => console.log(error))
     }
   }, [pomodoro.config.countValue])
-
 
   // 정지 이벤트
   const pauseTimerHandler = useCallback(() => {
@@ -203,13 +201,15 @@ export default function PomodoroCopy() {
   }
 
   return (
-      <Grid2 container={"true"} direction={"column"} minHeight={500}>
+      <Grid2 container={"true"} direction={"column"} minHeight={500}
+             sx={{backgroundColor: "#F3EED9"}}>
         <Grid2 sm={12}>
           <Paper variant="elevation" elevation={"4"}
-                 sx={{borderRadius: 50, backgroundColor: "#ee5d50"}}>
+                 sx={{borderRadius: 50, backgroundColor: "#ED9747"}}>
             {/* 상단 시간 영역*/}
             <Stack alignItems={"center"} padding={3}>
-              <Typography color={"white"} fontWeight={"bolder"} flexGrow={1}
+              <Typography sx={{fontFamily: "Oswald"}} color={"white"}
+                          fontWeight={"bolder"} flexGrow={1}
                           variant={"h1"}>
                 {pomodoro.config.countValue ? calcTime(
                         pomodoro.config.countValue)
@@ -258,16 +258,19 @@ export default function PomodoroCopy() {
 
         {/*타이머 설정창*/}
         <Grid2 sm={12} marginTop={6}>
-          <Paper>
+          <Paper sx={{backgroundColor: "#F3EED9"}}>
             <Typography marginLeft={5} variant={"h2"} flexGrow={1}
-                        color={"#ee5d50"} fontWeight={"bolder"}>
+                        color={"#ED9747"} fontWeight={"bolder"}
+                        sx={{fontFamily: "Oswald"}}>
               Pomodoro Timer
             </Typography>
             <Divider variant={"middle"}/>
 
             {/*분단위을 설정하는 부분*/}
             <Stack direction={"row"} alignItems={"center"} padding={1}>
-              <Typography variant={"h5"} flexGrow={1} marginLeft={5}>
+              <Typography variant={"h5"} flexGrow={1} marginLeft={5}
+                          fontWeight={"bolder"}
+                          sx={{fontFamily: "Oswald"}}>
                 Select Minute
               </Typography>
               {/* onChang시 (event를 넣지않아도 해당 이벤트의 event 정보가 넘어가므로 index시에만 전달하기) */}
@@ -288,7 +291,9 @@ export default function PomodoroCopy() {
 
             {/*휴식 시간 화면*/}
             <Stack direction={"row"} alignItems={"center"} padding={1}>
-              <Typography variant={"h5"} flexGrow={1} marginLeft={5}>
+              <Typography variant={"h5"} flexGrow={1} marginLeft={5}
+                          fontWeight={"bolder"}
+                          sx={{fontFamily: "Oswald"}}>
                 Select Rest
               </Typography>
               <TextField sx={{minWidth: 200, marginRight: 9}}

@@ -18,14 +18,14 @@ export default function TodayComp() {
 
   return (
 
-      <Container fixed={"true"} sx={{backgroundColor:"#EE5D50FF",borderRadius:8}}>
+      <Container fixed={"true"} sx={{backgroundColor:"#2F4858",borderRadius:8}}>
         <Grid2 container={"true"} lg={12} spacing={2}>
           <Grid2 lg={12}>
-            <Accordion sx={{backgroundColor:"#3CB371"}}>
+            <Accordion sx={{backgroundColor:"#93AC9E"}}>
               <AccordionSummary
                   expandIcon={<ExpandMoreIcon/>}
               >
-                <Typography color={"white"} variant={"h5"}>Calendar</Typography>
+                <Typography sx={{fontFamily:"Oswald"}} color={"#2F4856"} variant={"h5"}>Calendar</Typography>
               </AccordionSummary>
               <AccordionDetails >
                 <CalendarCompCopy/>

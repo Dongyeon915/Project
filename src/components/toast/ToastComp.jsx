@@ -1,8 +1,8 @@
 import {
   Button,
   Container,
-  Link,
-  Paper,
+  Link, Pagination,
+  Paper, Stack,
   Table,
   TableBody,
   TableCell,
@@ -19,8 +19,15 @@ import {Link as RouterLink, useNavigate} from "react-router-dom";
 import {useCallback, useEffect, useState} from "react";
 import {myRequestGenerator} from "../../helper/helper";
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import ReactPaginate from 'react-paginate';
+import usePagination from "@mui/material/usePagination";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import Divider from "@mui/material/Divider";
+import {Tag} from "@mui/icons-material";
 
 export default function ToastComp() {
+
 
   const [state, setState] = useState({
     "contents": [],
@@ -48,12 +55,24 @@ export default function ToastComp() {
     }).catch(error => console.log(error))
   }, [])
 
+  // //////////////////////////////////////////////////
+  const [page, setPage] = useState(1);
+  const handleChange = (event, value) => {
+    setPage(value);
+    // 클릭번호 접근
+    console.log(value)
+  };
+
+
+
   return (
       <Container fixed={"true"} sx={{borderRadius: 8}}>
         <Grid2 container={"true"} lg={12} spacing={2}>
           <Grid2 lg={12}>
             <Typography variant={"h4"} fontWeight={"bolder"} marginTop={3}
-                        textAlign={"left"}>
+                        textAlign={"left"}
+                        sx={{fontFamily:"Oswald"}}
+            >
               Today I Learned
             </Typography>
           </Grid2>
@@ -62,10 +81,10 @@ export default function ToastComp() {
               <Table sx={{minWidth: 650}} aria-label="simple table">
                 <TableHead sx={{"backgroundColor": "#6A8A87"}}>
                   <TableRow>
-                    <TableCell align="center">No.</TableCell>
-                    <TableCell align="center">Title</TableCell>
-                    <TableCell align="center">Type</TableCell>
-                    <TableCell align="center">Created by</TableCell>
+                    <TableCell  sx={{fontFamily:"Oswald",fontSize:"20px"}} align="center">No.</TableCell>
+                    <TableCell  sx={{fontFamily:"Oswald",fontSize:"20px"}} align="center">Title</TableCell>
+                    <TableCell  sx={{fontFamily:"Oswald",fontSize:"20px"}} align="center">Type</TableCell>
+                    <TableCell  sx={{fontFamily:"Oswald",fontSize:"20px"}} align="center">Created by</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -101,12 +120,24 @@ export default function ToastComp() {
           </Grid2>
         </Grid2>
         <Grid2 container={"true"} justifyContent={"flex-end"} paddingRight={2} paddingTop={3}>
+
+          <Stack spacing={2} flexGrow={1} alignItems={"center"}>
+            <Pagination
+                count={state.contents.length}
+                page={page}
+                color="primary"
+                onChange={handleChange}
+            />
+
+          </Stack>
+
           <Button variant="contained"
                   color={"success"}
                   startIcon={<ModeEditIcon/>} onClick={writeClickHandler}>
-            글쓰기
+              글쓰기
           </Button>
         </Grid2>
       </Container>
   )
 }
+

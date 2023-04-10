@@ -103,10 +103,6 @@ export default function TodoComp() {
     })
   }
 
-  // 체크박스 이벤트
-  useEffect(() => {
-
-  })
   const todoComplete = (event, index) => {
     dispatch(completeTodoActionCreator(index))
     fetch(myRequestGenerator(`/schedules/checkbox/${index}`), {
@@ -217,12 +213,13 @@ export default function TodoComp() {
   return (
       // todo title 및 날짜
       <Grid2 lg={6} sx={{maxHeight: 500, minWidth: 550}}>
-        <Paper variant={"elevation"} elevation={4} sx={{padding: 3}}>
+        <Paper variant={"elevation"} elevation={4}
+               sx={{padding: 3, backgroundColor: "#F3EED9",}}>
           <Stack direction={"row"} justifyContent={"space-between"}
                  alignItems={"center"}>
-            <Typography variant={"h6"} fontWeight={700}>
+            <Typography variant={"h5"} fontWeight={700} sx={{fontFamily:"Oswald"}}>
               List</Typography>
-            <Typography variant={"subtitle2"}
+            <Typography sx={{fontFamily:"Oswald"}} variant={"subtitle2"}
                         fontWeight={600}>{new Date().toLocaleDateString()}</Typography>
           </Stack>
           <Stack direction={"row"} flexGrow={1} justifyContent={"end"}
@@ -273,6 +270,7 @@ export default function TodoComp() {
                               :
                               <>
                                 <Typography
+
                                     minWidth={270}
                                     sx={todo.complete
                                         && {textDecoration: "line-through"}}
@@ -342,7 +340,7 @@ export default function TodoComp() {
           }}>
             {/*flexGrow 사용시 남은 여백만큼 위치 차지함*/}
             <Input placeholder={"New Task..."}
-                   sx={{flexGrow: 1, color: "white"}}
+                   sx={{flexGrow: 1, color: "white",fontFamily:"Oswald"}}
                 // value={inputState.todoInput}
                    onKeyDown={enterEventHandler}
                    inputRef={todoInput}
