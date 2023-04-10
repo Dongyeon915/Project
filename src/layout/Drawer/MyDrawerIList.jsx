@@ -8,29 +8,34 @@ import Divider from "@mui/material/Divider";
 import * as React from "react";
 import {Avatar, Link, Stack, Typography} from "@mui/material";
 import GitUser from "../../components/user-comp/gitUser";
-import {
-  AccessAlarm,
-  AccessTime, GitHub,
-  LibraryBooks,
-  MenuBook
-} from "@mui/icons-material";
-import {Link as RouterLink} from "react-router-dom";
+import {AccessTime, LibraryBooks, MenuBook} from "@mui/icons-material";
+import {Link as RouterLink, useNavigate} from "react-router-dom";
 import {menuInfo} from "./menuInfo";
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import ContactEmergencyIcon from '@mui/icons-material/ContactEmergency';
+import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
+import Grid2 from "@mui/material/Unstable_Grid2";
+import OverviewComp from "../../components/overview-comp/OverviewComp";
+
+
 
 function MyDrawerIList() {
+  const navigate = useNavigate()
   return (
-      <div>
+      <Grid2 sx={{backgroundColor: "#A5B79A", minHeight: "100%"}}>
         <Toolbar/>
         <List>
           <ListItem key="사용">
-            <ListItemButton>
+            <ListItemButton
+            onClick={() => {
+              navigate('/overview')
+            }
+            }
+            >
               <Stack direction={"row"} spacing={3}>
                 <Avatar alt="유저이미지" src={GitUser.avatar_url}
                         sx={{width: 60, height: 60}}/>
                 <Stack spacing={1} justifyContent={"center"}>
-                  <Typography variant={"h6"}>
+                  <Typography variant={"h6"} fontWeight={"bolder"}>
                     {GitUser.name}
                   </Typography>
                   <Typography variant={"body1"}>
@@ -48,11 +53,11 @@ function MyDrawerIList() {
         <List>
           {
             menuInfo.map((menuItem) => (
-                <Link component={RouterLink} to={menuItem.link}
+                <Link component={RouterLink}  to={menuItem.link}
                       underline={"none"} color={"black"}>
                   <ListItem key={menuItem.id} disablePadding>
-                    <ListItemButton>
-                      <ListItemIcon>
+                    <ListItemButton >
+                      <ListItemIcon >
                         {
                             menuItem.id == 1 && <LibraryBooks/>
                         }
@@ -60,13 +65,13 @@ function MyDrawerIList() {
                             menuItem.id == 2 && <MenuBook/>
                         }
                         {
-                          menuItem.id == 3 && <AccessTime/>
+                            menuItem.id == 3 && <AccessTime/>
                         }
                         {
                             menuItem.id == 4 && <ContactEmergencyIcon/>
                         }
                         {
-                          menuItem.id == 5 && <GitHub/>
+                            menuItem.id == 5 && <FormatListNumberedIcon/>
                         }
                       </ListItemIcon>
                       <ListItemText primary={menuItem.name}/>
@@ -76,7 +81,7 @@ function MyDrawerIList() {
             ))
           }
         </List>
-      </div>
+      </Grid2>
   )
 }
 
