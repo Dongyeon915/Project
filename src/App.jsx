@@ -5,7 +5,9 @@ import MyAppBar from "./layout/AppBar/MyAppBar";
 import MyDrawer from "./layout/Drawer/MyResponsiveDrawer";
 import ContentContainer from "./layout/ContentContainer";
 
+
 function App() {
+
 
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -14,7 +16,7 @@ function App() {
   };
 
   return (
-      <Box sx={{display: 'flex', backgroundColor: "#F3EED9",minHeight: 700}}>
+      <Box sx={{display: 'flex', backgroundColor: "#F3EED9",minHeight: 800}}>
         <CssBaseline/>
         <MyAppBar handleDrawerToggle={handleDrawerToggle}/>
         <MyDrawer handleDrawerToggle={handleDrawerToggle}
