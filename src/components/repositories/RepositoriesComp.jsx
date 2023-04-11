@@ -14,7 +14,7 @@ import {GitHub} from "@mui/icons-material";
 function repositoriesComp() {
   return (
     <Container fixed={"true"}>
-      <Typography variant={"h4"} fontWeight={"bolder"} marginTop={3} textAlign={"center"}>
+      <Typography variant={"h4"} fontWeight={"bolder"} marginTop={3} textAlign={"center"} sx={{fontFamily:"Oswald"}}>
         My Git Repositories
       </Typography>
         {repositoryWebhooks.map((repository, index) => {

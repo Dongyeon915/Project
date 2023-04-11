@@ -137,6 +137,12 @@ export default function ToastComp() {
               글쓰기
           </Button>
         </Grid2>
+        <Grid2 marginTop={10}>
+        <Divider/>
+          <Typography variant={"body1"}>
+            Copyright 2023.(Sangmyung University) <b>JuYong Lee</b> All Rights Reserved
+          </Typography>
+        </Grid2>
       </Container>
   )
 }
