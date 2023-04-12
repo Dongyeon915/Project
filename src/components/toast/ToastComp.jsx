@@ -1,8 +1,10 @@
 import {
   Button,
   Container,
-  Link, Pagination,
-  Paper, Stack,
+  Link,
+  Pagination,
+  Paper,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -11,7 +13,6 @@ import {
   TableRow,
   Typography
 } from "@mui/material";
-import JavascriptIcon from '@mui/icons-material/Javascript';
 import Grid2 from "@mui/material/Unstable_Grid2";
 import Box from "@mui/material/Box";
 // 라우터링크로 component를 지정해줘야
@@ -19,18 +20,12 @@ import {Link as RouterLink, useNavigate} from "react-router-dom";
 import {useCallback, useEffect, useState} from "react";
 import {myRequestGenerator} from "../../helper/helper";
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
-import ReactPaginate from 'react-paginate';
-import usePagination from "@mui/material/usePagination";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
 import Divider from "@mui/material/Divider";
-import {Tag} from "@mui/icons-material";
 
 export default function ToastComp() {
 
-
   const [state, setState] = useState({
-    "contents": [],
+    "contents": []
   })
 
   const navigate = useNavigate();
@@ -40,8 +35,9 @@ export default function ToastComp() {
     navigate("/TIL/Write")
   }, []);
 
+
   useEffect(() => {
-    fetch(myRequestGenerator(`/til`), {
+    fetch(myRequestGenerator(`/til/page/1`), {
       method: "GET",
       headers: {"Content-Type": "application/json"},
     }).then(response => response.json())
@@ -55,14 +51,30 @@ export default function ToastComp() {
     }).catch(error => console.log(error))
   }, [])
 
+
+
   // //////////////////////////////////////////////////
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState();
+
+  // 페이지 만들기
   const handleChange = (event, value) => {
-    setPage(value);
-    // 클릭번호 접근
+    const newValue = value * 10
+    fetch(myRequestGenerator(`/til/page/${newValue}`), {
+      method: "GET",
+      headers: {"Content-Type": "application/json"},
+    }).then(response => response.json())
+    .then(til => {
+          console.log(til)
+          setState(prevState => {
+            return {
+              contents: til
+            }
+          })
+        }
+    )
+    .catch(error => console.log(error))
     console.log(value)
   };
-
 
 
   return (
@@ -71,7 +83,7 @@ export default function ToastComp() {
           <Grid2 lg={12}>
             <Typography variant={"h4"} fontWeight={"bolder"} marginTop={3}
                         textAlign={"left"}
-                        sx={{fontFamily:"Oswald"}}
+                        sx={{fontFamily: "Oswald"}}
             >
               Today I Learned
             </Typography>
@@ -81,10 +93,14 @@ export default function ToastComp() {
               <Table sx={{minWidth: 650}} aria-label="simple table">
                 <TableHead sx={{"backgroundColor": "#6A8A87"}}>
                   <TableRow>
-                    <TableCell  sx={{fontFamily:"Oswald",fontSize:"20px"}} align="center">No.</TableCell>
-                    <TableCell  sx={{fontFamily:"Oswald",fontSize:"20px"}} align="center">Title</TableCell>
-                    <TableCell  sx={{fontFamily:"Oswald",fontSize:"20px"}} align="center">Type</TableCell>
-                    <TableCell  sx={{fontFamily:"Oswald",fontSize:"20px"}} align="center">Created by</TableCell>
+                    <TableCell sx={{fontFamily: "Oswald", fontSize: "20px"}}
+                               align="center">No.</TableCell>
+                    <TableCell sx={{fontFamily: "Oswald", fontSize: "20px"}}
+                               align="center">Title</TableCell>
+                    <TableCell sx={{fontFamily: "Oswald", fontSize: "20px"}}
+                               align="center">Type</TableCell>
+                    <TableCell sx={{fontFamily: "Oswald", fontSize: "20px"}}
+                               align="center">Created by</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -119,11 +135,14 @@ export default function ToastComp() {
             </TableContainer>
           </Grid2>
         </Grid2>
-        <Grid2 container={"true"} justifyContent={"flex-end"} paddingRight={2} paddingTop={3}>
+        <Grid2 container={"true"} justifyContent={"flex-end"} paddingRight={2}
+               paddingTop={3}>
 
           <Stack spacing={2} flexGrow={1} alignItems={"center"}>
+
+
             <Pagination
-                count={state.contents.length}
+                count={4}
                 page={page}
                 color="primary"
                 onChange={handleChange}
@@ -134,13 +153,14 @@ export default function ToastComp() {
           <Button variant="contained"
                   color={"success"}
                   startIcon={<ModeEditIcon/>} onClick={writeClickHandler}>
-              글쓰기
+            글쓰기
           </Button>
         </Grid2>
         <Grid2 marginTop={10}>
-        <Divider/>
+          <Divider/>
           <Typography variant={"body1"}>
-            Copyright 2023.(Sangmyung University) <b>JuYong Lee</b> All Rights Reserved
+            Copyright 2023.(Sangmyung University) <b>JuYong Lee</b> All Rights
+            Reserved
           </Typography>
         </Grid2>
       </Container>
