@@ -35,7 +35,17 @@ export default function ToastComp() {
     navigate("/TIL/Write")
   }, []);
 
+  // //////////////////////////////////////////////////
+  const [page, setPage] = useState();
+  const [statePageLength, setPageLength] = useState({
+    pageValue: 1
+  })
+  // 게시글 인덱스 번호 말고 다르게 value를사용
+  const [statePageNo,setPageNo] = useState({
+    pageNo : 1
+  })
 
+  // 초기페이지 설정 1을 전달하면 offset이 1을 받음
   useEffect(() => {
     fetch(myRequestGenerator(`/til/page/1`), {
       method: "GET",
@@ -45,19 +55,46 @@ export default function ToastComp() {
       console.log(til)
       setState(prevState => {
         return {
+          ...prevState,
           contents: til
         }
       })
     }).catch(error => console.log(error))
   }, [])
 
-
-
-  // //////////////////////////////////////////////////
-  const [page, setPage] = useState();
+  // 모든 정보를 가져와 동적으로 페이지 숫자를 표시함
+  useEffect(() => {
+    fetch(myRequestGenerator(`/til`), {
+      method: "GET",
+      headers: {"Content-Type": "application/json"},
+    }).then(response => response.json())
+    .then(til => {
+      const newTil = til.length / 10
+      // console.log(Math.floor(newTil))
+      setPageLength(prevState => {
+        return {
+          ...prevState,
+          pageValue: Math.floor(newTil)
+        }
+      })
+    }).catch(error => console.log(error))
+  }, [])
 
   // 페이지 만들기
   const handleChange = (event, value) => {
+    setPageNo(prevState => {
+      // 만약 value의 값이 1이라면 기존 페이지에 value값을 전달
+      if (value == 1){
+        return {
+          ...prevState,
+          pageNo : value
+        }
+      }
+      return {
+        ...prevState,
+        pageNo : value * 10
+      }
+    })
     const newValue = value * 10
     fetch(myRequestGenerator(`/til/page/${newValue}`), {
       method: "GET",
@@ -70,12 +107,12 @@ export default function ToastComp() {
               contents: til
             }
           })
+      console.log(value)
+
         }
     )
     .catch(error => console.log(error))
-    console.log(value)
   };
-
 
   return (
       <Container fixed={"true"} sx={{borderRadius: 8}}>
@@ -110,7 +147,7 @@ export default function ToastComp() {
                           sx={{'&:last-child td, &:last-child th': {border: 0}}}
                       >
                         <TableCell align="center">
-                          {index + 1}
+                          {index + statePageNo.pageNo}
                         </TableCell>
                         <TableCell align="center">
                           <Link
@@ -137,17 +174,14 @@ export default function ToastComp() {
         </Grid2>
         <Grid2 container={"true"} justifyContent={"flex-end"} paddingRight={2}
                paddingTop={3}>
-
           <Stack spacing={2} flexGrow={1} alignItems={"center"}>
 
-
             <Pagination
-                count={4}
+                count={statePageLength.pageValue}
                 page={page}
                 color="primary"
                 onChange={handleChange}
             />
-
           </Stack>
 
           <Button variant="contained"
