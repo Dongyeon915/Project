@@ -11,11 +11,6 @@ import {
 
 export default function Total() {
 
-  const todo = useSelector(state => state.todo);
-  const pomodoro = useSelector(state => state.pomodoro);
-  const dispatch = useDispatch();
-
-
   const [userResultState,setuserResult] = useState({
     arrRest : [],
   })
@@ -23,7 +18,6 @@ export default function Total() {
   const [userIntervalState,setuserInterval] = useState({
     intervalArr : [],
   })
-
 
   // 유저의 아이디로 rest.clear를 가져온다
   useEffect(() => {
@@ -80,32 +74,35 @@ export default function Total() {
     interValValue += parseInt(userIntervalState.intervalArr[i].interval)
   }
 
-  console.log(userIntervalState.intervalArr)
-
   return (
-      <Grid2 sx={{backgroundColor:"pink",}} minHeight={500}>
-        <Stack sx={{backgroundColor:"yellow"}} direction={"row"} justifyContent={"center"} spacing={15} padding={3}>
-          <Grid2 sx={{backgroundColor:"red",minWidth:300,minHeight:300}} padding={2}>
-            <Typography variant={"h2"} textAlign={"center"}>
+      <Grid2 minHeight={500}  sx={{backgroundColor: "#2F4858",borderRadius: "80px"}}>
+        <Grid2 sx={{backgroundColor:"#2F4858",minWidth:300,minHeight:300,borderRadius: "50px"}} padding={1}>
+          <Typography  sx={{fontFamily:"Oswald",color:"#F3EED9",fontSize:"150px"}} textAlign={"center"}>
+            My performance
+          </Typography>
+        </Grid2>
+        <Stack sx={{backgroundColor: "#2F4858",borderRadius:"50px"}} direction={"row"} justifyContent={"center"} spacing={15} padding={3}>
+          <Grid2 sx={{backgroundColor:"#F3EED9",minWidth:300,minHeight:300,borderRadius: "50px"}} padding={2}>
+            <Typography  sx={{fontFamily:"Oswald"}} variant={"h2"} textAlign={"center"}>
               CLEAR
             </Typography>
-            <Typography variant={"h2"} textAlign={"center"} padding={6}>
+            <Typography sx={{fontFamily:"Oswald"}} variant={"h2"} textAlign={"center"} padding={6}>
               {clearValue}
             </Typography>
           </Grid2>
-          <Grid2 sx={{backgroundColor:"red",minWidth:300,minHeight:300}} padding={2}>
-            <Typography variant={"h2"} textAlign={"center"}>
+          <Grid2 sx={{backgroundColor:"#F3EED9",minWidth:300,minHeight:300,borderRadius: "50px"}} padding={2}>
+            <Typography sx={{fontFamily:"Oswald"}} variant={"h2"} textAlign={"center"}>
               INTERVAL
             </Typography>
-            <Typography variant={"h2"} textAlign={"center"} padding={6}>
+            <Typography sx={{fontFamily:"Oswald"}} variant={"h2"} textAlign={"center"} padding={6}>
               {interValValue}
             </Typography>
           </Grid2>
-          <Grid2 sx={{backgroundColor:"red",minWidth:300,minHeight:300}} padding={2}>
-            <Typography variant={"h2"} textAlign={"center"}>
+          <Grid2 sx={{backgroundColor:"#F3EED9",minWidth:300,minHeight:300,borderRadius: "50px"}} padding={2}>
+            <Typography sx={{fontFamily:"Oswald"}} variant={"h2"} textAlign={"center"}>
               REST
             </Typography>
-            <Typography variant={"h2"} textAlign={"center"} padding={6}>
+            <Typography sx={{fontFamily:"Oswald"}} variant={"h2"} textAlign={"center"} padding={6}>
               {restValue}
             </Typography>
           </Grid2>
