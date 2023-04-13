@@ -7,6 +7,10 @@ import RedoIcon from '@mui/icons-material/Redo';
 import {myRequestGenerator} from "../../helper/helper";
 import Typography from "@mui/material/Typography";
 import Grid2 from "@mui/material/Unstable_Grid2";
+import {
+  getAllTodoActionCreator,
+  getUserResult
+} from "../../redux/actions/todoAction";
 
 export default function CalendarComp() {
   const pomodoro = useSelector((state) => state.pomodoro)
@@ -30,7 +34,6 @@ export default function CalendarComp() {
       })
     }).then(response => response.json())
     .then(response => {
-      // dispatch(getCalendarUserInfoActionCreator(response))
       console.log(response)
       setTodoResult(prevState => {
         return {
@@ -47,8 +50,23 @@ export default function CalendarComp() {
     })
     .catch(error => console.log(error))
   }, [])
-  console.log("---------------------------------------")
-  console.log(stateTodoResult.todoList)
+  // console.log("---------------------------------------")
+  // console.log(stateTodoResult.todoList)
+
+
+  const getRsult = (value) => {
+    fetch(myRequestGenerator(`/result`), {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        user_id: 2,
+        date: value
+      })
+    }).then(response => response.json())
+    .then(result => {
+      dispatch(getUserResult(result))
+    }).catch(error => console.log(error))
+  }
 
   return (
       <Paper variant={"elevation"} elevation={4}>
@@ -58,7 +76,19 @@ export default function CalendarComp() {
             onClickDay={(value, event) => {
               const date = new Date(value.getTime() - value.getTimezoneOffset()
                   * 60000).toISOString().split("T")[0]
-              alert(date)
+              fetch(myRequestGenerator(`/schedules/user`), {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({
+                  user_id: 2,
+                  date: date
+                })
+              }).then(response => response.json())
+              .then(newTodo => {
+                dispatch(getAllTodoActionCreator(newTodo))
+                getRsult(value)
+              }).catch(error => console.log(error))
+
             }}
             nextLabel={
               <RedoIcon
