@@ -11,6 +11,7 @@ import {
 import {Aod, GitHub, Mail} from "@mui/icons-material";
 import Tui from "../toast/TilContentWriter";
 import TilContentWriter from "../toast/TilContentWriter";
+import Total from "../my-total/Total";
 
 function overviewComp() {
   return (
