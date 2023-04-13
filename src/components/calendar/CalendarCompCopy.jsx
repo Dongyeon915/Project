@@ -1,21 +1,24 @@
 import Calendar from "react-calendar";
-import {Paper, Typography} from "@mui/material";
+import {Paper} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import UndoIcon from '@mui/icons-material/Undo';
 import RedoIcon from '@mui/icons-material/Redo';
 import {myRequestGenerator} from "../../helper/helper";
-import {
-  getCalendarUserInfoActionCreator
-} from "../../redux/actions/calendarAction";
-import Box from "@mui/material/Box";
-import CircularStatic from "../today/todos/CircularProgressWithLabel";
+import Typography from "@mui/material/Typography";
+import Grid2 from "@mui/material/Unstable_Grid2";
 
 export default function CalendarComp() {
   const pomodoro = useSelector((state) => state.pomodoro)
   const todo = useSelector((state) => state.todo)
   const todoResult = useSelector((state) => state.todoResult)
   const dispatch = useDispatch()
+
+  const [stateTodoResult, setTodoResult] = useState({
+    rest: null,
+    clear: null,
+    date: null
+  })
 
   useEffect(() => {
     fetch(myRequestGenerator(`/calendar/allUserCalendar`), {
@@ -26,14 +29,22 @@ export default function CalendarComp() {
       })
     }).then(response => response.json())
     .then(response => {
-      dispatch(getCalendarUserInfoActionCreator(response))
+      // dispatch(getCalendarUserInfoActionCreator(response))
+      console.log(response)
+      setTodoResult(prevState => {
+        return {
+          ...prevState,
+          rest: response.rest_task,
+          clear: response.clear_task,
+          date: response.date
+        }
+      })
       // console.log(response)
     })
     .catch(error => console.log(error))
   }, [])
 
-  console.log(todoResult)
-
+  console.log(stateTodoResult)
 
   return (
       <Paper variant={"elevation"} elevation={4}>
@@ -41,9 +52,10 @@ export default function CalendarComp() {
             defaultValue={new Date()}
             activeStartDate={new Date()}
             onClickDay={(value, event) => {
-                const date = new Date(value.getTime() - value.getTimezoneOffset() * 60000).toISOString().split("T")[0]
+              const date = new Date(value.getTime() - value.getTimezoneOffset()
+                  * 60000).toISOString().split("T")[0]
               alert(date)
-              }}
+            }}
             nextLabel={
               <RedoIcon
                   color={"warning"}
@@ -68,16 +80,21 @@ export default function CalendarComp() {
               "true"
             }
             tileContent={(activeStartDate) => {
-              // const newDateValue = new Date(activeStartDate.date.getTime() - activeStartDate.date.getTimezoneOffset() * 60000).toISOString().split("T")[0]
-              for (let i = 0; i < todoResult.length; i++) {
-                    if (activeStartDate.getDate() === todoResult.getDate) {
-                      return (
-                          <Box sx={{paddingTop: 2}}>
-                            <p>vjzvso</p>
-
-                          </Box>
-                      )
-                    }}
+              var date = activeStartDate.date
+              date = new Date(date.getTime() - date.getTimezoneOffset()
+                  * 60000).toISOString().split("T")[0]
+              if (date == stateTodoResult.date) {
+                return (
+                    <Grid2 padding={1}>
+                      <Typography color={"green"} variant={"body2"}>
+                        REST : {stateTodoResult.rest}
+                      </Typography>
+                      <Typography color={"red"} variant={"body2"}>
+                        CLEAR : {stateTodoResult.clear}
+                      </Typography>
+                    </Grid2>
+                )
+              }
             }}
           />
       </Paper>

@@ -12,22 +12,23 @@ import "../../css/calendar.css";
 import CalendarCompCopy from "../calendar/CalendarCompCopy";
 import PomodoroComp from "./pomodoro/test-pomodoro/PomodoroComp"
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Tui from "../toast/TilContentWriter";
 
 export default function TodayComp() {
 
   return (
 
-      <Container fixed={"true"} sx={{backgroundColor:"#2F4858",borderRadius:8}}>
+      <Container fixed={"true"}
+                 sx={{backgroundColor: "#2F4858", borderRadius: 8}}>
         <Grid2 container={"true"} lg={12} spacing={2}>
           <Grid2 lg={12}>
-            <Accordion sx={{backgroundColor:"#93AC9E"}}>
+            <Accordion sx={{backgroundColor: "#93AC9E"}}>
               <AccordionSummary
                   expandIcon={<ExpandMoreIcon/>}
               >
-                <Typography sx={{fontFamily:"Oswald"}} color={"#2F4856"} variant={"h5"}>Calendar</Typography>
+                <Typography sx={{fontFamily: "Oswald"}} color={"#2F4856"}
+                            variant={"h5"}>Calendar</Typography>
               </AccordionSummary>
-              <AccordionDetails >
+              <AccordionDetails>
                 <CalendarCompCopy/>
               </AccordionDetails>
             </Accordion>
