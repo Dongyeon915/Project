@@ -15,6 +15,7 @@ export default function CalendarComp() {
   const dispatch = useDispatch()
 
   const [stateTodoResult, setTodoResult] = useState({
+    todoList: [],
     rest: null,
     clear: null,
     date: null
@@ -34,17 +35,20 @@ export default function CalendarComp() {
       setTodoResult(prevState => {
         return {
           ...prevState,
-          rest: response.rest_task,
-          clear: response.clear_task,
-          date: response.date
+          todoList: response
         }
+        // return {
+        //   ...prevState,
+        //   rest: response.rest_task,
+        //   clear: response.clear_task,
+        //   date: response.date
+        // }
       })
-      // console.log(response)
     })
     .catch(error => console.log(error))
   }, [])
-
-  console.log(stateTodoResult)
+  console.log("---------------------------------------")
+  console.log(stateTodoResult.todoList)
 
   return (
       <Paper variant={"elevation"} elevation={4}>
@@ -80,23 +84,41 @@ export default function CalendarComp() {
               "true"
             }
             tileContent={(activeStartDate) => {
+              // var date = activeStartDate.date
+              // date = new Date(date.getTime() - date.getTimezoneOffset()
+              //     * 60000).toISOString().split("T")[0]
+              // if (date == stateTodoResult.date) {
+              //   return (
+              //       <Grid2 padding={1}>
+              //         <Typography color={"green"} variant={"body2"}>
+              //           REST : {stateTodoResult.rest}
+              //         </Typography>
+              //         <Typography color={"red"} variant={"body2"}>
+              //           CLEAR : {stateTodoResult.clear}
+              //         </Typography>
+              //       </Grid2>
+              //   )
+              // }
               var date = activeStartDate.date
               date = new Date(date.getTime() - date.getTimezoneOffset()
                   * 60000).toISOString().split("T")[0]
-              if (date == stateTodoResult.date) {
-                return (
-                    <Grid2 padding={1}>
-                      <Typography color={"green"} variant={"body2"}>
-                        REST : {stateTodoResult.rest}
-                      </Typography>
-                      <Typography color={"red"} variant={"body2"}>
-                        CLEAR : {stateTodoResult.clear}
-                      </Typography>
-                    </Grid2>
-                )
+              for (let i = 0; i < stateTodoResult.todoList.length; i++) {
+                if (date == stateTodoResult.todoList[i].date) {
+                  return (
+                      <Grid2 padding={1}>
+                        <Typography color={"green"} variant={"body2"}>
+                          REST : {stateTodoResult.todoList[i].rest_task}
+                        </Typography>
+                        <Typography color={"red"} variant={"body2"}>
+                          CLEAR : {stateTodoResult.todoList[i].clear_task}
+                        </Typography>
+                      </Grid2>
+                  )
+                }
               }
+
             }}
-          />
+        />
       </Paper>
 
   )
