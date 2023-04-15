@@ -5,6 +5,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import {Viewer} from '@toast-ui/react-editor';
 import {Button, Divider, Paper, Stack, Typography} from "@mui/material";
 import NoteAltIcon from '@mui/icons-material/NoteAlt';
+import ReplyIcon from '@mui/icons-material/Reply';
 
 // loder는 파라미터로 넘어온걸 받아준다
 // async로 순서를 맞춰줘야한다
@@ -60,6 +61,17 @@ export default function TilContentViewer() {
         </Paper>
         <Stack direction="row" spacing={2} justifyContent={"right"}
                marginTop={2}>
+          <Button variant="contained"
+                  onClick={() => {
+                    navigate("/TIL")
+                  }
+                  }
+                  color={"primary"} startIcon={<ReplyIcon/>}
+                  sx={{marginRight: 116}}
+          >
+            이전
+          </Button>
+
           <Button variant="contained"
                   onClick={() => deleteContent(til_data.content.tuiId)}
                   startIcon={<DeleteIcon/>}

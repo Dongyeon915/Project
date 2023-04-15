@@ -85,7 +85,8 @@ export default function TilContentWriter() {
       <>
         <Stack direction={"row"}>
           <TextField label={"TITLE"} placeholder={"TITLE"} sx={{width: "70%"}}
-                     inputRef={titleRef}/>
+                     inputRef={titleRef}
+          />
           <TextField label={"TYPE"} placeholder={"TYPE"} sx={{width: "30%"}}
                      inputRef={typeRef}/>
         </Stack>

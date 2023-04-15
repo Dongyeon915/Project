@@ -41,18 +41,17 @@ export default function ToastComp() {
     pageValue: 1
   })
   // 게시글 인덱스 번호 말고 다르게 value를사용
-  const [statePageNo,setPageNo] = useState({
-    pageNo : 1
+  const [statePageNo, setPageNo] = useState({
+    pageNo: 1
   })
 
   // 초기페이지 설정 1을 전달하면 offset이 1을 받음
   useEffect(() => {
-    fetch(myRequestGenerator(`/til/page/1`), {
+    fetch(myRequestGenerator(`/til/page/0`), {
       method: "GET",
       headers: {"Content-Type": "application/json"},
     }).then(response => response.json())
     .then(til => {
-      console.log(til)
       setState(prevState => {
         return {
           ...prevState,
@@ -84,18 +83,23 @@ export default function ToastComp() {
   const handleChange = (event, value) => {
     setPageNo(prevState => {
       // 만약 value의 값이 1이라면 기존 페이지에 value값을 전달
-      if (value == 1){
+      if (value == 1) {
         return {
           ...prevState,
-          pageNo : value
+          pageNo: value
         }
       }
       return {
         ...prevState,
-        pageNo : value * 10
+        pageNo: value * 10 - 9
       }
     })
-    const newValue = value * 10
+    // 0부터 전달해줘야 offset을 실행할때 0번째 인덱스의 정보부터 불러오며 0~1이 아닌이상은 10을 곱해서 끊어줘야한다
+    if (value == 1) {
+      var newValue = 0
+    } else {
+      var newValue = value * 10
+    }
     fetch(myRequestGenerator(`/til/page/${newValue}`), {
       method: "GET",
       headers: {"Content-Type": "application/json"},
@@ -107,7 +111,7 @@ export default function ToastComp() {
               contents: til
             }
           })
-      console.log(value)
+          console.log(value)
 
         }
     )
