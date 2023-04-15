@@ -136,8 +136,21 @@ export default function TodoComp() {
       method: "DELETE"
     }).then(response => {
       dispatch(deleteTodoActionCreator(index))
+      deleteTaskResult()
     }).catch(error => console.log(error))
   }
+
+  // task삭제시 result갯수 줄여주기
+  const deleteTaskResult = () => {
+      fetch(myRequestGenerator("/schedules"), {
+        method: "DELETE",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+          user_id: 2,
+          date: new Date().toISOString().split("T")[0],
+        })
+      })
+    }
 
 // // 업데이트 이벤트
 //   수정버튼
