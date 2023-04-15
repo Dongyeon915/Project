@@ -77,11 +77,11 @@ export default function todoReducer(state = initialState, action) {
     })
     return {
       ...state,
+      list: todoList,
       result: {
         ...state.result,
         rest: state.result.rest - 1
-      },
-      list: todoList
+      }
     }
   } else if (action.type == UPDATE_TODO) {
     const updateTodoList = state.list.filter((task) => {

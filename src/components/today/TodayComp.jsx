@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import TodoComp from "./todos/TodoComp";
 import "../../css/calendar.css";
-import CalendarCompCopy from "../calendar/CalendarCompCopy";
+import CalendarCompCopy from "../calendar/CalendarComp";
 import PomodoroComp from "./pomodoro/test-pomodoro/PomodoroComp"
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 

@@ -11,6 +11,7 @@ import {
   getAllTodoActionCreator,
   getUserResult
 } from "../../redux/actions/todoAction";
+import {response} from "../../sample/Complete";
 
 export default function CalendarComp() {
   const pomodoro = useSelector((state) => state.pomodoro)
@@ -19,11 +20,9 @@ export default function CalendarComp() {
   const dispatch = useDispatch()
 
   const [stateTodoResult, setTodoResult] = useState({
-    todoList: [],
-    rest: null,
-    clear: null,
-    date: null
+    todoList: []
   })
+
 
   useEffect(() => {
     fetch(myRequestGenerator(`/calendar/allUserCalendar`), {
@@ -34,33 +33,24 @@ export default function CalendarComp() {
       })
     }).then(response => response.json())
     .then(response => {
-      console.log(response)
       setTodoResult(prevState => {
         return {
           ...prevState,
-          todoList: response
+          todoList:response
         }
-        // return {
-        //   ...prevState,
-        //   rest: response.rest_task,
-        //   clear: response.clear_task,
-        //   date: response.date
-        // }
       })
     })
     .catch(error => console.log(error))
-  }, [])
-  // console.log("---------------------------------------")
-  // console.log(stateTodoResult.todoList)
+  //   todoTask를 추가하면 새로 랜더 되야하기때문에 result의 결과값의 변경시를 추가해줌
+  }, [todo.result])
 
-
-  const getRsult = (value) => {
+  const getRsult = (date) => {
     fetch(myRequestGenerator(`/result`), {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({
         user_id: 2,
-        date: value
+        date: date
       })
     }).then(response => response.json())
     .then(result => {
@@ -68,6 +58,9 @@ export default function CalendarComp() {
     }).catch(error => console.log(error))
   }
 
+  // 우리나라 시간대로 변경하고 잘라줘서 넘겨줘야 하루 뒤가아닌 오늘날짜로 가능하다
+  //   const date = new Date(value.getTime() - value.getTimezoneOffset()
+  //                   * 60000).toISOString().split("T")[0]
   return (
       <Paper variant={"elevation"} elevation={4}>
         <Calendar
@@ -86,9 +79,8 @@ export default function CalendarComp() {
               }).then(response => response.json())
               .then(newTodo => {
                 dispatch(getAllTodoActionCreator(newTodo))
-                getRsult(value)
+                getRsult(date)
               }).catch(error => console.log(error))
-
             }}
             nextLabel={
               <RedoIcon
@@ -114,21 +106,6 @@ export default function CalendarComp() {
               "true"
             }
             tileContent={(activeStartDate) => {
-              // var date = activeStartDate.date
-              // date = new Date(date.getTime() - date.getTimezoneOffset()
-              //     * 60000).toISOString().split("T")[0]
-              // if (date == stateTodoResult.date) {
-              //   return (
-              //       <Grid2 padding={1}>
-              //         <Typography color={"green"} variant={"body2"}>
-              //           REST : {stateTodoResult.rest}
-              //         </Typography>
-              //         <Typography color={"red"} variant={"body2"}>
-              //           CLEAR : {stateTodoResult.clear}
-              //         </Typography>
-              //       </Grid2>
-              //   )
-              // }
               var date = activeStartDate.date
               date = new Date(date.getTime() - date.getTimezoneOffset()
                   * 60000).toISOString().split("T")[0]
