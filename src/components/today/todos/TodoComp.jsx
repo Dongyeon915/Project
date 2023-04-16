@@ -142,15 +142,15 @@ export default function TodoComp() {
 
   // task삭제시 result갯수 줄여주기
   const deleteTaskResult = () => {
-      fetch(myRequestGenerator("/schedules"), {
-        method: "DELETE",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({
-          user_id: 2,
-          date: new Date().toISOString().split("T")[0],
-        })
+    fetch(myRequestGenerator("/schedules"), {
+      method: "DELETE",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        user_id: 2,
+        date: new Date().toISOString().split("T")[0],
       })
-    }
+    })
+  }
 
 // // 업데이트 이벤트
 //   수정버튼
@@ -230,9 +230,10 @@ export default function TodoComp() {
                sx={{padding: 3, backgroundColor: "#F3EED9",}}>
           <Stack direction={"row"} justifyContent={"space-between"}
                  alignItems={"center"}>
-            <Typography variant={"h5"} fontWeight={700} sx={{fontFamily:"Oswald"}}>
+            <Typography variant={"h5"} fontWeight={700}
+                        sx={{fontFamily: "Oswald"}}>
               List</Typography>
-            <Typography sx={{fontFamily:"Oswald"}} variant={"subtitle2"}
+            <Typography sx={{fontFamily: "Oswald"}} variant={"subtitle2"}
                         fontWeight={600}>{new Date().toLocaleDateString()}</Typography>
           </Stack>
           <Stack direction={"row"} flexGrow={1} justifyContent={"end"}
@@ -250,6 +251,7 @@ export default function TodoComp() {
           <Stack flexGrow={1} minHeight={320} maxHeight={320}
                  sx={{marginTop: 2, marginBottom: 2, overflowY: "auto"}}>
             {todo.list.map((todo) => {
+              console.log(todo)
               return (
                   <Paper variant={"outlined"} elevation={4} sx={{
                     padding: 2,
@@ -258,14 +260,25 @@ export default function TodoComp() {
                     marginBottom: 1
                   }}>
                     {/* 체크박스 이벤트 */}
-                    <Checkbox defaultChecked color="error"
-                              icon={<FavoriteBorder/>}
-                              checkedIcon={<Favorite/>}
-                              checked={todo.complete}
-                              onChange={(event) => {
-                                todoComplete(event, todo.taskId)
-                              }}
-                    />
+                    {/* 체크시 onchang기능 잠금 */}
+                    {todo.complete === false ? <Checkbox defaultChecked
+                                                         color="error"
+                                                         icon={
+                                                           <FavoriteBorder/>}
+                                                         checkedIcon={
+                                                           <Favorite/>}
+                                                         checked={todo.complete}
+                                                         onChange={(event) => {
+                                                           todoComplete(event,
+                                                               todo.taskId)
+                                                         }}/>
+                        :
+                        <Checkbox defaultChecked color="error"
+                                  icon={<Favorite/>}
+                                  checkedIcon={<Favorite/>}
+                                  checked={todo.complete}
+                        />
+                    }
                     {/* 투두 항목 */}
                     {
                       <Stack
@@ -353,7 +366,7 @@ export default function TodoComp() {
           }}>
             {/*flexGrow 사용시 남은 여백만큼 위치 차지함*/}
             <Input placeholder={"New Task..."}
-                   sx={{flexGrow: 1, color: "white",fontFamily:"Oswald"}}
+                   sx={{flexGrow: 1, color: "white", fontFamily: "Oswald"}}
                 // value={inputState.todoInput}
                    onKeyDown={enterEventHandler}
                    inputRef={todoInput}
@@ -363,7 +376,6 @@ export default function TodoComp() {
             </IconButton>
           </Stack>
         </Paper>
-        {/* todo 달성시 하단 문구 창 */}
         <Snackbar
             open={todo.open}
             autoHideDuration={3000}
