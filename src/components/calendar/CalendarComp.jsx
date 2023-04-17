@@ -42,7 +42,8 @@ export default function CalendarComp() {
     })
     .catch(error => console.log(error))
   //   todoTask를 추가하면 새로 랜더 되야하기때문에 result의 결과값의 변경시를 추가해줌
-  }, [todo.result])
+  //   restTask삭제시 todoResult.result 캘린더에 랜더되지않기에 추가
+  }, [todo.result,todoResult.result])
 
   const getRsult = (date) => {
     fetch(myRequestGenerator(`/result`), {

@@ -6,6 +6,7 @@ import {Viewer} from '@toast-ui/react-editor';
 import {Button, Divider, Paper, Stack, Typography} from "@mui/material";
 import NoteAltIcon from '@mui/icons-material/NoteAlt';
 import ReplyIcon from '@mui/icons-material/Reply';
+import {useState} from "react";
 
 // loder는 파라미터로 넘어온걸 받아준다
 // async로 순서를 맞춰줘야한다
@@ -46,6 +47,7 @@ export default function TilContentViewer() {
   const modifyEvent = (tilData) => {
     navigate("/TIL/Edit", {state: tilData})
   }
+
 
   return (
       <>

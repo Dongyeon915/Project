@@ -81,13 +81,25 @@ export default function TilContentWriter() {
     })
   };
 
+
+
+  // 타이틀과 타입이 공란이라면 알려준다 back서버도 @size를 적용해둿음
+  const enterEventHandler = (e) => {
+    if (titleRef.current.value.length == 0) {
+      alert("TITLE을 입력해주세요")
+    }if (typeRef.current.value.length == 0){
+      alert("TYPE을 입력해주세요")
+    }
+  }
+
   return (
       <>
         <Stack direction={"row"}>
-          <TextField label={"TITLE"} placeholder={"TITLE"} sx={{width: "70%"}}
+          <TextField label={"TITLE"} placeholder={"1글자 이상을 입력해주세요"} sx={{width: "40%",backgroundColor:"white"}}
                      inputRef={titleRef}
+
           />
-          <TextField label={"TYPE"} placeholder={"TYPE"} sx={{width: "30%"}}
+          <TextField label={"TYPE"} placeholder={"1글자 이상을 입력해주세요"} sx={{width: "30%",backgroundColor:"white"}}
                      inputRef={typeRef}/>
         </Stack>
         <Editor
@@ -102,7 +114,7 @@ export default function TilContentWriter() {
         <Stack justifyContent={"end"} marginTop={2}>
           <Button variant="contained"
                   color={"info"}
-                  startIcon={<FileDownloadDoneIcon/>} onClick={handleClick}>
+                  startIcon={<FileDownloadDoneIcon/>} onClick={(e) => {handleClick();enterEventHandler(e);}}>
             {btnTitle}
           </Button>
         </Stack>

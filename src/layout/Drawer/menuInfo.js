@@ -6,7 +6,7 @@ export const menuInfo = [
   },
   {
     id: 2,
-    name: "Repositories",
+    name: "GitHub Repositories",
     link: "/repository",
   },
   {
