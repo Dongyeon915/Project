@@ -23,5 +23,10 @@ export const menuInfo = [
     id: 5,
     name: "TIL",
     link: "/TIL"
+  },
+  {
+    id: 6,
+    name: "Join",
+    link: "/Join"
   }
 ]

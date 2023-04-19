@@ -15,6 +15,8 @@ import ContactEmergencyIcon from '@mui/icons-material/ContactEmergency';
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import Grid2 from "@mui/material/Unstable_Grid2";
 import OverviewComp from "../../components/overview-comp/OverviewComp";
+import AddReactionIcon from '@mui/icons-material/AddReaction';
+
 
 
 
@@ -72,6 +74,9 @@ function MyDrawerIList() {
                         }
                         {
                             menuItem.id == 5 && <FormatListNumberedIcon/>
+                        }
+                        {
+                            menuItem.id == 6 && <AddReactionIcon/>
                         }
                       </ListItemIcon>
                       <ListItemText primary={menuItem.name}/>

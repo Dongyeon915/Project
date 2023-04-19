@@ -9,11 +9,12 @@ import {
   Typography
 } from "@mui/material";
 import {Aod, GitHub, Mail} from "@mui/icons-material";
-import Tui from "../toast/TilContentWriter";
-import TilContentWriter from "../toast/TilContentWriter";
-import Total from "../my-total/Total";
+import {useLocation} from "react-router-dom";
 
 function overviewComp() {
+
+
+
   return (
       <Container fixed={"true"}>
         <Grid2 container={"true"} spacing={3}>

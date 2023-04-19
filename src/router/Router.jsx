@@ -13,6 +13,7 @@ import TilContentViewer, {loader as TIL_LOADER} from "../components/toast/TilCon
 import TilContentWriter, {
   TILContentLoader
 } from "../components/toast/TilContentWriter";
+import JoinComp from "../components/join/JoinComp";
 
 export const router = createBrowserRouter([
   {
@@ -45,7 +46,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/TIL",
-        element: <ToastComp/>
+        element: <ToastComp/>,
       },
       {
         path: "/TIL/Write",
@@ -59,6 +60,10 @@ export const router = createBrowserRouter([
         path: "/TIL/:til_id",
         element: <TilContentViewer/>,
         loader: TIL_LOADER,
+      },
+      {
+        path:"/Join",
+        element:<JoinComp/>
       }
     ]
   }

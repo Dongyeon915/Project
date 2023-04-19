@@ -21,8 +21,15 @@ import {useCallback, useEffect, useState} from "react";
 import {myRequestGenerator} from "../../helper/helper";
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import Divider from "@mui/material/Divider";
+import {useDispatch, useSelector} from "react-redux";
+import {setTillPageValue} from "../../redux/actions/tilAction";
 
 export default function ToastComp() {
+
+
+  const till = useSelector(state => state.til)
+  const dispatch = useDispatch()
+
 
   const [state, setState] = useState({
     "contents": []
@@ -105,14 +112,13 @@ export default function ToastComp() {
       headers: {"Content-Type": "application/json"},
     }).then(response => response.json())
     .then(til => {
-          console.log(til)
+          // console.log(til)
           setState(prevState => {
             return {
               contents: til
             }
           })
-          console.log(value)
-
+          // console.log(value)
         }
     )
     .catch(error => console.log(error))

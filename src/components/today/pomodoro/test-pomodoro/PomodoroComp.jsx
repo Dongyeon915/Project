@@ -61,23 +61,6 @@ export default function PomodoroCopy() {
     })
   }, [])
 
-  // pomodoro DB에 date와 userID넣기
-  // useEffect(() => {
-  //   fetch(myRequestGenerator("/pomodoro?" + new URLSearchParams({
-  //     userID: 2,
-  //     date: new Date().toISOString().split("T")[0]
-  //   })), {
-  //     method: "GET",
-  //     headers: {
-  //       "content-type": "application/json"
-  //     }
-  //   })
-  //   .then(response => response.json())
-  //   .then(pomodoroInfo => console.log(pomodoroInfo))
-  //   .then()
-  //   .catch(error => console.error(error))
-  // }, [])
-
   // 화면 보여주기 설정
   function calcTime(epocTime) {
     const hour = parseInt(epocTime / (60 * 60))

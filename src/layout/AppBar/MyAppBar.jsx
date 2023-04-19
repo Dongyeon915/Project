@@ -22,11 +22,11 @@ function MyAppBar({handleDrawerToggle}) {
           >
             <MenuIcon/>
           </IconButton>
-          <IconButton>
-            <Avatar alt="유저이미지" src={GitUser.avatar_url}
-                    sx={{width: 30, height: 30}}/>
-          </IconButton>
-          <Typography variant={"h6"} sx={{flexGrow: 1}}>My Schedule</Typography>
+          {/*<IconButton>*/}
+          {/*  <Avatar alt="유저이미지" src={GitUser.avatar_url}*/}
+          {/*          sx={{width: 30, height: 30}}/>*/}
+          {/*</IconButton>*/}
+          <Typography variant={"h4"} sx={{flexGrow: 1,fontFamily: "Oswald",color:"black"}}>My Schedule</Typography>
           <IconButton>
             {/*<Avatar alt={"Github Profile Image"} src={GitUser.avatar_url}/>*/}
           </IconButton>

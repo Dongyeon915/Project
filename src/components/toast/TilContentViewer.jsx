@@ -45,6 +45,7 @@ export default function TilContentViewer() {
 
   // 로더로 받아온 데이터를 state형태로 전달할수있다.
   const modifyEvent = (tilData) => {
+    // state객체로 location에게 정보를 전달가능
     navigate("/TIL/Edit", {state: tilData})
   }
 

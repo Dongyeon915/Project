@@ -18,6 +18,7 @@ export default function TilContentWriter() {
   let tuiContent = {};
   let btnTitle = "등록"
   if (location.pathname === "/TIL/Edit") {
+    // navigate 정보
     tuiContent = location.state
     btnTitle = "수정"
   } else {
