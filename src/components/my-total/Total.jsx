@@ -35,7 +35,7 @@ export default function Total() {
           arrRest : result
         }
       })
-    }).catch(error => console.log(error))
+    }).catch(error => console.log("mytotal사용자 오류 서버 관리자에게 문의 해주세요."))
   },[])
 
 
@@ -54,7 +54,7 @@ export default function Total() {
             intervalArr : result
           }
         })
-      }).catch(error => console.log(error))
+      }).catch(error => console.log("mytotal오류 서버 관리자에게 문의 해주세요."))
     },[])
 
   // 가져온 유저의 값을 합쳐서 사용하기위해서 변환과정

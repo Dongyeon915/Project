@@ -17,6 +17,7 @@
     "@toast-ui/editor": "^3.2.2",
     "@toast-ui/react-editor": "^3.2.3",
     "gh-pages": "^5.0.0",
+    "mui-image": "^1.0.7",
     "react": "^18.2.0",
     "react-calendar": "^4.0.0",
     "react-dom": "^18.2.0",
@@ -27,7 +28,6 @@
     "redux": "^4.2.1",
     "web-vitals": "^2.1.4"
   },
-
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

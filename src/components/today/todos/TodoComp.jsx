@@ -58,7 +58,7 @@ export default function TodoComp() {
     .then(newTodo => {
       dispatch(getAllTodoActionCreator(newTodo))
       getRsult()
-    }).catch(error => console.log(error))
+    }).catch(error => console.log("todo유저 오류 서버 관리자에게 문의 해주세요."))
   }, [])
 
   // rest와 clear를 해당 유저로 세팅하기 useEffect 사용시 무한네트워크 요청으로 함수로빼서 관리

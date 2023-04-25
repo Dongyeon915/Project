@@ -129,7 +129,7 @@ export default function PomodoroCopy() {
         })
       }).then(response => response.json())
       .then(clear => console.log(clear))
-      .catch(error => console.log(error))
+      .catch(error => console.log("pomodoro count 오류 서버 관리자에게 문의 해주세요."))
     }
   }, [pomodoro.config.countValue])
 

@@ -65,7 +65,7 @@ export default function ToastComp() {
           contents: til
         }
       })
-    }).catch(error => console.log(error))
+    }).catch(error => console.log("til페이지 오류 서버 관리자에게 문의 해주세요."))
   }, [])
 
   // 모든 정보를 가져와 동적으로 페이지 숫자를 표시함
@@ -83,7 +83,7 @@ export default function ToastComp() {
           pageValue: Math.floor(newTil)
         }
       })
-    }).catch(error => console.log(error))
+    }).catch(error => console.log("til오류 서버 관리자에게 문의 해주세요."))
   }, [])
 
   // 페이지 만들기

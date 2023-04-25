@@ -40,7 +40,7 @@ export default function CalendarComp() {
         }
       })
     })
-    .catch(error => console.log(error))
+    .catch(error => console.log("calendar오류 서버 관리자에게 문의 해주세요."))
   //   todoTask를 추가하면 새로 랜더 되야하기때문에 result의 결과값의 변경시를 추가해줌
   //   restTask삭제시 todoResult.result 캘린더에 랜더되지않기에 추가
   }, [todo.result,todoResult.result])
