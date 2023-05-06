@@ -1,28 +1,40 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
-import MyAppBar from "./layout/AppBar/MyAppBar";
-import MyDrawer from "./layout/Drawer/MyResponsiveDrawer";
-import ContentContainer from "./layout/ContentContainer";
-
+import {Route, Routes} from "react-router-dom";
+import Container from "./layout/Container";
+import OverviewComp from "./components/overview-comp/OverviewComp";
+import LoginComp from "./components/login/LoginComp";
+import PrivateRoutes from "./router/PrivateRoutes";
+import RepositoriesComp from "./components/repositories/RepositoriesComp";
+import TodayComp from "./components/today/TodayComp";
+import Total from "./components/my-total/Total";
+import ToastComp from "./components/toast/ToastComp";
+import TilContentWriter from "./components/toast/TilContentWriter";
+import TilContentViewer from "./components/toast/TilContentViewer";
+import LoginHandlerComp from "./components/login/LoginHandlerComp";
 
 function App() {
 
-
-  const [mobileOpen, setMobileOpen] = React.useState(false);
-
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
-
   return (
-      <Box sx={{display: 'flex', backgroundColor: "#F3EED9",minHeight: 800}}>
-        <CssBaseline/>
-        <MyAppBar handleDrawerToggle={handleDrawerToggle}/>
-        <MyDrawer handleDrawerToggle={handleDrawerToggle}
-                  mobileOpen={mobileOpen}/>
-        <ContentContainer/>
-      </Box>
+      <Routes>
+        <Route element={<Container/>}>
+          <Route index element={<LoginComp/>}/>
+          <Route path={"/login"} element={<LoginComp/>}/>
+          <Route path={"/oauth2/access_token/:access_token/refresh_token/:refresh_token"} element={<LoginHandlerComp/>}/>
+        </Route>
+        <Route element={<PrivateRoutes/>}>
+          <Route element={<Container/>}>
+            <Route path={"/overview"} element={<OverviewComp/>}/>
+            <Route path={"/repository"} element={<RepositoriesComp/>}/>
+            <Route path={"/today"} element={<TodayComp/>}/>
+            <Route path={"/total"} element={<Total/>}/>
+            <Route path={"/TIL"} element={<ToastComp/>}>
+              {/*<Route path={"Write"} element={<TilContentWriter/>}/>*/}
+              {/*<Route path={"Edit"} element={<TilContentWriter/>}/>*/}
+              {/*<Route path={"/:til_id"} element={<TilContentViewer/>}/>*/}
+            </Route>
+          </Route>
+        </Route>
+      </Routes>
   );
 }
 
