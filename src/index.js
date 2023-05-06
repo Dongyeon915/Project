@@ -5,21 +5,21 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import reportWebVitals from './reportWebVitals';
-import {RouterProvider} from "react-router-dom";
-import {router} from "./router/Router"
+import {BrowserRouter} from "react-router-dom";
 import {Provider} from "react-redux";
 import {reduxStore} from "./redux/store";
-
+import App from "./App";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-
 root.render(
-    // <React.StrictMode>
+    <React.StrictMode>
       <Provider store={reduxStore}>
-        <RouterProvider router={router}/>
+        <BrowserRouter basename={`${process.env.PUBLIC_URL}`}>
+          <App/>
+        </BrowserRouter>
       </Provider>
-    // </React.StrictMode>
+    </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
