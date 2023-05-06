@@ -9,6 +9,7 @@ function ContentContainer() {
       <Grid2 component="main"
              sx={{flexGrow: 1, p: 3, width: {sm: 'calc(100% - 240px)'}}}>
         <Toolbar/>
+        {/* 실제 component 위치 */}
         <Outlet/>
       </Grid2>
   )
