@@ -49,7 +49,10 @@ export default function TodoComp() {
   useEffect(() => {
     fetch(myRequestGenerator(`/schedules/user`), {
       method: "POST",
-      headers: {"Content-Type": "application/json"},
+      // headers: {
+      //   "Content-Type": "application/json",
+      //   "Authentication": `Bearer ${accesstoken}`
+      // },
       body: JSON.stringify({
         user_id: 2,
         date: new Date().toISOString().split("T")[0]
