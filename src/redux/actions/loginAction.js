@@ -1,7 +1,9 @@
 export const GET_LOGIN_INFO = "GET_LOGIN_INFO"
 
-export function getLoginInfoAction(){
+export function getLoginInfoAction(access_token,refresh_token){
   return {
-    type: getLoginInfoAction
+    type: getLoginInfoAction,
+    access_token:access_token,
+    refresh_token:refresh_token
   }
 }
