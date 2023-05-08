@@ -13,12 +13,15 @@ import {
 import Box from "@mui/material/Box";
 import CelebrationIcon from '@mui/icons-material/Celebration';
 import CheckIcon from '@mui/icons-material/Check';
-import {useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {myRequestGenerator} from "../../helper/helper";
 import TagFacesIcon from '@mui/icons-material/TagFaces';
 import SentimentVeryDissatisfiedIcon
   from '@mui/icons-material/SentimentVeryDissatisfied';
 import {Visibility, VisibilityOff} from "@mui/icons-material";
+import {useNavigate, useParams} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {getLoginInfoAction} from "../../redux/actions/loginAction";
 
 export default function LoginComp() {
   const publicUrl = process.env.PUBLIC_URL;
@@ -31,6 +34,9 @@ export default function LoginComp() {
   };
 
   const [disabledJoin, setDisabledJoin] = useState(true)
+
+
+
 
   const [isDisplay, setIsDisplay] = useState('none')
   // ------------------------------------------------------------------------------------------
