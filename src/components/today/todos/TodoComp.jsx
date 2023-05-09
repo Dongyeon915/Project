@@ -26,6 +26,7 @@ import {myRequestGenerator} from "../../../helper/helper";
 import CancelIcon from '@mui/icons-material/Cancel';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import '@toast-ui/editor/dist/toastui-editor.css';
+import {useParams} from "react-router-dom";
 
 export default function TodoComp() {
 
@@ -45,14 +46,21 @@ export default function TodoComp() {
   })
   const todoInput = useRef()
 
+  const params = useParams();
+  localStorage.setItem("access_token", params.access_token)
+
+
   // userID와 오늘의 date가 일치하는 정보만 가져온다
   useEffect(() => {
+
+    const accesstoken = localStorage.getItem("access_token");
+
     fetch(myRequestGenerator(`/schedules/user`), {
       method: "POST",
-      // headers: {
-      //   "Content-Type": "application/json",
-      //   "Authentication": `Bearer ${accesstoken}`
-      // },
+      headers: {
+        "Content-Type": "application/json",
+        "Authentication": `Bearer ${accesstoken}`
+      },
       body: JSON.stringify({
         user_id: 2,
         date: new Date().toISOString().split("T")[0]
@@ -61,7 +69,10 @@ export default function TodoComp() {
     .then(newTodo => {
       dispatch(getAllTodoActionCreator(newTodo))
       getRsult()
-    }).catch(error => console.log("todo유저 오류 서버 관리자에게 문의 해주세요."))
+    }).catch(error => {
+      console.log("todo유저 오류 서버 관리자에게 문의 해주세요.")
+      console.log(error)
+    })
   }, [])
 
   // rest와 clear를 해당 유저로 세팅하기 useEffect 사용시 무한네트워크 요청으로 함수로빼서 관리
