@@ -26,6 +26,10 @@ export default function PomodoroCopy() {
   const dispatch = useDispatch()
   const timerReference = useRef(undefined)
 
+  const authInfo = useSelector(state => state.login)
+  const accessToken = authInfo.access_token;
+
+
   const [timeInputState, setTimeInputState] = useState({
     minute: pomodoro.config.minute,
     rest: pomodoro.config.rest
@@ -42,9 +46,12 @@ export default function PomodoroCopy() {
     //   console.log(`latitude`, position.coords.latitude)
     //   console.log(`longitude`,position.coords.longitude)
     // })
-    fetch(myRequestGenerator(`/pomodoro`), {
+    fetch(`http://localhost:8080/pomodoro`, {
       method: "POST",
-      headers: {"Content-Type": "application/json"},
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${accessToken}`
+      },
       body: JSON.stringify({
         "userId": 2,
         "date": new Date().toISOString().split("T")[0]
@@ -122,7 +129,10 @@ export default function PomodoroCopy() {
       }
       fetch(myRequestGenerator(apiURL), {
         method: "POST",
-        headers: {"Content-Type": "application/json"},
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${accessToken}`
+        },
         body: JSON.stringify({
           userId: 2,
           date: new Date().toISOString().split("T")[0]

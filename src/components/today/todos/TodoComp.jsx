@@ -38,6 +38,8 @@ export default function TodoComp() {
   const todo = useSelector(state => state.todo)
   const dispatch = useDispatch()
 
+  const authInfo = useSelector(state => state.login)
+
   const [state, setState] = useState()
 
   // 인풋을 따로 관리 하지않으면 useEffect 의미가없다 계속 내부 값이 변경되기때문에
@@ -46,20 +48,18 @@ export default function TodoComp() {
   })
   const todoInput = useRef()
 
-  const params = useParams();
-  localStorage.setItem("access_token", params.access_token)
-
-
   // userID와 오늘의 date가 일치하는 정보만 가져온다
   useEffect(() => {
 
-    const accesstoken = localStorage.getItem("access_token");
+    //  Redux Store에서 꺼내온다!
+    const accesstoken = authInfo.access_token;
 
-    fetch(myRequestGenerator(`/schedules/user`), {
+    // fetch(myRequestGenerator(`/schedules/user`), {
+    fetch(`http://localhost:8080/schedules/user`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authentication": `Bearer ${accesstoken}`
+        "Authorization": `Bearer ${accesstoken}`
       },
       body: JSON.stringify({
         user_id: 2,
