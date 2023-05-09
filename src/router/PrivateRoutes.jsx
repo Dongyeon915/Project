@@ -6,6 +6,6 @@ export default function PrivateRoutes() {
   const loginInfo = useSelector(state => state.login);
 
   return (
-      loginInfo.isAuthenticated? <Outlet/> : <Navigate to={"/login"}/>
+      loginInfo.isAuthenticated?  <Outlet/> : <Navigate to={"/login"}/>
   )
 }
