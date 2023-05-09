@@ -9,7 +9,6 @@ import {
   Typography
 } from "@mui/material";
 import {Aod, GitHub, Mail} from "@mui/icons-material";
-import {useLocation} from "react-router-dom";
 
 function overviewComp() {
 
@@ -29,10 +28,12 @@ function overviewComp() {
             </Paper>
           </Grid2>
           <Grid2>
-            <Typography variant={"h4"} fontWeight={"inherit"}  sx={{fontFamily:"Oswald"}}>
+            <Typography variant={"h4"} fontWeight={"inherit"}
+                        sx={{fontFamily: "Oswald"}}>
               kim
             </Typography>
-            <Typography variant={"body2"} marginTop={2} sx={{fontFamily:"Oswald"}}>
+            <Typography variant={"body2"} marginTop={2}
+                        sx={{fontFamily: "Oswald"}}>
               sksms
               <br/>
               한글
