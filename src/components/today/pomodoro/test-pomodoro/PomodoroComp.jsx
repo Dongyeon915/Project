@@ -37,16 +37,7 @@ export default function PomodoroCopy() {
 
   // TODO config 값을 DB에 저장해서 초기에 useEffect로 설정
   useEffect(() => {
-    // navigator.geolocation.getCurrentPosition((position) => {
-    //   const weather = `https://api.openweathermap.org/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&units=metric&appid=75576d484f08c1bae8fae6cd7c30d3ae&lang=Kr`
-    //   fetch(weather).then(response => response.json())
-    //   .then(weatherInfo => {
-    //     console.log(weatherInfo)
-    //   })
-    //   console.log(`latitude`, position.coords.latitude)
-    //   console.log(`longitude`,position.coords.longitude)
-    // })
-    fetch(`http://localhost:8080/pomodoro`, {
+    fetch(`/pomodoro`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -60,8 +51,8 @@ export default function PomodoroCopy() {
     .then(pomodoroInfo => {
       console.log(pomodoroInfo)
       dispatch(setTimeActionCreator(pomodoroInfo.minute))
+
       dispatch(setInputMinute(pomodoroInfo.minute))
-      console.log(pomodoroInfo.toString())
       dispatch(setRestTimeStateActionCreator(pomodoroInfo.rest))
     }).catch(err => {
       console.log(err)
@@ -79,10 +70,6 @@ export default function PomodoroCopy() {
   }
 
   function startButtonTitle() {
-    // if (pomodoro.timer.state.isPause) {
-    //   return "Re-Start"
-    // }
-    // return "Start"
     return pomodoro.timer.state.isPause ? "Re-Start" : "Start"
   }
 
@@ -107,7 +94,7 @@ export default function PomodoroCopy() {
     timerReference.current = setInterval(() => {
       // 카운터 수를 줄이는 dispatch
       dispatch(runTimerActionCreator())
-    }, 1000)
+    }, 1)
     //   처음 메모이제이션된 값만을 기억하기에
   }, [pomodoro.timer.state, pomodoro.config])
 
@@ -125,21 +112,21 @@ export default function PomodoroCopy() {
         dispatch(setTimeActionCreator(pomodoro.config.rest))
         dispatch(changeRestStateActionCreator(true))
         dispatch(plusIntervalCountActionCreator())
-        apiURL = "/pomodoro/interval/running"
       }
-      fetch(myRequestGenerator(apiURL), {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${accessToken}`
-        },
-        body: JSON.stringify({
-          userId: 2,
-          date: new Date().toISOString().split("T")[0]
-        })
-      }).then(response => response.json())
-      .then(clear => console.log(clear))
-      .catch(error => console.log("pomodoro count 오류 서버 관리자에게 문의 해주세요."))
+      // console.log("-------------------------------------------------" + apiURL)
+      // fetch(myRequestGenerator(apiURL), {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     "Authorization": `Bearer ${accessToken}`
+      //   },
+      //   body: JSON.stringify({
+      //     userId: 2,
+      //     date: new Date().toISOString().split("T")[0]
+      //   })
+      // }).then(response => response.json())
+      // .then(clear => console.log(clear))
+      // .catch(error => console.log("pomodoro count 오류 서버 관리자에게 문의 해주세요."))
     }
   }, [pomodoro.config.countValue])
 
