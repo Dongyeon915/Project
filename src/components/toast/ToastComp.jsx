@@ -29,6 +29,7 @@ export default function ToastComp() {
 
   const till = useSelector(state => state.til)
   const dispatch = useDispatch()
+  const authInfo = useSelector(state => state.login)
 
 
   const [state, setState] = useState({
@@ -52,11 +53,17 @@ export default function ToastComp() {
     pageNo: 1
   })
 
+
+  const accesstoken = authInfo.access_token;
+
   // 초기페이지 설정 1을 전달하면 offset이 1을 받음
   useEffect(() => {
-    fetch(myRequestGenerator(`/til/page/0`), {
+    fetch(`/til/page/0`, {
       method: "GET",
-      headers: {"Content-Type": "application/json"},
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${accesstoken}`
+      },
     }).then(response => response.json())
     .then(til => {
       setState(prevState => {
@@ -72,8 +79,16 @@ export default function ToastComp() {
   useEffect(() => {
     fetch(myRequestGenerator(`/til`), {
       method: "GET",
-      headers: {"Content-Type": "application/json"},
-    }).then(response => response.json())
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${accesstoken}`
+      },
+    }).then(response => {
+      if (response.status === 401) {
+        throw new Error("Token 인증에 실패하였습니다.")
+      }
+      return response.json()
+    })
     .then(til => {
       const newTil = til.length / 10
       // console.log(Math.floor(newTil))
@@ -83,7 +98,10 @@ export default function ToastComp() {
           pageValue: Math.floor(newTil)
         }
       })
-    }).catch(error => console.log("til오류 서버 관리자에게 문의 해주세요."))
+    }).catch(error => {
+      console.log("til오류 서버 관리자에게 문의 해주세요.");
+      console.log(error.toLocaleString());
+    })
   }, [])
 
   // 페이지 만들기
@@ -107,9 +125,12 @@ export default function ToastComp() {
     } else {
       var newValue = value * 10
     }
-    fetch(myRequestGenerator(`/til/page/${newValue}`), {
+    fetch(`/til/page/${newValue}`, {
       method: "GET",
-      headers: {"Content-Type": "application/json"},
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${accesstoken}`
+      },
     }).then(response => response.json())
     .then(til => {
           // console.log(til)
@@ -163,7 +184,7 @@ export default function ToastComp() {
                           <Link
                               underline={"none"}
                               component={RouterLink}
-                              to={`/TIL/${content.tuiId}`}
+                              to={`/TIL/Contents/${content.tuiId}`}
                           >
                             {content.tuiTitle}
                           </Link>
