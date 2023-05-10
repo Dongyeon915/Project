@@ -9,8 +9,11 @@ import {
   Typography
 } from "@mui/material";
 import {Aod, GitHub, Mail} from "@mui/icons-material";
+import {useEffect} from "react";
+import {useSelector} from "react-redux";
+function OverviewComp() {
 
-function overviewComp() {
+ const userInfo = useSelector(state => state.login.userInfo);
 
   return (
       <Container fixed={"true"}>
@@ -20,7 +23,7 @@ function overviewComp() {
               <Card sx={{minWidth: 270}}>
                 <CardMedia
                     component={"img"}
-                    image={"https://i.namu.wiki/s/d637c7f7a98eb9f5cb9ae7f8c6cba3ab8e422eed0dc78534beb2026d6a7285d34dc454374775ffb5235cf336640b04b2b0b6a26cfeef3488d1c11ae729c82ba86db7635951ed390646324f6eb8af0c0660d279f86042ad712603acaa040e8ff9017161ca7a9e94d01486206b3ce23079"}
+                    image={userInfo.profile}
                     sx={{height: 300, borderRadius: 8}}
                 >
                 </CardMedia>
@@ -30,24 +33,12 @@ function overviewComp() {
           <Grid2>
             <Typography variant={"h4"} fontWeight={"inherit"}
                         sx={{fontFamily: "Oswald"}}>
-              kim
+              {userInfo.sub}
             </Typography>
-            <Typography variant={"body2"} marginTop={2}
-                        sx={{fontFamily: "Oswald"}}>
-              sksms
-              <br/>
-              한글
-              <br/>
-              이 영화는 이런 내 생각을 똑똑히 증명했다. 허풍처럼 들리는가? 글쎄,
-              <br/>
-              나는 살면서 절대로 과장을 해본 적이 없다.
-              <br/>
-              난 내 본업을 소중히 여기기 때문에 어디 가서 다른 배우들 찬사를 쉽게 하는 사람이 아니다
-            </Typography>
-            <Stack direction={"row"} spacing={2} marginTop={2}>
+            <Stack direction={"row"} spacing={2} marginTop={10}>
               <Mail/>
               <Typography>
-                ehd9567@naver.com
+                {userInfo.email}
               </Typography>
             </Stack>
             <Stack direction={"row"} spacing={2} marginTop={2}>
@@ -75,4 +66,4 @@ function overviewComp() {
   )
 }
 
-export default overviewComp
+export default OverviewComp
