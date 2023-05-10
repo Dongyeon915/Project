@@ -39,6 +39,8 @@ export default function TodoComp() {
   const dispatch = useDispatch()
 
   const authInfo = useSelector(state => state.login)
+  //  Redux Store에서 꺼내온다!
+  const accesstoken = authInfo.access_token;
 
   const [state, setState] = useState()
 
@@ -51,11 +53,9 @@ export default function TodoComp() {
   // userID와 오늘의 date가 일치하는 정보만 가져온다
   useEffect(() => {
 
-    //  Redux Store에서 꺼내온다!
-    const accesstoken = authInfo.access_token;
 
-    // fetch(myRequestGenerator(`/schedules/user`), {
-    fetch(`http://localhost:8080/schedules/user`, {
+
+    fetch(`/schedules/user`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -67,8 +67,9 @@ export default function TodoComp() {
       })
     }).then(response => response.json())
     .then(newTodo => {
+      console.log(newTodo)
       dispatch(getAllTodoActionCreator(newTodo))
-      getRsult()
+      getTodoResult(accesstoken)
     }).catch(error => {
       console.log("todo유저 오류 서버 관리자에게 문의 해주세요.")
       console.log(error)
@@ -76,52 +77,60 @@ export default function TodoComp() {
   }, [])
 
   // rest와 clear를 해당 유저로 세팅하기 useEffect 사용시 무한네트워크 요청으로 함수로빼서 관리
-  const getRsult = () => {
-    fetch(myRequestGenerator(`/result`), {
+  const getTodoResult = (accessToken) => {
+    fetch(`/result`, {
       method: "POST",
-      headers: {"Content-Type": "application/json"},
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${accessToken}`
+      },
       body: JSON.stringify({
         user_id: 2,
         date: new Date().toISOString().split("T")[0],
       })
-    }).then(response => response.json())
+    })
+    .then(response => response.json())
     .then(result => {
+      console.log(result)
       dispatch(getUserResult(result))
     }).catch(error => console.log(error))
   }
 
-  // 버튼 클릭시 todoList배열에 새로운 input 값을 추가
-  const buttonClickEvent = (event, index) => {
-    if (todoInput.current.value == 0) {
-      alert("Todo를 입력해주세요")
-      return
-    } else if (todoInput.current.value.length != 0) {
-      todoUpdateAPI()
-    }
-  }
-  const todoUpdateAPI = () => {
-    fetch(myRequestGenerator("/schedules"), {
+  const todoUpdateAPI = (accesstoken) => {
+    fetch("/schedules", {
       method: "POST",
-      headers: {"Content-Type": "application/json"},
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${accesstoken}`
+      },
       body: JSON.stringify({
         todo_task: todoInput.current.value,
         checkbox_complete: false,
         user_id: 2,
         date: new Date().toISOString().split("T")[0],
       })
-    }).then(response => response.json())
+    }).then(response => {
+      if (response.status === 401) {
+        throw new Error("Token 인증에 실패하였습니다.")
+      }
+      return response.json()
+    })
     .then(newTodo => {
-      console.log(newTodo)
       dispatch(addTodoActionCreator(newTodo))
       todoInput.current.value = ""
+    }).catch(error => {
+      console.log(error.toLocaleString());
     })
   }
 
   const todoComplete = (event, index) => {
     dispatch(completeTodoActionCreator(index))
-    fetch(myRequestGenerator(`/schedules/checkbox/${index}`), {
+    fetch(`/schedules/checkbox/${index}`, {
       method: "PUT",
-      headers: {"Content-Type": "application/json"},
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${accesstoken}`
+      },
       body: JSON.stringify({
         task_id: index,
         user_id: 2,
@@ -136,17 +145,29 @@ export default function TodoComp() {
     })
   }
 
-  const enterEventHandler = (e) => {
-    if (e.key === 'Enter' && todoInput.current.value.length != 0) {
-      todoUpdateAPI()
-    } else if (e.key === 'Enter') {
-      alert("Todo를 입력해주세요")
+  const addTodoEventHandler = (e) => {
+    if (e.type === 'keydown') {
+      if (e.key === 'Enter' && todoInput.current.value.length != 0) {
+        todoUpdateAPI(accesstoken)
+      } else if (e.key === 'Enter') {
+        alert("Todo를 입력해주세요")
+      }
+    } else {
+      if (todoInput.current.value == 0) {
+        alert("Todo를 입력해주세요")
+        return
+      } else if (todoInput.current.value.length != 0) {
+        todoUpdateAPI(accesstoken)
+      }
     }
   }
 
 // 삭제버튼 이벤트
   const deleteEvent = (event, index) => {
-    fetch(myRequestGenerator(`/schedules/${index}`), {
+    fetch(`/schedules/${index}`, {
+      headers: {
+        "Authorization": `Bearer ${accesstoken}`
+      },
       method: "DELETE"
     }).then(response => {
       dispatch(deleteTodoActionCreator(index))
@@ -156,9 +177,12 @@ export default function TodoComp() {
 
   // task삭제시 result갯수 줄여주기
   const deleteTaskResult = () => {
-    fetch(myRequestGenerator("/schedules"), {
+    fetch("/schedules", {
       method: "DELETE",
-      headers: {"Content-Type": "application/json"},
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${accesstoken}`
+      },
       body: JSON.stringify({
         user_id: 2,
         date: new Date().toISOString().split("T")[0],
@@ -196,9 +220,12 @@ export default function TodoComp() {
     })
   }
   const updateContentBtn = (event, index) => {
-    fetch(myRequestGenerator("/schedules"), {
+    fetch("/schedules", {
       method: "PUT",
-      headers: {"Content-Type": "application/json"},
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${accesstoken}`
+      },
       body: JSON.stringify({
         user_id: 2,
         task_id: index,
@@ -382,10 +409,10 @@ export default function TodoComp() {
             <Input placeholder={"New Task..."}
                    sx={{flexGrow: 1, color: "white", fontFamily: "Oswald"}}
                 // value={inputState.todoInput}
-                   onKeyDown={enterEventHandler}
+                   onKeyDown={addTodoEventHandler}
                    inputRef={todoInput}
             />
-            <IconButton onClick={buttonClickEvent}>
+            <IconButton onClick={addTodoEventHandler}>
               <TaskAltIcon sx={{color: "white"}} fontSize={"medium"}/>
             </IconButton>
           </Stack>
