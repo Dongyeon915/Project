@@ -1,4 +1,4 @@
-import {useLoaderData, useNavigate} from "react-router-dom";
+import {useLoaderData, useNavigate, useParams} from "react-router-dom";
 import {myRequestGenerator} from "../../helper/helper";
 import '@toast-ui/editor/dist/toastui-editor.css';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -6,35 +6,49 @@ import {Viewer} from '@toast-ui/react-editor';
 import {Button, Divider, Paper, Stack, Typography} from "@mui/material";
 import NoteAltIcon from '@mui/icons-material/NoteAlt';
 import ReplyIcon from '@mui/icons-material/Reply';
-import {useState} from "react";
-
-// loder는 파라미터로 넘어온걸 받아준다
-// async로 순서를 맞춰줘야한다
-export async function loader({params}) {
-  const content = await getTILContentByID(params.til_id)
-  // content : content 생략시 담김
-  return {content};
-}
-
-function getTILContentByID(id) {
-  return fetch(myRequestGenerator(`/til/${id}`), {
-    method: "GET",
-    headers: {"Content-Type": "application/json"},
-  }).then(response => {
-    return response.json();
-  })
-  .catch(error => console.log(error))
-}
+import {useEffect, useState} from "react";
+import {useSelector} from "react-redux";
 
 export default function TilContentViewer() {
   // const {a} = useLoaderData(); 이런식으로 객체를 받게하면 해당하는 data만 받오기에 변수지정해줘야한다.
-  const til_data = useLoaderData();
+  // const til_data = useLoaderData();
+  const params = useParams();
   const navigate = useNavigate();
+  const authInfo = useSelector(state => state.login)
+  const accesstoken = authInfo.access_token;
+  console.log(params)
+
+  const [til_data, setTileContent] = useState({
+    content: {}
+  });
+
+  useEffect(() => {
+    fetch(`/til/${params.til_id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${accesstoken}`
+        },
+      }).then(response => {
+        return response.json();
+      }).then(result => {
+        console.log(result)
+        setTileContent({
+          content: result
+        })
+        console.log(til_data)
+    })
+      .catch(error => console.log(error))
+  }, [])
+
 
   const deleteContent = (id) => {
-    fetch(myRequestGenerator(`/til/${id}`), {
+    fetch(`/til/${id}`, {
       method: "DELETE",
-      headers: {"Content-Type": "application/json"}
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${accesstoken}`
+      }
     }).then(response => {
       if (response.status == 200) {
         console.log("삭제 성공")
@@ -59,7 +73,9 @@ export default function TilContentViewer() {
         }} variant={"elevation"} elevation={10}>
           <Typography variant={"h6"}>{til_data.content.tuiTitle}</Typography>
           <Divider></Divider>
-          <Viewer initialValue={til_data.content.tuiContent}/>
+          {
+              til_data.content.tuiContent &&  <Viewer initialValue={til_data.content.tuiContent}/>
+          }
           <Divider></Divider>
         </Paper>
         <Stack direction="row" spacing={2} justifyContent={"right"}
@@ -90,6 +106,5 @@ export default function TilContentViewer() {
           </Button>
         </Stack>
       </>
-
   )
 }
