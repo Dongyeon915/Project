@@ -19,11 +19,18 @@ export default function Total() {
     intervalArr : [],
   })
 
+  const authInfo = useSelector(state => state.login)
+  //  Redux Store에서 꺼내온다!
+  const accesstoken = authInfo.access_token;
+
   // 유저의 아이디로 rest.clear를 가져온다
   useEffect(() => {
-    fetch(myRequestGenerator(`/result/userId`), {
+    fetch(`/result/userId`, {
       method: "POST",
-      headers: {"Content-Type": "application/json"},
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${accesstoken}`
+      },
       body: JSON.stringify({
         user_id: 2,
       })
@@ -40,9 +47,12 @@ export default function Total() {
 
 
     useEffect(() => {
-      fetch(myRequestGenerator(`/pomodoro/userId`), {
+      fetch(`/pomodoro/userId`, {
         method: "POST",
-        headers: {"Content-Type": "application/json"},
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${accesstoken}`
+        },
         body: JSON.stringify({
           userId: 2,
         })
