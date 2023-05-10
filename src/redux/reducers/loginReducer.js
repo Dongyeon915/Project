@@ -3,7 +3,8 @@ import {GET_LOGIN_INFO} from "../actions/loginAction";
 const initialState = {
   isAuthenticated: false,
   access_token: null,
-  refresh_token: null
+  refresh_token: null,
+  userInfo: null
 }
 
 export default function loginReducer(state = initialState, action) {
@@ -12,7 +13,8 @@ export default function loginReducer(state = initialState, action) {
         ...state,
         isAuthenticated: true,
         access_token: action.access_token,
-        refresh_token: action.refresh_token
+        refresh_token: action.refresh_token,
+        userInfo: action.userInfo
     }
   }
   return state
