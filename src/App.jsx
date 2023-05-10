@@ -27,11 +27,10 @@ function App() {
             <Route path={"/repository"} element={<RepositoriesComp/>}/>
             <Route path={"/today"} element={<TodayComp/>}/>
             <Route path={"/total"} element={<Total/>}/>
-            <Route path={"/TIL"} element={<ToastComp/>}>
-              {/*<Route path={"Write"} element={<TilContentWriter/>}/>*/}
-              {/*<Route path={"Edit"} element={<TilContentWriter/>}/>*/}
-              {/*<Route path={"/:til_id"} element={<TilContentViewer/>}/>*/}
-            </Route>
+            <Route path={"/TIL"} element={<ToastComp/>}/>
+            <Route path={"/TIL/Write"} element={<TilContentWriter/>}/>
+            <Route path={"/TIL/Edit"} element={<TilContentWriter/>}/>
+            <Route path={"/TIL/Contents/:til_id"} element={<TilContentViewer/>}/>
           </Route>
         </Route>
       </Routes>
