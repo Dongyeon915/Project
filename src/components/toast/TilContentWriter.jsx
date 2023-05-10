@@ -6,6 +6,7 @@ import {Button, Stack, TextField} from "@mui/material";
 import {useLocation, useNavigate} from "react-router-dom";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import FileDownloadDoneIcon from '@mui/icons-material/FileDownloadDone';
+import {useSelector} from "react-redux";
 
 export default function TilContentWriter() {
 
@@ -15,6 +16,10 @@ export default function TilContentWriter() {
   const typeRef = useRef()
   const navigate = useNavigate()
   const location = useLocation();
+  const authInfo = useSelector(state => state.login)
+  //  Redux Store에서 꺼내온다!
+  const accesstoken = authInfo.access_token;
+
   let tuiContent = {};
   let btnTitle = "등록"
   if (location.pathname === "/TIL/Edit") {
@@ -58,11 +63,14 @@ export default function TilContentWriter() {
 
     fetch(requestPath, {
       method: requestMethod,
-      headers: {"Content-Type": "application/json"},
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${accesstoken}`
+      },
       body: JSON.stringify(bodyData)
     }).then(response => {
       // 처음 성공 실패 여부를 확인
-      if (response.status == 200) {
+      if (response.status === 200) {
         return response.json()
       }
       return null;
@@ -71,7 +79,7 @@ export default function TilContentWriter() {
       if (res == null) {
         console.log("[ERR2037]")
       } else {
-        navigate(`/TIL/${res}`)
+        navigate(`/TIL/Contents/${res}`)
       }
     })
   };
