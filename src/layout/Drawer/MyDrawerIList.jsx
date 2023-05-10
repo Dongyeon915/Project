@@ -23,31 +23,31 @@ function MyDrawerIList() {
         <Toolbar/>
         <List>
           <ListItem key="사용">
-            <ListItemButton
-                onClick={() => {
-                  navigate('/overview')
-                }
-                }
-            >
-              <Stack direction={"row"} spacing={3}>
-                {/*<Avatar alt="유저이미지" src={GitUser.avatar_url}*/}
-                {/*        sx={{width: 60, height: 60}}/>*/}
-                <Stack spacing={1} justifyContent={"center"}>
-                  <Typography variant={"h6"} fontWeight={"bolder"}>
-                    {/*{GitUser.name}*/}
-                  </Typography>
-                  <Typography variant={"body1"}>
-                    {/*{GitUser.campany}*/}
-                  </Typography>
-                  <Typography variant={"body2"}>
-                    {/*{GitUser.location}*/}
-                  </Typography>
-                </Stack>
-              </Stack>
-            </ListItemButton>
+            {/*<ListItemButton*/}
+            {/*    onClick={() => {*/}
+            {/*      navigate('/overview')*/}
+            {/*    }*/}
+            {/*    }*/}
+            {/*>*/}
+              {/*<Stack direction={"row"} spacing={3}>*/}
+              {/*  /!*<Avatar alt="유저이미지" src={GitUser.avatar_url}*!/*/}
+              {/*  /!*        sx={{width: 60, height: 60}}/>*!/*/}
+              {/*  <Stack spacing={1} justifyContent={"center"}>*/}
+              {/*    <Typography variant={"h6"} fontWeight={"bolder"}>*/}
+              {/*      /!*{GitUser.name}*!/*/}
+              {/*    </Typography>*/}
+              {/*    <Typography variant={"body1"}>*/}
+              {/*      /!*{GitUser.campany}*!/*/}
+              {/*    </Typography>*/}
+              {/*    <Typography variant={"body2"}>*/}
+              {/*      /!*{GitUser.location}*!/*/}
+              {/*    </Typography>*/}
+              {/*  </Stack>*/}
+              {/*</Stack>*/}
+            {/*</ListItemButton>*/}
           </ListItem>
         </List>
-        <Divider/>
+        {/*<Divider/>*/}
         <List>
           {
             menuInfo.map((menuItem) => (
