@@ -23,12 +23,16 @@ export default function CalendarComp() {
     todoList: []
   })
 
-
+  const authInfo = useSelector(state => state.login)
+  const accessToken = authInfo.access_token;
 
   useEffect(() => {
-    fetch(myRequestGenerator(`/calendar/allUserCalendar`), {
+    fetch(`/calendar/allUserCalendar`, {
       method: "POST",
-      headers: {"Content-Type": "application/json"},
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${accessToken}`
+      },
       body: JSON.stringify({
         user_id: 2,
       })
@@ -47,9 +51,12 @@ export default function CalendarComp() {
   }, [todo.result,todoResult.result])
 
   const getRsult = (date) => {
-    fetch(myRequestGenerator(`/result`), {
+    fetch(`/result`, {
       method: "POST",
-      headers: {"Content-Type": "application/json"},
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${accessToken}`
+      },
       body: JSON.stringify({
         user_id: 2,
         date: date
