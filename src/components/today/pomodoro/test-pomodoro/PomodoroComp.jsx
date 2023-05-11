@@ -49,7 +49,6 @@ export default function PomodoroCopy() {
       })
     }).then(response => response.json())
     .then(pomodoroInfo => {
-      console.log(pomodoroInfo)
       dispatch(setTimeActionCreator(pomodoroInfo.minute))
 
       dispatch(setInputMinute(pomodoroInfo.minute))
@@ -84,10 +83,10 @@ export default function PomodoroCopy() {
     if (pomodoro.timer.state.isPause) {
       dispatch(changeRunningStateActionCreator())
     } else if (pomodoro.timer.state.isRest) {
-      console.log("레스트로 바뀌는 순간")
+      // console.log("레스트로 바뀌는 순간")
       dispatch(setTimeActionCreator(pomodoro.config.rest))
     } else if (!pomodoro.timer.state.isRest) {
-      console.log("러닝으로 바뀌는 순간")
+      // console.log("러닝으로 바뀌는 순간")
       dispatch(changeRunningStateActionCreator())
       dispatch(setTimeActionCreator(pomodoro.config.minute))
     }
@@ -113,20 +112,6 @@ export default function PomodoroCopy() {
         dispatch(changeRestStateActionCreator(true))
         dispatch(plusIntervalCountActionCreator())
       }
-      // console.log("-------------------------------------------------" + apiURL)
-      // fetch(myRequestGenerator(apiURL), {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     "Authorization": `Bearer ${accessToken}`
-      //   },
-      //   body: JSON.stringify({
-      //     userId: 2,
-      //     date: new Date().toISOString().split("T")[0]
-      //   })
-      // }).then(response => response.json())
-      // .then(clear => console.log(clear))
-      // .catch(error => console.log("pomodoro count 오류 서버 관리자에게 문의 해주세요."))
     }
   }, [pomodoro.config.countValue])
 

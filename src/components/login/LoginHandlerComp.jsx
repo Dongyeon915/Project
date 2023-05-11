@@ -27,6 +27,7 @@ export default function LoginHandlerComp() {
     const userInfo = jwt_decode(params.access_token);
 
     dispatch(getLoginInfoAction(params.access_token ,params.refresh_token, userInfo));
+    console.log(userInfo)
     navigate("/overview")
   },[])
 

@@ -19,11 +19,14 @@ export default function CalendarComp() {
   const todoResult = useSelector((state) => state.todoResult)
   const dispatch = useDispatch()
 
+
   const [stateTodoResult, setTodoResult] = useState({
     todoList: []
   })
 
+  //  Redux Store에서 꺼내온다!
   const authInfo = useSelector(state => state.login)
+  const userIdValue = parseInt(authInfo.userInfo.id);
   const accessToken = authInfo.access_token;
 
   useEffect(() => {
@@ -34,7 +37,7 @@ export default function CalendarComp() {
         "Authorization": `Bearer ${accessToken}`
       },
       body: JSON.stringify({
-        user_id: 2,
+        user_id: userIdValue
       })
     }).then(response => response.json())
     .then(response => {
@@ -58,7 +61,7 @@ export default function CalendarComp() {
         "Authorization": `Bearer ${accessToken}`
       },
       body: JSON.stringify({
-        user_id: 2,
+        user_id: userIdValue,
         date: date
       })
     }).then(response => response.json())
@@ -78,11 +81,14 @@ export default function CalendarComp() {
             onClickDay={(value, event) => {
               const date = new Date(value.getTime() - value.getTimezoneOffset()
                   * 60000).toISOString().split("T")[0]
-              fetch(myRequestGenerator(`/schedules/user`), {
+              fetch(`/schedules/user`, {
                 method: "POST",
-                headers: {"Content-Type": "application/json"},
+                headers: {
+                  "Content-Type": "application/json",
+                  "Authorization": `Bearer ${accessToken}`
+                },
                 body: JSON.stringify({
-                  user_id: 2,
+                  user_id: userIdValue,
                   date: date
                 })
               }).then(response => response.json())

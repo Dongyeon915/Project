@@ -67,11 +67,10 @@ export default function TodoComp() {
       })
     }).then(response => response.json())
     .then(newTodo => {
-      console.log(newTodo)
+      // console.log(newTodo)
       dispatch(getAllTodoActionCreator(newTodo))
       getTodoResult(accesstoken)
     }).catch(error => {
-      console.log("todo유저 오류 서버 관리자에게 문의 해주세요.")
       console.log(error)
     })
   }, [])
@@ -91,7 +90,7 @@ export default function TodoComp() {
     })
     .then(response => response.json())
     .then(result => {
-      console.log(result)
+      // console.log(result)
       dispatch(getUserResult(result))
     }).catch(error => console.log(error))
   }
@@ -141,7 +140,6 @@ export default function TodoComp() {
     }).catch(error => {
       console.log(error)
       dispatch(completeTodoActionCreator(index))
-      alert("서버 오류가 있습니다.")
     })
   }
 
@@ -211,7 +209,7 @@ export default function TodoComp() {
 
 // 업데이트 value저장
   const editUpdate = (e) => {
-    console.log(e.target.value)
+    // console.log(e.target.value)
     setUpdate(prevState => {
       return {
         ...prevState,
@@ -234,7 +232,7 @@ export default function TodoComp() {
     }).then(response => response.json())
     .then(updateTodo => {
       dispatch(updateTodoActionCreator(updateTodo))
-      console.log(updateTodo)
+      // console.log(updateTodo)
     })
     setUpdate(prevState => {
       return {
@@ -292,7 +290,7 @@ export default function TodoComp() {
           <Stack flexGrow={1} minHeight={320} maxHeight={320}
                  sx={{marginTop: 2, marginBottom: 2, overflowY: "auto"}}>
             {todo.list.map((todo) => {
-              console.log(todo)
+              // console.log(todo)
               return (
                   <Paper variant={"outlined"} elevation={4} sx={{
                     padding: 2,

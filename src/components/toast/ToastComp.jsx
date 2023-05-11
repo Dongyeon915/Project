@@ -18,19 +18,15 @@ import Box from "@mui/material/Box";
 // 라우터링크로 component를 지정해줘야
 import {Link as RouterLink, useNavigate} from "react-router-dom";
 import {useCallback, useEffect, useState} from "react";
-import {myRequestGenerator} from "../../helper/helper";
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import Divider from "@mui/material/Divider";
 import {useDispatch, useSelector} from "react-redux";
-import {setTillPageValue} from "../../redux/actions/tilAction";
 
 export default function ToastComp() {
-
 
   const till = useSelector(state => state.til)
   const dispatch = useDispatch()
   const authInfo = useSelector(state => state.login)
-
 
   const [state, setState] = useState({
     "contents": []
@@ -52,7 +48,6 @@ export default function ToastComp() {
   const [statePageNo, setPageNo] = useState({
     pageNo: 1
   })
-
 
   const accesstoken = authInfo.access_token;
 
@@ -77,7 +72,7 @@ export default function ToastComp() {
 
   // 모든 정보를 가져와 동적으로 페이지 숫자를 표시함
   useEffect(() => {
-    fetch(myRequestGenerator(`/til`), {
+    fetch(`/til`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

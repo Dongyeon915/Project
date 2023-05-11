@@ -20,7 +20,7 @@ function OverviewComp() {
         <Grid2 container={"true"} spacing={3}>
           <Grid2>
             <Paper variant={3}>
-              <Card sx={{minWidth: 270}}>
+              <Card sx={{minWidth: 270,backgroundColor:"#F3EED9"}}>
                 <CardMedia
                     component={"img"}
                     image={userInfo.profile}

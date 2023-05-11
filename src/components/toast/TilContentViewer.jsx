@@ -16,7 +16,7 @@ export default function TilContentViewer() {
   const navigate = useNavigate();
   const authInfo = useSelector(state => state.login)
   const accesstoken = authInfo.access_token;
-  console.log(params)
+  // console.log(params)
 
   const [til_data, setTileContent] = useState({
     content: {}
@@ -32,11 +32,11 @@ export default function TilContentViewer() {
       }).then(response => {
         return response.json();
       }).then(result => {
-        console.log(result)
+        // console.log(result)
         setTileContent({
           content: result
         })
-        console.log(til_data)
+        // console.log(til_data)
     })
       .catch(error => console.log(error))
   }, [])
@@ -51,7 +51,7 @@ export default function TilContentViewer() {
       }
     }).then(response => {
       if (response.status == 200) {
-        console.log("삭제 성공")
+        // console.log("삭제 성공")
         navigate("/TIL")
       }
     }).catch(error => console.log(error))
