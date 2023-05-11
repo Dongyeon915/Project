@@ -71,12 +71,6 @@ function MyDrawerIList() {
                         {
                             menuItem.id == 5 && <FormatListNumberedIcon/>
                         }
-                        {
-                            menuItem.id == 6 && <AddReactionIcon/>
-                        }
-                        {
-                            menuItem.id == 7 && <LoginIcon/>
-                        }
                       </ListItemIcon>
                       <ListItemText primary={menuItem.name}/>
                     </ListItemButton>
