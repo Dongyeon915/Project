@@ -53,8 +53,6 @@ export default function TodoComp() {
   // userID와 오늘의 date가 일치하는 정보만 가져온다
   useEffect(() => {
 
-
-
     fetch(`/schedules/user`, {
       method: "POST",
       headers: {
@@ -62,7 +60,7 @@ export default function TodoComp() {
         "Authorization": `Bearer ${accesstoken}`
       },
       body: JSON.stringify({
-        user_id: 2,
+        user_id: authInfo.userInfo.id,
         date: new Date().toISOString().split("T")[0]
       })
     }).then(response => response.json())
@@ -84,7 +82,7 @@ export default function TodoComp() {
         "Authorization": `Bearer ${accessToken}`
       },
       body: JSON.stringify({
-        user_id: 2,
+        user_id: authInfo.userInfo.id,
         date: new Date().toISOString().split("T")[0],
       })
     })
@@ -105,7 +103,7 @@ export default function TodoComp() {
       body: JSON.stringify({
         todo_task: todoInput.current.value,
         checkbox_complete: false,
-        user_id: 2,
+        user_id: authInfo.userInfo.id,
         date: new Date().toISOString().split("T")[0],
       })
     }).then(response => {
@@ -132,7 +130,7 @@ export default function TodoComp() {
       },
       body: JSON.stringify({
         task_id: index,
-        user_id: 2,
+        user_id: authInfo.userInfo.id,
         date: new Date().toISOString().split("T")[0],
         checkbox_complete: event.target.checked,
         complete_time: Date.now().toString()
@@ -182,7 +180,7 @@ export default function TodoComp() {
         "Authorization": `Bearer ${accesstoken}`
       },
       body: JSON.stringify({
-        user_id: 2,
+        user_id: authInfo.userInfo.id,
         date: new Date().toISOString().split("T")[0],
       })
     })
@@ -225,7 +223,7 @@ export default function TodoComp() {
         "Authorization": `Bearer ${accesstoken}`
       },
       body: JSON.stringify({
-        user_id: 2,
+        user_id: authInfo.userInfo.id,
         task_id: index,
         todo_task: updateState.task
       })

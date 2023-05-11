@@ -35,6 +35,7 @@ export default function PomodoroCopy() {
     rest: pomodoro.config.rest
   })
 
+
   // TODO config 값을 DB에 저장해서 초기에 useEffect로 설정
   useEffect(() => {
     fetch(`/pomodoro`, {
@@ -44,13 +45,12 @@ export default function PomodoroCopy() {
         "Authorization": `Bearer ${accessToken}`
       },
       body: JSON.stringify({
-        "userId": 2,
+        "userId": authInfo.userInfo.id,
         "date": new Date().toISOString().split("T")[0]
       })
     }).then(response => response.json())
     .then(pomodoroInfo => {
       dispatch(setTimeActionCreator(pomodoroInfo.minute))
-
       dispatch(setInputMinute(pomodoroInfo.minute))
       dispatch(setRestTimeStateActionCreator(pomodoroInfo.rest))
     }).catch(err => {
@@ -107,11 +107,29 @@ export default function PomodoroCopy() {
         dispatch(setTimeActionCreator(pomodoro.config.minute))
         dispatch(changeRestStateActionCreator(false))
         apiURL = "/pomodoro/interval/rest"
+
       } else if (pomodoro.timer.state.isRunning) {
         dispatch(setTimeActionCreator(pomodoro.config.rest))
         dispatch(changeRestStateActionCreator(true))
         dispatch(plusIntervalCountActionCreator())
+        apiURL = "/pomodoro/interval/running"
+
       }
+      fetch(apiURL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({
+          userId: authInfo.userInfo.id,
+          minute:pomodoro.config.minute,
+          rest:pomodoro.config.rest,
+          date: new Date().toISOString().split("T")[0]
+        })
+      }).then(response => response.json())
+      // .then(clear => console.log(clear))
+      .catch(error => console.log(error))
     }
   }, [pomodoro.config.countValue])
 

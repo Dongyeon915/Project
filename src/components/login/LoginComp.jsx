@@ -37,7 +37,7 @@ export default function LoginComp() {
               NAVER
             </Typography>
             <Grid2 marginTop={2}>
-              < a href="https://nid.naver.com/oauth2.0/authorize?client_id=Fbw9lQ3zaLgRySvArd5k&response_type=code&redirect_uri=http://localhost:8080/main/callback&state=1234">
+              < a href="http://localhost:8080/oauth2/authorization/naver">
                 <img
                     width={300} height={80}
                     src={`${process.env.PUBLIC_URL}/naver/naverimg.png`}/>

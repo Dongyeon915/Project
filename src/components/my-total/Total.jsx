@@ -20,8 +20,7 @@ export default function Total() {
   })
 
   const authInfo = useSelector(state => state.login)
-  const userIdValue = parseInt(authInfo.userInfo.id);
-  console.log(userIdValue)
+
 
   //  Redux Store에서 꺼내온다!
   const accesstoken = authInfo.access_token;
@@ -35,7 +34,7 @@ export default function Total() {
         "Authorization": `Bearer ${accesstoken}`
       },
       body: JSON.stringify({
-        user_id: userIdValue,
+        user_id: authInfo.userInfo.id,
       })
     }).then(response => response.json())
     .then(result => {
@@ -57,7 +56,7 @@ export default function Total() {
           "Authorization": `Bearer ${accesstoken}`
         },
         body: JSON.stringify({
-          userId: userIdValue,
+          userId: authInfo.userInfo.id,
         })
       }).then(response => response.json())
       .then(result => {

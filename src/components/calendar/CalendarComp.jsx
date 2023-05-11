@@ -26,7 +26,7 @@ export default function CalendarComp() {
 
   //  Redux Store에서 꺼내온다!
   const authInfo = useSelector(state => state.login)
-  const userIdValue = parseInt(authInfo.userInfo.id);
+  // 저장시 숫자로 넣지않으면 백단 오류남
   const accessToken = authInfo.access_token;
 
   useEffect(() => {
@@ -37,7 +37,7 @@ export default function CalendarComp() {
         "Authorization": `Bearer ${accessToken}`
       },
       body: JSON.stringify({
-        user_id: userIdValue
+        user_id: authInfo.userInfo.id
       })
     }).then(response => response.json())
     .then(response => {
@@ -61,7 +61,7 @@ export default function CalendarComp() {
         "Authorization": `Bearer ${accessToken}`
       },
       body: JSON.stringify({
-        user_id: userIdValue,
+        user_id: authInfo.userInfo.id,
         date: date
       })
     }).then(response => response.json())
@@ -88,7 +88,7 @@ export default function CalendarComp() {
                   "Authorization": `Bearer ${accessToken}`
                 },
                 body: JSON.stringify({
-                  user_id: userIdValue,
+                  user_id: authInfo.userInfo.id,
                   date: date
                 })
               }).then(response => response.json())
