@@ -16,7 +16,6 @@ import {
   setTimeActionCreator
 } from "../../../../redux/actions/pomodoroAction";
 import {useDispatch, useSelector} from "react-redux";
-import {myRequestGenerator} from "../../../../helper/helper";
 
 export default function PomodoroCopy() {
   // JavaScript =>  false, null, undefined, 0, ''
@@ -29,12 +28,10 @@ export default function PomodoroCopy() {
   const authInfo = useSelector(state => state.login)
   const accessToken = authInfo.access_token;
 
-
   const [timeInputState, setTimeInputState] = useState({
     minute: pomodoro.config.minute,
     rest: pomodoro.config.rest
   })
-
 
   // TODO config 값을 DB에 저장해서 초기에 useEffect로 설정
   useEffect(() => {
@@ -48,13 +45,22 @@ export default function PomodoroCopy() {
         "userId": authInfo.userInfo.id,
         "date": new Date().toISOString().split("T")[0]
       })
-    }).then(response => response.json())
+    }).then(response => {
+      if (response.status === 401) {
+        throw new Error("Token 인증에 실패하였습니다.")
+      } else if (response.status === 403) {
+        throw new Error("접근 범위가 아닙니다.")
+      } else if (response.status === 500) {
+        throw new Error("서버 관리자에게 문의 해주세요")
+      }
+      return response.json()
+    })
     .then(pomodoroInfo => {
       dispatch(setTimeActionCreator(pomodoroInfo.minute))
       dispatch(setInputMinute(pomodoroInfo.minute))
       dispatch(setRestTimeStateActionCreator(pomodoroInfo.rest))
     }).catch(err => {
-      console.log(err)
+      console.log(err.toLocaleString())
     })
   }, [])
 
@@ -123,13 +129,21 @@ export default function PomodoroCopy() {
         },
         body: JSON.stringify({
           userId: authInfo.userInfo.id,
-          minute:pomodoro.config.minute,
-          rest:pomodoro.config.rest,
+          minute: pomodoro.config.minute,
+          rest: pomodoro.config.rest,
           date: new Date().toISOString().split("T")[0]
         })
-      }).then(response => response.json())
-      // .then(clear => console.log(clear))
-      .catch(error => console.log(error))
+      }).then(response => {
+        if (response.status === 401) {
+          throw new Error("Token 인증에 실패하였습니다.")
+        } else if (response.status === 403) {
+          throw new Error("접근 범위가 아닙니다.")
+        } else if (response.status === 500) {
+          throw new Error("서버 관리자에게 문의 해주세요")
+        }
+        return response.json()
+      })
+      .catch(error => console.log(error.toLocaleString()))
     }
   }, [pomodoro.config.countValue])
 

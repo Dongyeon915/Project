@@ -22,11 +22,9 @@ import {
   updateTodoActionCreator
 } from "../../../redux/actions/todoAction";
 import {useDispatch, useSelector} from "react-redux";
-import {myRequestGenerator} from "../../../helper/helper";
 import CancelIcon from '@mui/icons-material/Cancel';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import '@toast-ui/editor/dist/toastui-editor.css';
-import {useParams} from "react-router-dom";
 
 export default function TodoComp() {
 
@@ -63,13 +61,21 @@ export default function TodoComp() {
         user_id: authInfo.userInfo.id,
         date: new Date().toISOString().split("T")[0]
       })
-    }).then(response => response.json())
-    .then(newTodo => {
+    }).then(response => {
+      if (response.status === 401) {
+        throw new Error("Token 인증에 실패하였습니다.")
+      } else if (response.status === 403) {
+        throw new Error("접근 범위가 아닙니다.")
+      } else if (response.status === 500) {
+        throw new Error("서버 관리자에게 문의 해주세요")
+      }
+      return response.json()
+    }).then(newTodo => {
       // console.log(newTodo)
       dispatch(getAllTodoActionCreator(newTodo))
       getTodoResult(accesstoken)
     }).catch(error => {
-      console.log(error)
+      console.log(error.toLocaleString())
     })
   }, [])
 
@@ -85,12 +91,18 @@ export default function TodoComp() {
         user_id: authInfo.userInfo.id,
         date: new Date().toISOString().split("T")[0],
       })
-    })
-    .then(response => response.json())
-    .then(result => {
-      // console.log(result)
+    }).then(response => {
+      if (response.status === 401) {
+        throw new Error("Token 인증에 실패하였습니다.")
+      } else if (response.status === 403) {
+        throw new Error("접근 범위가 아닙니다.")
+      } else if (response.status === 500) {
+        throw new Error("서버 관리자에게 문의 해주세요")
+      }
+      return response.json()
+    }).then(result => {
       dispatch(getUserResult(result))
-    }).catch(error => console.log(error))
+    }).catch(error => console.log(error.toLocaleString()))
   }
 
   const todoUpdateAPI = (accesstoken) => {
@@ -109,6 +121,10 @@ export default function TodoComp() {
     }).then(response => {
       if (response.status === 401) {
         throw new Error("Token 인증에 실패하였습니다.")
+      } else if (response.status === 403) {
+        throw new Error("접근 범위가 아닙니다.")
+      } else if (response.status === 500) {
+        throw new Error("서버 관리자에게 문의 해주세요")
       }
       return response.json()
     })
@@ -135,8 +151,17 @@ export default function TodoComp() {
         checkbox_complete: event.target.checked,
         complete_time: Date.now().toString()
       })
+    }).then(response => {
+      if (response.status === 401) {
+        throw new Error("Token 인증에 실패하였습니다.")
+      } else if (response.status === 403) {
+        throw new Error("접근 범위가 아닙니다.")
+      } else if (response.status === 500) {
+        throw new Error("서버 관리자에게 문의 해주세요")
+      }
+      return response.json()
     }).catch(error => {
-      console.log(error)
+      console.log(error.toLocaleString())
       dispatch(completeTodoActionCreator(index))
     })
   }
@@ -166,9 +191,18 @@ export default function TodoComp() {
       },
       method: "DELETE"
     }).then(response => {
+      if (response.status === 401) {
+        throw new Error("Token 인증에 실패하였습니다.")
+      } else if (response.status === 403) {
+        throw new Error("접근 범위가 아닙니다.")
+      } else if (response.status === 500) {
+        throw new Error("서버 관리자에게 문의 해주세요")
+      }
+      return response.json()
+    }).then(response => {
       dispatch(deleteTodoActionCreator(index))
       deleteTaskResult()
-    }).catch(error => console.log(error))
+    }).catch(error => console.log(error.toLocaleString()))
   }
 
   // task삭제시 result갯수 줄여주기
@@ -183,6 +217,17 @@ export default function TodoComp() {
         user_id: authInfo.userInfo.id,
         date: new Date().toISOString().split("T")[0],
       })
+    }).then(response => {
+      if (response.status === 401) {
+        throw new Error("Token 인증에 실패하였습니다.")
+      } else if (response.status === 403) {
+        throw new Error("접근 범위가 아닙니다.")
+      } else if (response.status === 500) {
+        throw new Error("서버 관리자에게 문의 해주세요")
+      }
+      return response.json()
+    }).catch(error => {
+      console.log(error.toLocaleString())
     })
   }
 
@@ -227,10 +272,19 @@ export default function TodoComp() {
         task_id: index,
         todo_task: updateState.task
       })
-    }).then(response => response.json())
-    .then(updateTodo => {
+    }).then(response => {
+      if (response.status === 401) {
+        throw new Error("Token 인증에 실패하였습니다.")
+      } else if (response.status === 403) {
+        throw new Error("접근 범위가 아닙니다.")
+      } else if (response.status === 500) {
+        throw new Error("서버 관리자에게 문의 해주세요")
+      }
+      return response.json()
+    }).then(updateTodo => {
       dispatch(updateTodoActionCreator(updateTodo))
-      // console.log(updateTodo)
+    }).catch(error => {
+      console.log(error.toLocaleString())
     })
     setUpdate(prevState => {
       return {
@@ -241,17 +295,17 @@ export default function TodoComp() {
   }
 
 // 스테이크 바 이벤트
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setState(prevState => {
-      return {
-        ...prevState,
-        open: false
-      }
-    });
-  };
+//   const handleClose = (event, reason) => {
+//     if (reason === 'clickaway') {
+//       return;
+//     }
+//     setState(prevState => {
+//       return {
+//         ...prevState,
+//         open: false
+//       }
+//     });
+//   };
 
   function printCompleteTime(time) {
     return new Date(time).toLocaleString("ko-KR", {
@@ -413,12 +467,12 @@ export default function TodoComp() {
             </IconButton>
           </Stack>
         </Paper>
-        <Snackbar
-            open={todo.open}
-            autoHideDuration={3000}
-            onClose={handleClose}
-            message="You are so Nice!"
-        />
+        {/*<Snackbar*/}
+        {/*    open={todo.open}*/}
+        {/*    autoHideDuration={3000}*/}
+        {/*    onClose={handleClose}*/}
+        {/*    message="You are so Nice!"*/}
+        {/*/>*/}
       </Grid2>
   )
 }

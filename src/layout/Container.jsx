@@ -4,6 +4,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import MyAppBar from "./AppBar/MyAppBar";
 import MyDrawer from "./Drawer/MyResponsiveDrawer";
 import ContentContainer from "./ContentContainer";
+import Grid2 from "@mui/material/Unstable_Grid2";
 
 
 function Container() {
@@ -16,13 +17,13 @@ function Container() {
   };
 
   return (
-      <Box sx={{display: 'flex', backgroundColor: "#F3EED9",minHeight: 800}}>
+      <Grid2 sx={{display: 'flex', backgroundColor: "#F3EED9",minHeight:1000}}>
         <CssBaseline/>
         <MyAppBar handleDrawerToggle={handleDrawerToggle}/>
         <MyDrawer handleDrawerToggle={handleDrawerToggle}
                   mobileOpen={mobileOpen}/>
         <ContentContainer/>
-      </Box>
+      </Grid2>
   );
 }
 

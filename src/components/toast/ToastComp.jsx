@@ -59,7 +59,15 @@ export default function ToastComp() {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${accesstoken}`
       },
-    }).then(response => response.json())
+    }).then(response => {
+      if (response.status === 401) {
+        throw new Error("Token 인증에 실패하였습니다.")
+      } else if (response.status === 403) {
+        throw new Error("접근 범위가 아닙니다.")
+      } else if (response.status === 500) {
+        throw new Error("서버 관리자에게 문의 해주세요")
+      }
+      return response.json()})
     .then(til => {
       setState(prevState => {
         return {
@@ -81,6 +89,10 @@ export default function ToastComp() {
     }).then(response => {
       if (response.status === 401) {
         throw new Error("Token 인증에 실패하였습니다.")
+      } else if (response.status === 403) {
+        throw new Error("접근 범위가 아닙니다.")
+      } else if (response.status === 500) {
+        throw new Error("서버 관리자에게 문의 해주세요")
       }
       return response.json()
     })
@@ -94,7 +106,6 @@ export default function ToastComp() {
         }
       })
     }).catch(error => {
-      console.log("til오류 서버 관리자에게 문의 해주세요.");
       console.log(error.toLocaleString());
     })
   }, [])
@@ -126,18 +137,25 @@ export default function ToastComp() {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${accesstoken}`
       },
-    }).then(response => response.json())
+    }).then(response => {
+      if (response.status === 401) {
+        throw new Error("Token 인증에 실패하였습니다.")
+      } else if (response.status === 403) {
+        throw new Error("접근 범위가 아닙니다.")
+      } else if (response.status === 500) {
+        throw new Error("서버 관리자에게 문의 해주세요")
+      }
+      return response.json()})
     .then(til => {
-          // console.log(til)
+
           setState(prevState => {
             return {
               contents: til
             }
           })
-          // console.log(value)
         }
     )
-    .catch(error => console.log(error))
+    .catch(error => console.log(error.toLocaleString()))
   };
 
   return (

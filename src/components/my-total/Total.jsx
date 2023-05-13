@@ -1,26 +1,19 @@
-import {Box, Stack, Typography} from "@mui/material";
+import {Stack, Typography} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
-import {useDispatch, useSelector} from "react-redux";
-import {myRequestGenerator} from "../../helper/helper";
-import {getUserResult} from "../../redux/actions/todoAction";
+import {useSelector} from "react-redux";
 import {useEffect, useState} from "react";
-import {
-  setInputMinute, setRestTimeStateActionCreator,
-  setTimeActionCreator
-} from "../../redux/actions/pomodoroAction";
 
 export default function Total() {
 
-  const [userResultState,setuserResult] = useState({
-    arrRest : [],
+  const [userResultState, setuserResult] = useState({
+    arrRest: [],
   })
 
-  const [userIntervalState,setuserInterval] = useState({
-    intervalArr : [],
+  const [userIntervalState, setuserInterval] = useState({
+    intervalArr: [],
   })
 
   const authInfo = useSelector(state => state.login)
-
 
   //  Redux Store에서 꺼내온다!
   const accesstoken = authInfo.access_token;
@@ -36,38 +29,54 @@ export default function Total() {
       body: JSON.stringify({
         user_id: authInfo.userInfo.id,
       })
-    }).then(response => response.json())
-    .then(result => {
+    }).then(response => {
+      if (response.status === 401) {
+        throw new Error("Token 인증에 실패하였습니다.")
+      }else if (response.status === 403){
+        throw new Error("접근 범위가 아닙니다.")
+      }else if (response.status === 500){
+        throw new Error("서버 관리자에게 문의 해주세요")
+      }
+      return response.json()
+    }).then(result => {
       setuserResult(prevState => {
         return {
           ...prevState,
-          arrRest : result
+          arrRest: result
         }
       })
-    }).catch(error => console.log("mytotal사용자 오류 서버 관리자에게 문의 해주세요."))
-  },[])
+    }).catch(error => console.log(error.toLocaleString()))
+  }, [])
 
-
-    useEffect(() => {
-      fetch(`/pomodoro/userId`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${accesstoken}`
-        },
-        body: JSON.stringify({
-          userId: authInfo.userInfo.id,
-        })
-      }).then(response => response.json())
-      .then(result => {
-        setuserInterval(prevState => {
-          return {
-            ...prevState,
-            intervalArr : result
-          }
-        })
-      }).catch(error => console.log("mytotal오류 서버 관리자에게 문의 해주세요."))
-    },[])
+  useEffect(() => {
+    fetch(`/pomodoro/userId`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${accesstoken}`
+      },
+      body: JSON.stringify({
+        userId: authInfo.userInfo.id,
+      })
+    }).then(response => {
+      if (response.status === 401) {
+        throw new Error("Token 인증에 실패하였습니다.")
+      }else if (response.status === 403){
+        throw new Error("접근 범위가 아닙니다.")
+      }else if (response.status === 500){
+        throw new Error("서버 관리자에게 문의 해주세요")
+      }
+      return response.json()
+    })
+    .then(result => {
+      setuserInterval(prevState => {
+        return {
+          ...prevState,
+          intervalArr: result
+        }
+      })
+    }).catch(error => console.log(error.toLocaleString()))
+  }, [])
 
   // 가져온 유저의 값을 합쳐서 사용하기위해서 변환과정
   var restValue = 0;
@@ -87,34 +96,65 @@ export default function Total() {
   }
 
   return (
-      <Grid2 minHeight={500}  sx={{backgroundColor: "#2F4858",borderRadius: "80px"}}>
-        <Grid2 sx={{backgroundColor:"#2F4858",minWidth:300,minHeight:300,borderRadius: "50px"}} padding={1}>
-          <Typography  sx={{fontFamily:"Oswald",color:"#F3EED9",fontSize:"150px"}} textAlign={"center"}>
+      <Grid2 minHeight={500}
+             sx={{backgroundColor: "#2F4858", borderRadius: "80px"}}>
+        <Grid2 sx={{
+          backgroundColor: "#2F4858",
+          minWidth: 300,
+          minHeight: 300,
+          borderRadius: "50px"
+        }} padding={1}>
+          <Typography
+              sx={{fontFamily: "Oswald", color: "#F3EED9", fontSize: "150px"}}
+              textAlign={"center"}>
             My performance
           </Typography>
         </Grid2>
-        <Stack sx={{backgroundColor: "#2F4858",borderRadius:"50px"}} direction={"row"} justifyContent={"center"} spacing={15} padding={3}>
-          <Grid2 sx={{backgroundColor:"#F3EED9",minWidth:300,minHeight:300,borderRadius: "50px"}} padding={2}>
-            <Typography  sx={{fontFamily:"Oswald"}} variant={"h2"} textAlign={"center"}>
+        <Stack sx={{backgroundColor: "#2F4858", borderRadius: "50px"}}
+               direction={"row"} justifyContent={"center"} spacing={15}
+               padding={3}>
+          <Grid2 sx={{
+            backgroundColor: "#F3EED9",
+            minWidth: 300,
+            minHeight: 300,
+            borderRadius: "50px"
+          }} padding={2}>
+            <Typography sx={{fontFamily: "Oswald"}} variant={"h2"}
+                        textAlign={"center"}>
               CLEAR
             </Typography>
-            <Typography sx={{fontFamily:"Oswald"}} variant={"h2"} textAlign={"center"} padding={6}>
+            <Typography sx={{fontFamily: "Oswald"}} variant={"h2"}
+                        textAlign={"center"} padding={6}>
               {clearValue}
             </Typography>
           </Grid2>
-          <Grid2 sx={{backgroundColor:"#F3EED9",minWidth:300,minHeight:300,borderRadius: "50px"}} padding={2}>
-            <Typography sx={{fontFamily:"Oswald"}} variant={"h2"} textAlign={"center"}>
+          <Grid2 sx={{
+            backgroundColor: "#F3EED9",
+            minWidth: 300,
+            minHeight: 300,
+            borderRadius: "50px"
+          }} padding={2}>
+            <Typography sx={{fontFamily: "Oswald"}} variant={"h2"}
+                        textAlign={"center"}>
               INTERVAL
             </Typography>
-            <Typography sx={{fontFamily:"Oswald"}} variant={"h2"} textAlign={"center"} padding={6}>
+            <Typography sx={{fontFamily: "Oswald"}} variant={"h2"}
+                        textAlign={"center"} padding={6}>
               {interValValue}
             </Typography>
           </Grid2>
-          <Grid2 sx={{backgroundColor:"#F3EED9",minWidth:300,minHeight:300,borderRadius: "50px"}} padding={2}>
-            <Typography sx={{fontFamily:"Oswald"}} variant={"h2"} textAlign={"center"}>
+          <Grid2 sx={{
+            backgroundColor: "#F3EED9",
+            minWidth: 300,
+            minHeight: 300,
+            borderRadius: "50px"
+          }} padding={2}>
+            <Typography sx={{fontFamily: "Oswald"}} variant={"h2"}
+                        textAlign={"center"}>
               REST
             </Typography>
-            <Typography sx={{fontFamily:"Oswald"}} variant={"h2"} textAlign={"center"} padding={6}>
+            <Typography sx={{fontFamily: "Oswald"}} variant={"h2"}
+                        textAlign={"center"} padding={6}>
               {restValue}
             </Typography>
           </Grid2>
