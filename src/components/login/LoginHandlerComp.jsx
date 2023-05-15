@@ -2,7 +2,6 @@ import {Container} from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import {useParams, useNavigate} from "react-router-dom";
 import {useEffect} from "react";
-import {myRequestGenerator} from "../../helper/helper";
 import {useDispatch, useSelector} from "react-redux";
 import {getLoginInfoAction} from "../../redux/actions/loginAction";
 import jwt_decode from "jwt-decode";
@@ -12,10 +11,7 @@ export default function LoginHandlerComp() {
   const params = useParams();
   const navigate = useNavigate();
 
-  // 동연
-  const login = useSelector(state => state.login)
   const dispatch = useDispatch();
-
 
   useEffect(() => {
     // console.log(params)

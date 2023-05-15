@@ -1,8 +1,6 @@
 import Grid2 from "@mui/material/Unstable_Grid2";
 import Typography from "@mui/material/Typography";
 import {Stack} from "@mui/material";
-import {useRef, useState} from "react";
-import {myRequestGenerator} from "../../helper/helper";
 
 export default function LoginComp() {
 

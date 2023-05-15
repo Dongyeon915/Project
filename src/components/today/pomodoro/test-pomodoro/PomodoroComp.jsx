@@ -48,7 +48,7 @@ export default function PomodoroCopy() {
     }).then(response => {
       if (response.status === 401) {
         throw new Error("Token 인증에 실패하였습니다.")
-      } else if (response.status === 403) {
+      } else if (response.status === 400) {
         throw new Error("접근 범위가 아닙니다.")
       } else if (response.status === 500) {
         throw new Error("서버 관리자에게 문의 해주세요")

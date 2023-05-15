@@ -2,6 +2,7 @@ import {Stack, Typography} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {useSelector} from "react-redux";
 import {useEffect, useState} from "react";
+import {defaultTotal} from "./totalAPI";
 
 export default function Total() {
 
@@ -20,6 +21,7 @@ export default function Total() {
 
   // 유저의 아이디로 rest.clear를 가져온다
   useEffect(() => {
+    // defaultTotal(accesstoken,authInfo,setuserResult)
     fetch(`/result/userId`, {
       method: "POST",
       headers: {

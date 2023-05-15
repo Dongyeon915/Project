@@ -12,7 +12,6 @@ import {
 } from "../../redux/actions/todoAction";
 
 export default function CalendarComp() {
-  const pomodoro = useSelector((state) => state.pomodoro)
   const todo = useSelector((state) => state.todo)
   const todoResult = useSelector((state) => state.todoResult)
   const dispatch = useDispatch()
@@ -23,7 +22,6 @@ export default function CalendarComp() {
 
   //  Redux Store에서 꺼내온다!
   const authInfo = useSelector(state => state.login)
-  // 저장시 숫자로 넣지않으면 백단 오류남
   const accessToken = authInfo.access_token;
 
   useEffect(() => {

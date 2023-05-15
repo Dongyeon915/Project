@@ -40,17 +40,15 @@ export default function TodoComp() {
   //  Redux Store에서 꺼내온다!
   const accesstoken = authInfo.access_token;
 
-  const [state, setState] = useState()
 
-  // 인풋을 따로 관리 하지않으면 useEffect 의미가없다 계속 내부 값이 변경되기때문에
-  const [inputState, setInputState] = useState({
-    todoInput: ''
-  })
+  // // 인풋을 따로 관리 하지않으면 useEffect 의미가없다 계속 내부 값이 변경되기때문에
+  // const [inputState, setInputState] = useState({
+  //   todoInput: ''
+  // })
   const todoInput = useRef()
 
   // userID와 오늘의 date가 일치하는 정보만 가져온다
   useEffect(() => {
-
     fetch(`/schedules/user`, {
       method: "POST",
       headers: {

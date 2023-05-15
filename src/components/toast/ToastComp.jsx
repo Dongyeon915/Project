@@ -24,8 +24,6 @@ import {useDispatch, useSelector} from "react-redux";
 
 export default function ToastComp() {
 
-  const till = useSelector(state => state.til)
-  const dispatch = useDispatch()
   const authInfo = useSelector(state => state.login)
 
   const [state, setState] = useState({

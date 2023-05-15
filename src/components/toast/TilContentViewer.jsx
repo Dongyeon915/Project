@@ -7,7 +7,6 @@ import NoteAltIcon from '@mui/icons-material/NoteAlt';
 import ReplyIcon from '@mui/icons-material/Reply';
 import {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
-import Grid2 from "@mui/material/Unstable_Grid2";
 
 export default function TilContentViewer() {
   // const {a} = useLoaderData(); 이런식으로 객체를 받게하면 해당하는 data만 받오기에 변수지정해줘야한다.
