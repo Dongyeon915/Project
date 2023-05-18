@@ -49,10 +49,16 @@ Pomodoro 기법을 적용하여 학습 시간을 효과적으로 관리합니다
 이를 통해 사용자는 필요에 따라 캘린더를 확장하거나 축소하여 작업 영역을 최적화할 수 있습니다.
 ![20230518_230616](https://github.com/Dongyeon915/Project/assets/109599149/43965b58-d65b-4497-b527-4f243d82d221)
 ![20230518_231226](https://github.com/Dongyeon915/Project/assets/109599149/eb51f04c-f89d-4672-ab24-55ad783088ff)
+
+
 캘린더는 직관적이고 시각적으로 목표 달성 현황을 파악할 수 있도록 보여집니다.
 ![20230518_231335](https://github.com/Dongyeon915/Project/assets/109599149/6a5cb05d-19da-47d7-866a-b03a72674cf5)
+
+
 사용자는 캘린더에서 과거 요일을 클릭하면 해당 요일에 대한 Todo 항목을 동적으로 표시해줍니다.
 ![20230518_231815](https://github.com/Dongyeon915/Project/assets/109599149/7bdc7eb6-0a0e-456b-86ed-613e6940ca8e)
+
+
 이를 통해 사용자는 특정 요일에 어떤 할 일이 있는지 한눈에 파악할 수 있습니다.
 
 # Achievement Board :bar_chart:
