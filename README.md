@@ -8,9 +8,9 @@ Daily Planner Pro는 사용자의 일정과 학습 관리를 더욱 체계적으
 OAuth 2.0 로그인을 활용하여 Kakao와 Naver의 프로필 이미지와 사용자 이름을 자동으로 업데이트하는 기능을 구현하였습니다.
 ![20230518_223638](https://github.com/Dongyeon915/Project/assets/109599149/5bfd1b2b-c0a3-49f2-ab31-d37dad2cb95f)
 ## 로그인 성공 시, 사용자의 Kakao나 Naver 프로필 정보를 가져옵니다.
-## ![초기화면](https://github.com/Dongyeon915/Project/assets/109599149/038b4624-9fe9-4181-951f-e9f30e9ae02c)
+![20230518_224945](https://github.com/Dongyeon915/Project/assets/109599149/e52d7af7-0979-4d6a-81d1-bfaa122c72a3)
 ## 프로필 이미지와 사용자 이름을 자동으로 업데이트하여 사용자에게 보여줍니다.
-## ![내얼굴 이미지](https://github.com/Dongyeon915/Project/assets/109599149/77d3be28-e72d-4061-9f3e-4ae1e89532b1)
+![20230518_224900](https://github.com/Dongyeon915/Project/assets/109599149/5ff7f325-d90b-47f8-b401-960b2ca8297c)
 ## 사용자가 애플리케이션에 로그인할 때마다 프로필 정보를 최신화하여 제공합니다.
 
 # GitHub Repositories
