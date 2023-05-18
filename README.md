@@ -36,8 +36,12 @@ SHOW COMMITS를 클릭하여 해당 프로젝트로 이동하실 수 있습니�
 
 # Pomodoro 타이머를 활용한 학습 시간 관리:clock1:
 Pomodoro 기법을 적용하여 학습 시간을 효과적으로 관리합니다.
+![20230518_230140](https://github.com/Dongyeon915/Project/assets/109599149/84e96866-8cc1-4b97-9da2-c4f2d93207c7)
 + Pomodoro 타이머를 설정하여 집중 시간과 휴식 시간을 자동으로 제어할 수 있습니다. 
+![20230518_230233](https://github.com/Dongyeon915/Project/assets/109599149/28ef6372-2664-495b-9c84-0fc3c35ad1a1)
 + 일시정지 기능과 리셋 기능을 통해 타이머를 일시 중지하거나 초기화할 수 있습니다. 
+![타이머동작](https://github.com/Dongyeon915/Project/assets/109599149/b52f271f-114c-4e7b-afb1-de726658521f)
+![일시정지](https://github.com/Dongyeon915/Project/assets/109599149/f334c0a1-8da7-4899-b5ee-e477f048a629)
 + 해당일의 최초 타이머 시작 시간을 저장하여 다음 접속 시에도 타이머 설정을 다시 하지 않아도 되도록 개선되었습니다.
 
 # Calendar :calendar:
