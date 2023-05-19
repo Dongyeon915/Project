@@ -25,7 +25,7 @@ function MyAppBar({handleDrawerToggle}) {
           {/*  <Avatar alt="유저이미지" src={GitUser.avatar_url}*/}
           {/*          sx={{width: 30, height: 30}}/>*/}
           {/*</IconButton>*/}
-          <Typography variant={"h4"} sx={{flexGrow: 1,fontFamily: "Oswald",color:"black"}}>My Schedule</Typography>
+          <Typography variant={"h4"} sx={{flexGrow: 1,fontFamily: "Oswald",color:"black"}}>Daily Planner Pro</Typography>
           <IconButton>
             {/*<Avatar alt={"Github Profile Image"} src={GitUser.avatar_url}/>*/}
           </IconButton>
