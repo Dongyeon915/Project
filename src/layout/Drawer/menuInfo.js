@@ -1,7 +1,7 @@
 export const menuInfo = [
   {
     id: 1,
-    name: "Overview",
+    name: "OverView",
     link: "/overview"
   },
   {
@@ -11,12 +11,12 @@ export const menuInfo = [
   },
   {
     id: 3,
-    name: "Schedule",
+    name: "ChronoPlanner",
     link: "/today"
   },
   {
     id: 4,
-    name: "My total",
+    name: "Achievement Board",
     link: "/total"
   },
   {
