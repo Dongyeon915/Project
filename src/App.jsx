@@ -20,6 +20,7 @@ function App() {
           <Route index element={<LoginComp/>}/>
           <Route path={"/login"} element={<LoginComp/>}/>
           <Route path={"/oauth2/access_token/:access_token/refresh_token/:refresh_token"} element={<LoginHandlerComp/>}/>
+          <Route path={"/Pail"} element={<LoginHandlerComp/>}/>
         </Route>
         <Route element={<PrivateRoutes/>}>
           <Route element={<Container/>}>
