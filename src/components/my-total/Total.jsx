@@ -2,7 +2,7 @@ import {Stack, Typography} from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {useSelector} from "react-redux";
 import {useEffect, useState} from "react";
-import {defaultTotal} from "./totalAPI";
+import {defaultTotal, totalFetchData, totalPomodoroFetchData} from "../../redux/api/totalAPI"
 
 export default function Total() {
 
@@ -14,6 +14,7 @@ export default function Total() {
     intervalArr: [],
   })
 
+// const total = useSelector(state => state.total)
   const authInfo = useSelector(state => state.login)
 
   //  Redux Store에서 꺼내온다!
@@ -21,63 +22,64 @@ export default function Total() {
 
   // 유저의 아이디로 rest.clear를 가져온다
   useEffect(() => {
-    // defaultTotal(accesstoken,authInfo,setuserResult)
-    fetch(`/result/userId`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${accesstoken}`
-      },
-      body: JSON.stringify({
-        user_id: authInfo.userInfo.id,
-      })
-    }).then(response => {
-      if (response.status === 401) {
-        throw new Error("Token 인증에 실패하였습니다.")
-      }else if (response.status === 403){
-        throw new Error("접근 범위가 아닙니다.")
-      }else if (response.status === 500){
-        throw new Error("서버 관리자에게 문의 해주세요")
-      }
-      return response.json()
-    }).then(result => {
-      setuserResult(prevState => {
-        return {
-          ...prevState,
-          arrRest: result
-        }
-      })
-    }).catch(error => console.log(error.toLocaleString()))
+    // fetch(`/result/userId`, {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     "Authorization": `Bearer ${accesstoken}`
+    //   },
+    //   body: JSON.stringify({
+    //     user_id: authInfo.userInfo.id,
+    //   })
+    // }).then(response => {
+    //   if (response.status === 401) {
+    //     throw new Error("Token 인증에 실패하였습니다.")
+    //   }else if (response.status === 403){
+    //     throw new Error("접근 범위가 아닙니다.")
+    //   }else if (response.status === 500){
+    //     throw new Error("서버 관리자에게 문의 해주세요")
+    //   }
+    //   return response.json()
+    // }).then(result => {
+    //   setuserResult(prevState => {
+    //     return {
+    //       ...prevState,
+    //       arrRest: result
+    //     }
+    //   })
+    // }).catch(error => console.log(error.toLocaleString()))
+    totalFetchData(accesstoken,authInfo,setuserResult)
   }, [])
-
+  // pomodoro interval 가져오기
   useEffect(() => {
-    fetch(`/pomodoro/userId`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${accesstoken}`
-      },
-      body: JSON.stringify({
-        userId: authInfo.userInfo.id,
-      })
-    }).then(response => {
-      if (response.status === 401) {
-        throw new Error("Token 인증에 실패하였습니다.")
-      }else if (response.status === 403){
-        throw new Error("접근 범위가 아닙니다.")
-      }else if (response.status === 500){
-        throw new Error("서버 관리자에게 문의 해주세요")
-      }
-      return response.json()
-    })
-    .then(result => {
-      setuserInterval(prevState => {
-        return {
-          ...prevState,
-          intervalArr: result
-        }
-      })
-    }).catch(error => console.log(error.toLocaleString()))
+    totalPomodoroFetchData(accesstoken,authInfo,setuserInterval)
+    // fetch(`/pomodoro/userId`, {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     "Authorization": `Bearer ${accesstoken}`
+    //   },
+    //   body: JSON.stringify({
+    //     userId: authInfo.userInfo.id,
+    //   })
+    // }).then(response => {
+    //   if (response.status === 401) {
+    //     throw new Error("Token 인증에 실패하였습니다.")
+    //   } else if (response.status === 403) {
+    //     throw new Error("접근 범위가 아닙니다.")
+    //   } else if (response.status === 500) {
+    //     throw new Error("서버 관리자에게 문의 해주세요")
+    //   }
+    //   return response.json()
+    // })
+    // .then(result => {
+    //   setuserInterval(prevState => {
+    //     return {
+    //       ...prevState,
+    //       intervalArr: result
+    //     }
+    //   })
+    // }).catch(error => console.log(error.toLocaleString()))
   }, [])
 
   // 가져온 유저의 값을 합쳐서 사용하기위해서 변환과정

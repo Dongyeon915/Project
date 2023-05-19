@@ -7,14 +7,14 @@ import RedoIcon from '@mui/icons-material/Redo';
 import Typography from "@mui/material/Typography";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {
-  getAllTodoActionCreator,
-  getUserResult
-} from "../../redux/actions/todoAction";
+  fetchCalendarData, fetchCalendarGetUserByDateResult,
+  fetchCalendarGetUserByResult
+} from "../../redux/api/calendarAPI";
 
 export default function CalendarComp() {
   const todo = useSelector((state) => state.todo)
   const todoResult = useSelector((state) => state.todoResult)
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const [stateTodoResult, setTodoResult] = useState({
     todoList: []
@@ -25,90 +25,92 @@ export default function CalendarComp() {
   const accessToken = authInfo.access_token;
 
   useEffect(() => {
-    fetch(`/calendar/allUserCalendar`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${accessToken}`
-      },
-      body: JSON.stringify({
-        user_id: authInfo.userInfo.id
-      })
-    }).then(response => {
-      if (response.status === 401) {
-        throw new Error("Token 인증에 실패하였습니다.")
-      }else if (response.status === 403){
-        throw new Error("접근 범위가 아닙니다.")
-      }else if (response.status === 500){
-        throw new Error("서버 관리자에게 문의 해주세요")
-      }
-      return response.json()
-    }).then(response => {
-      setTodoResult(prevState => {
-        return {
-          ...prevState,
-          todoList: response
-        }
-      })
-    })
-    .catch(error => console.log(error.toLocaleString()))
-    //   todoTask를 추가하면 새로 랜더 되야하기때문에 result의 결과값의 변경시를 추가해줌
-    //   restTask삭제시 todoResult.result 캘린더에 랜더되지않기에 추가
+    // fetch(`/calendar/allUserCalendar`, {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     "Authorization": `Bearer ${accessToken}`
+    //   },
+    //   body: JSON.stringify({
+    //     user_id: authInfo.userInfo.id
+    //   })
+    // }).then(response => {
+    //   if (response.status === 401) {
+    //     throw new Error("Token 인증에 실패하였습니다.")
+    //   }else if (response.status === 403){
+    //     throw new Error("접근 범위가 아닙니다.")
+    //   }else if (response.status === 500){
+    //     throw new Error("서버 관리자에게 문의 해주세요")
+    //   }
+    //   return response.json()
+    // }).then(response => {
+    //   setTodoResult(prevState => {
+    //     return {
+    //       ...prevState,
+    //       todoList: response
+    //     }
+    //   })
+    // })
+    // .catch(error => console.log(error.toLocaleString()))
+    // //   todoTask를 추가하면 새로 랜더 되야하기때문에 result의 결과값의 변경시를 추가해줌
+    // //   restTask삭제시 todoResult.result 캘린더에 랜더되지않기에 추가
+    fetchCalendarData(accessToken, authInfo.userInfo.id, setTodoResult);
   }, [todo.result, todoResult.result])
 
-  const getRsult = (date) => {
-    fetch(`/result`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${accessToken}`
-      },
-      body: JSON.stringify({
-        user_id: authInfo.userInfo.id,
-        date: date
-      })
-    }).then(response => {
-      if (response.status === 401) {
-        throw new Error("Token 인증에 실패하였습니다.")
-      }else if (response.status === 403){
-        throw new Error("접근 범위가 아닙니다.")
-      }else if (response.status === 500){
-        throw new Error("서버 관리자에게 문의 해주세요")
-      }
-      return  response.json()
-    }).then(result => {
-      dispatch(getUserResult(result))
-    }).catch(error => console.log(error.toLocaleString()))
+  const getRsult = (date,dispatch) => {
+    // fetch(`/result`, {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     "Authorization": `Bearer ${accessToken}`
+    //   },
+    //   body: JSON.stringify({
+    //     user_id: authInfo.userInfo.id,
+    //     date: date
+    //   })
+    // }).then(response => {
+    //   if (response.status === 401) {
+    //     throw new Error("Token 인증에 실패하였습니다.")
+    //   }else if (response.status === 403){
+    //     throw new Error("접근 범위가 아닙니다.")
+    //   }else if (response.status === 500){
+    //     throw new Error("서버 관리자에게 문의 해주세요")
+    //   }
+    //   return  response.json()
+    // }).then(result => {
+    //   dispatch(getUserResult(result))
+    // }).catch(error => console.log(error.toLocaleString()))
+    fetchCalendarGetUserByResult(accessToken, authInfo, date,dispatch)
   }
 
-
-  const clickDayEventHandler = (value,event) => {
+  const clickDayEventHandler = (value, event) => {
     const date = new Date(value.getTime() - value.getTimezoneOffset()
         * 60000).toISOString().split("T")[0]
-    fetch(`/schedules/user`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${accessToken}`
-      },
-      body: JSON.stringify({
-        user_id: authInfo.userInfo.id,
-        date: date
-      })
-    }).then(response => {
-      if (response.status === 401) {
-        throw new Error("Token 인증에 실패하였습니다.")
-      } else if (response.status === 403) {
-        throw new Error("접근 범위가 아닙니다.")
-      } else if (response.status === 500) {
-        throw new Error("서버 관리자에게 문의 해주세요")
-      }
-      return response.json()
-    })
-    .then(newTodo => {
-      dispatch(getAllTodoActionCreator(newTodo))
-      getRsult(date)
-    }).catch(error => console.log(error))
+    // fetch(`/schedules/user`, {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     "Authorization": `Bearer ${accessToken}`
+    //   },
+    //   body: JSON.stringify({
+    //     user_id: authInfo.userInfo.id,
+    //     date: date
+    //   })
+    // }).then(response => {
+    //   if (response.status === 401) {
+    //     throw new Error("Token 인증에 실패하였습니다.")
+    //   } else if (response.status === 403) {
+    //     throw new Error("접근 범위가 아닙니다.")
+    //   } else if (response.status === 500) {
+    //     throw new Error("서버 관리자에게 문의 해주세요")
+    //   }
+    //   return response.json()
+    // })
+    // .then(newTodo => {
+    //   dispatch(getAllTodoActionCreator(newTodo))
+    // }).catch(error => console.log(error))
+    fetchCalendarGetUserByDateResult(accessToken,authInfo,date,dispatch)
+    getRsult(date,dispatch)
   }
 
   // 우리나라 시간대로 변경하고 잘라줘서 넘겨줘야 하루 뒤가아닌 오늘날짜로 가능하다

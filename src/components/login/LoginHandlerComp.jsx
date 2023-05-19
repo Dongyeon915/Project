@@ -34,8 +34,8 @@ export default function LoginHandlerComp() {
           <Grid container xs={12} lg={12}>
             <Grid xs={12} lg={6}>
               <p>Login Success</p>
-              <p>{params.refresh_token}</p>
-              <p>{params.access_token}</p>
+              {/*<p>{params.refresh_token}</p>*/}
+              {/*<p>{params.access_token}</p>*/}
             </Grid>
           </Grid>
         </Grid>

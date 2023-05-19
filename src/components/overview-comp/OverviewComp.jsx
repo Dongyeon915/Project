@@ -37,10 +37,10 @@ function OverviewComp() {
               <br/>
               <Divider/>
               <Typography variant={"h6"}>
-                반갑다 내가 김동연이다
+                {/*반갑다 내가 김동연이다*/}
               </Typography>
             </Typography>
-            <Stack direction={"row"} spacing={2} marginTop={10}>
+            <Stack direction={"row"} spacing={2} marginTop={15}>
               <Mail/>
               <Typography>
                 {userInfo.email}
@@ -58,7 +58,7 @@ function OverviewComp() {
             <Stack direction={"row"} spacing={2} marginTop={2}>
               <Aod/>
               <Typography>
-                010-9567-0921
+                010-1234-1111
               </Typography>
             </Stack>
           </Grid2>
