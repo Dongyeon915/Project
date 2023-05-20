@@ -322,7 +322,7 @@ export default function TodoComp() {
                  alignItems={"center"}>
             <Typography variant={"h5"} fontWeight={700}
                         sx={{fontFamily: "Oswald"}}>
-              List</Typography>
+              TaskPro</Typography>
             <Typography sx={{fontFamily: "Oswald"}} variant={"subtitle2"}
                         fontWeight={600}>{new Date().toLocaleDateString()}</Typography>
           </Stack>
