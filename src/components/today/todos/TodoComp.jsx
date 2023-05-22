@@ -5,7 +5,6 @@ import {
   IconButton,
   Input,
   Paper,
-  Snackbar,
   Stack,
   Typography
 } from "@mui/material";
@@ -13,22 +12,18 @@ import Grid2 from "@mui/material/Unstable_Grid2";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import {useEffect, useRef, useState} from "react";
 import {AlarmOn, Favorite, FavoriteBorder} from "@mui/icons-material";
-import {
-  addTodoActionCreator,
-  completeTodoActionCreator,
-  deleteTodoActionCreator,
-  getAllTodoActionCreator,
-  getUserResult,
-  updateTodoActionCreator
-} from "../../../redux/actions/todoAction";
 import {useDispatch, useSelector} from "react-redux";
 import CancelIcon from '@mui/icons-material/Cancel';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import {
-  fetchDeleteTodo, fetchDeleteTodoResult,
-  fetchGetTodoResult, fetchPutTodo, fetchTodoComplete,
-  fetchTodoUserByDate, fetchUpdateTodo
+  fetchDeleteTodo,
+  fetchDeleteTodoResult,
+  fetchGetTodoResult,
+  fetchPutTodo,
+  fetchTodoComplete,
+  fetchTodoUserByDate,
+  fetchUpdateTodo
 } from "../../../redux/api/todoAPI";
 
 export default function TodoComp() {
@@ -44,7 +39,6 @@ export default function TodoComp() {
   const authInfo = useSelector(state => state.login)
   //  Redux Store에서 꺼내온다!
   const accesstoken = authInfo.access_token;
-
 
   // // 인풋을 따로 관리 하지않으면 useEffect 의미가없다 계속 내부 값이 변경되기때문에
   // const [inputState, setInputState] = useState({
@@ -80,7 +74,7 @@ export default function TodoComp() {
     // }).catch(error => {
     //   console.log(error.toLocaleString())
     // })
-    fetchTodoUserByDate(accesstoken,authInfo,dispatch)
+    fetchTodoUserByDate(accesstoken, authInfo, dispatch)
     getTodoResult(accesstoken)
   }, [])
 
@@ -108,10 +102,10 @@ export default function TodoComp() {
     // }).then(result => {
     //   dispatch(getUserResult(result))
     // }).catch(error => console.log(error.toLocaleString()))
-    fetchGetTodoResult(accessToken,authInfo,dispatch)
+    fetchGetTodoResult(accessToken, authInfo, dispatch)
   }
 
-  const todoUpdateAPI = (accesstoken,todoInput,authInfo,dispatch) => {
+  const todoUpdateAPI = (accesstoken, todoInput, authInfo, dispatch) => {
     // fetch("/schedules", {
     //   method: "POST",
     //   headers: {
@@ -140,7 +134,7 @@ export default function TodoComp() {
     // }).catch(error => {
     //   console.log(error.toLocaleString());
     // })
-    fetchUpdateTodo(accesstoken,todoInput,authInfo,dispatch)
+    fetchUpdateTodo(accesstoken, todoInput, authInfo, dispatch)
   }
 
   const todoComplete = (event, index) => {
@@ -171,13 +165,13 @@ export default function TodoComp() {
     //   console.log(error.toLocaleString())
     //   dispatch(completeTodoActionCreator(index))
     // })
-    fetchTodoComplete(event, index,dispatch,accesstoken,authInfo)
+    fetchTodoComplete(event, index, dispatch, accesstoken, authInfo)
   }
 
   const addTodoEventHandler = (e) => {
     if (e.type === 'keydown') {
       if (e.key === 'Enter' && todoInput.current.value.length != 0) {
-        todoUpdateAPI(accesstoken,todoInput,authInfo,dispatch)
+        todoUpdateAPI(accesstoken, todoInput, authInfo, dispatch)
       } else if (e.key === 'Enter') {
         alert("Todo를 입력해주세요")
       }
@@ -186,7 +180,7 @@ export default function TodoComp() {
         alert("Todo를 입력해주세요")
         return
       } else if (todoInput.current.value.length != 0) {
-        todoUpdateAPI(accesstoken,todoInput,authInfo,dispatch)
+        todoUpdateAPI(accesstoken, todoInput, authInfo, dispatch)
       }
     }
   }
@@ -211,7 +205,7 @@ export default function TodoComp() {
     //   dispatch(deleteTodoActionCreator(index))
     //   deleteTaskResult()
     // }).catch(error => console.log(error.toLocaleString()))
-    fetchDeleteTodo(event, index,accesstoken,dispatch,deleteTaskResult)
+    fetchDeleteTodo(event, index, accesstoken, dispatch, deleteTaskResult)
   }
 
   // task삭제시 result갯수 줄여주기
@@ -238,7 +232,7 @@ export default function TodoComp() {
     // }).catch(error => {
     //   console.log(error.toLocaleString())
     // })
-    fetchDeleteTodoResult(accesstoken,authInfo)
+    fetchDeleteTodoResult(accesstoken, authInfo)
   }
 
 // // 업데이트 이벤트
@@ -303,7 +297,8 @@ export default function TodoComp() {
     //     state: false
     //   }
     // })
-    fetchPutTodo(setUpdate,accesstoken,todoInput,authInfo,dispatch,event,index,updateState)
+    fetchPutTodo(setUpdate, accesstoken, todoInput, authInfo, dispatch, event,
+        index, updateState)
   }
 
   function printCompleteTime(time) {
