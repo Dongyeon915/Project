@@ -2,25 +2,26 @@ import Grid2 from "@mui/material/Unstable_Grid2";
 import {
   Card,
   CardMedia,
-  Container, Divider,
+  Container,
+  Divider,
   Link,
   Paper,
   Stack,
   Typography
 } from "@mui/material";
 import {Aod, GitHub, Mail} from "@mui/icons-material";
-import {useEffect} from "react";
 import {useSelector} from "react-redux";
+
 function OverviewComp() {
 
- const userInfo = useSelector(state => state.login.userInfo);
+  const userInfo = useSelector(state => state.login.userInfo);
 
   return (
       <Container fixed={"true"}>
         <Grid2 container={"true"} spacing={3} marginTop={5}>
           <Grid2>
             <Paper variant={3}>
-              <Card sx={{minWidth: 270,backgroundColor:"#F3EED9"}}>
+              <Card sx={{minWidth: 270, backgroundColor: "#F3EED9"}}>
                 <CardMedia
                     component={"img"}
                     image={userInfo.profile}
