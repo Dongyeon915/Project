@@ -1,8 +1,8 @@
 import {Container} from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
-import {useParams, useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useEffect} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {getLoginInfoAction} from "../../redux/actions/loginAction";
 import jwt_decode from "jwt-decode";
 
@@ -22,11 +22,11 @@ export default function LoginHandlerComp() {
 
     const userInfo = jwt_decode(params.access_token);
 
-    dispatch(getLoginInfoAction(params.access_token ,params.refresh_token, userInfo));
+    dispatch(getLoginInfoAction(params.access_token, params.refresh_token,
+        userInfo));
     // console.log(userInfo)
     navigate("/overview")
-  },[])
-
+  }, [])
 
   return (
       <Container maxWidth="false">
