@@ -77,7 +77,7 @@ export default function PomodoroCopy() {
     timerReference.current = setInterval(() => {
       // 카운터 수를 줄이는 dispatch
       dispatch(runTimerActionCreator())
-    }, 1)
+    }, 1000)
     //   처음 메모이제이션된 값만을 기억하기에
   }, [pomodoro.timer.state, pomodoro.config])
 
